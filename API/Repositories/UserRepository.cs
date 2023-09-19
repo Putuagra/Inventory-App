@@ -9,4 +9,9 @@ public class UserRepository : GeneralRepository<User>, IUserRepository
     public UserRepository(InventoryDbContext context) : base(context)
     {
     }
+
+    public bool IsDuplicateValue(string value)
+    {
+        return Context.Set<User>().FirstOrDefault(u => u.Email.Contains(value)) is null;
+    }
 }

@@ -9,4 +9,8 @@ public class SupplierRepository : GeneralRepository<Supplier>, ISupplierReposito
     public SupplierRepository(InventoryDbContext context) : base(context)
     {
     }
+    public bool IsDuplicateValue(string value)
+    {
+        return Context.Set<Supplier>().FirstOrDefault(s => s.Email.Contains(value) || s.PhoneNumber.Contains(value)) is null;
+    }
 }
