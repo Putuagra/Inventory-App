@@ -42,7 +42,7 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("SupplierGuid")
+                    b.Property<Guid?>("SupplierGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("supplier_guid");
 
@@ -90,7 +90,7 @@ namespace API.Migrations
                         .HasColumnType("int")
                         .HasColumnName("stock");
 
-                    b.Property<Guid>("SupplierGuid")
+                    b.Property<Guid?>("SupplierGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("supplier_guid");
 
@@ -224,9 +224,7 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Models.Supplier", "Supplier")
                         .WithMany("Categories")
-                        .HasForeignKey("SupplierGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierGuid");
 
                     b.Navigation("Supplier");
                 });
@@ -241,9 +239,7 @@ namespace API.Migrations
 
                     b.HasOne("API.Models.Supplier", "Supplier")
                         .WithMany("Products")
-                        .HasForeignKey("SupplierGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierGuid");
 
                     b.Navigation("Category");
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class InitialDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,7 @@ namespace API.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(255)", nullable: false),
-                    supplier_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    supplier_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -59,8 +59,7 @@ namespace API.Migrations
                         name: "FK_tb_m_categories_tb_m_suppliers_supplier_guid",
                         column: x => x.supplier_guid,
                         principalTable: "tb_m_suppliers",
-                        principalColumn: "guid",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "guid");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +72,7 @@ namespace API.Migrations
                     price = table.Column<int>(type: "int", nullable: false),
                     description = table.Column<string>(type: "nvarchar(255)", nullable: false),
                     category_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    supplier_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    supplier_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -90,8 +89,7 @@ namespace API.Migrations
                         name: "FK_tb_m_products_tb_m_suppliers_supplier_guid",
                         column: x => x.supplier_guid,
                         principalTable: "tb_m_suppliers",
-                        principalColumn: "guid",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "guid");
                 });
 
             migrationBuilder.CreateTable(

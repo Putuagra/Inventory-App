@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    [Migration("20230918111522_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20230919031356_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("SupplierGuid")
+                    b.Property<Guid?>("SupplierGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("supplier_guid");
 
@@ -92,7 +92,7 @@ namespace API.Migrations
                         .HasColumnType("int")
                         .HasColumnName("stock");
 
-                    b.Property<Guid>("SupplierGuid")
+                    b.Property<Guid?>("SupplierGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("supplier_guid");
 
@@ -226,9 +226,7 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Models.Supplier", "Supplier")
                         .WithMany("Categories")
-                        .HasForeignKey("SupplierGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierGuid");
 
                     b.Navigation("Supplier");
                 });
@@ -243,9 +241,7 @@ namespace API.Migrations
 
                     b.HasOne("API.Models.Supplier", "Supplier")
                         .WithMany("Products")
-                        .HasForeignKey("SupplierGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SupplierGuid");
 
                     b.Navigation("Category");
 

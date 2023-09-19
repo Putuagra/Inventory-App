@@ -9,7 +9,7 @@ public class Category : BaseEntity
     [Column("name", TypeName = "nvarchar(255)")]
     public string Name { get; set; }
     [Column("supplier_guid")]
-    public Guid SupplierGuid { get; set; }
+    public Guid? SupplierGuid { get; set; }
 
     // Cardinility
     public Supplier? Supplier { get; set; }

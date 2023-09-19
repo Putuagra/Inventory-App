@@ -46,10 +46,9 @@ public class InventoryDbContext : DbContext
         modelBuilder.Entity<Supplier>()
             .HasMany(supplier => supplier.Products)
             .WithOne(product => product.Supplier)
-            .HasForeignKey(product => product.SupplierGuid)
-            .OnDelete(DeleteBehavior.NoAction);
+            .HasForeignKey(product => product.SupplierGuid);
 
-        // Supplier - Category
+        // Supplier - Categorys
         modelBuilder.Entity<Supplier>()
             .HasMany(supplier => supplier.Categories)
             .WithOne(category => category.Supplier)
@@ -62,9 +61,9 @@ public class InventoryDbContext : DbContext
             .HasForeignKey(transaction => transaction.ProductGuid);
 
         // Product - Category
-        modelBuilder.Entity<Product>()
-            .HasOne(product => product.Category)
-            .WithMany(category => category.Products)
+        modelBuilder.Entity<Category>()
+            .HasMany(category => category.Products)
+            .WithOne(product => product.Category)
             .HasForeignKey(product => product.CategoryGuid);
     }
 }

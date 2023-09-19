@@ -16,7 +16,7 @@ public class Product : BaseEntity
     [Column("category_guid")]
     public Guid CategoryGuid { get; set; }
     [Column("supplier_guid")]
-    public Guid SupplierGuid { get; set; }
+    public Guid? SupplierGuid { get; set; }
 
     // Cardinality
     public Supplier? Supplier { get; set; }
