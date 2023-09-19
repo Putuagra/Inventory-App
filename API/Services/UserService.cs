@@ -2,6 +2,9 @@
 using API.Data;
 using API.DataTransferObjects.Users;
 using API.Models;
+using API.Utilities.Handlers;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace API.Services;
 
@@ -9,11 +12,13 @@ public class UserService
 {
     private readonly InventoryDbContext _inventoryDbContext;
     private readonly IUserRepository _userRepository;
+    private readonly ITokenHandler _tokenHandler;
 
-    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext)
+    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext, ITokenHandler tokenHandler)
     {
         _userRepository = userRepository;
         _inventoryDbContext = inventoryDbContext;
+        _tokenHandler = tokenHandler;
     }
 
     public IEnumerable<UserDtoGet> Get()
@@ -73,6 +78,29 @@ public class UserService
         {
             transaction.Rollback();
             return false;
+        }
+    }
+
+    public string Login(UserDtoLogin userDtoLogin)
+    {
+        var user = _userRepository.GetEmployeeByEmail(userDtoLogin.Email);
+        if (user is null) return "0";
+
+        if(!HashingHandler.Validate(userDtoLogin.Password, user!.Password)) return "-1";
+
+        try
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim("Guid", user.Guid.ToString()),
+                new Claim("Name", $"{user.Name}"),
+            };
+            var token = _tokenHandler.GenerateToken(claims);
+            return token;
+        }
+        catch
+        {
+            return "-2";
         }
     }
 }
