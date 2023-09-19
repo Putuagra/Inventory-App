@@ -174,4 +174,38 @@ public class UserController : ControllerBase
             Data = userDtoRegister
         });
     }
+
+    [HttpPost("login")]
+    public IActionResult Login(UserDtoLogin userDtoLogin)
+    {
+        var login = _userService.Login(userDtoLogin);
+        if (login == "0")
+            return NotFound(new ResponseHandler<UserDtoLogin>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "User not found"
+            });
+        if (login == "-1")
+            return BadRequest(new ResponseHandler<UserDtoLogin>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Password is incorrect"
+            });
+        if (login == "-2")
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoLogin>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving when creating token"
+            });
+        return Ok(new ResponseHandler<string>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Login Success",
+            Data = login
+        });
+    }
 }
