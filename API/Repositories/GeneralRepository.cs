@@ -3,7 +3,7 @@ using API.Data;
 
 namespace API.Repositories;
 
-public class GeneralRepository<TEntity> : IGeneralRepository<TEntity> where TEntity : class
+public abstract class GeneralRepository<TEntity> : IGeneralRepository<TEntity> where TEntity : class
 {
     protected readonly InventoryDbContext Context;
 
