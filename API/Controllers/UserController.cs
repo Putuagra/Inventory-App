@@ -153,4 +153,25 @@ public class UserController : ControllerBase
             Message = "User deleted",
         });
     }
+
+    [HttpPost("register")]
+    public IActionResult Regiter(UserDtoRegister userDtoRegister)
+    {
+        var userCreated = _userService.Register(userDtoRegister);
+        if(!userCreated)
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoRegister>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "User not registered",
+                Data = null
+            });
+        return Ok(new ResponseHandler<UserDtoRegister>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "User registered",
+            Data = userDtoRegister
+        });
+    }
 }
