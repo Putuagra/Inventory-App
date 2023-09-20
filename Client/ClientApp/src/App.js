@@ -1,22 +1,51 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import { Layout } from './components/Layout';
-import './custom.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = () => {
 
-  render() {
+    const [users, setUsers] = useState({ users: [] });
+
+    useEffect(() => {
+        axios.get("https://localhost:7020/api/User")
+            .then(response => {
+                setUsers(response.data.data); // Perubahan ini
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    }, []);
+
     return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
-        </Routes>
-      </Layout>
-    );
-  }
+        <div className="container">
+            <h1>Users</h1>
+            <div className="row">
+                <div className="col-sm-12">
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.isArray(users) ? (
+                                users.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.name}</td>
+                                        <td>{data.email}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="2">No user data available.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    )
 }
+
+export default App;
