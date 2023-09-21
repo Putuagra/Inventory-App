@@ -401,3 +401,8 @@ FodyWeavers.xsd
 API/bin/*
 API/obj/*
 API/appsettings.json
+Client/appsettings.json
+Client/bin/*
+Client/obj/*
+
+Client/ClientApp/package.json
