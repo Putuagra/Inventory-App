@@ -41,3 +41,13 @@ export const remove = async (userId) => {
         throw error;
     }
 };
+
+export const register = async (userData) => {
+    try {
+        const response = await axios.post(`${apiUrl}/User/register`, userData);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
