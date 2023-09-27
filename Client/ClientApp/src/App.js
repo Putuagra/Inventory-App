@@ -1,10 +1,15 @@
-import UserList from "./components/UserList";
+import CategoryRepository from "./repositories/CategoryRepository";
+import ProductRepository from "./repositories/ProductRepository";
+import UserRepository from "./repositories/UserRepository"
 
 const App = () => {
 
     return (
         <div className="container">
-            <UserList />
+            {/*<SupplierRepositories />*/}
+            {/*<CategoryRepository />*/}
+            {/*<ProductRepository />*/}
+            <UserRepository />
         </div>
     )
 }
