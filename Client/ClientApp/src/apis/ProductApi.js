@@ -41,3 +41,13 @@ export const remove = async (productGuid) => {
         throw error;
     }
 }
+
+export const updateStock = async (updatedStock) => {
+    try {
+        const response = await axios.put(`${apiUrl}/Product`, updatedStock)
+        return response.data;
+    } catch (error) {
+        console.error('Error updating stock:', error);
+        throw error;
+    }
+}
