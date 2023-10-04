@@ -8,7 +8,7 @@ import TransactionForm from '../components/transactions/TransactionForm'
 export default function TransactionRepository(){
     const [products, setProducts] = useState([]);
     const [users, setUser] = useState([]);
-    const [transacations, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([]);
     const [editingTransaction, setEditingTransaction] = useState(null);
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function TransactionRepository(){
     }
 
     const handleInputChange = (transactionGuid, field, value) => {
-        const updatedTransactions = transacations.map((transaction) => (transaction.guid === transactionGuid ? { ...transaction, [field]: value } : transaction))
+        const updatedTransactions = transactions.map((transaction) => (transaction.guid === transactionGuid ? { ...transaction, [field]: value } : transaction))
         setTransactions(updatedTransactions);
     }
 
@@ -76,7 +76,7 @@ export default function TransactionRepository(){
 
     const handleDelete = async (transactionGuid) => {
         try {
-            const transactionDelete = transacations.find((transaction) => transaction.guid === transactionGuid)
+            const transactionDelete = transactions.find((transaction) => transaction.guid === transactionGuid)
             if (transactionDelete) {
                 const productUpdate = products.find((product) => product.guid === transactionDelete.productGuid)
                 if (productUpdate) {
@@ -86,7 +86,6 @@ export default function TransactionRepository(){
             }
             await remove(transactionGuid)
             fetchData()
-            fetchDataProducts()
         }
         catch (error) {
             console.error('Error deleting transaction:', error);
@@ -108,7 +107,7 @@ export default function TransactionRepository(){
             <TransactionList
                 products={products}
                 users={users}
-                transactions={transacations}
+                transactions={transactions}
                 editingTransaction={editingTransaction}
                 handleEdit={handleEdit}
                 handleInputChange={handleInputChange}
