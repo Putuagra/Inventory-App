@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\categories\" />
+    <Folder Include="ClientApp\src\components\transactions\" />
     <Folder Include="ClientApp\src\components\users\" />
   </ItemGroup>
 
