@@ -20,7 +20,7 @@ export default function TransactionRepository(){
     const fetchData = async () => {
         try {
             const data = await getAllTransactions()
-            setTransactions(data)
+            setTransactions(data);
         } catch (error) {
             console.error("Error fetching data: ", error);
         }
@@ -109,6 +109,9 @@ export default function TransactionRepository(){
                 }
             }
             await remove(transactionGuid)
+            if (transactions.length === 1) {
+                setTransactions([]);
+            }
             fetchData()
         }
         catch (error) {

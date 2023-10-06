@@ -67,6 +67,9 @@ export default function CategoryRepository() {
     const handleDelete = async (categoryGuid) => {
         try {
             await remove(categoryGuid);
+            if (categories.length === 1) {
+                setCategories([]);
+            }
             fetchData();
         }
         catch (error) {

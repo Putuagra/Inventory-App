@@ -51,6 +51,9 @@ export default function UserRepository() {
     const handleDelete = async (userGuid) => {
         try {
             await remove(userGuid);
+            if (users.length === 1) {
+                setUsers([]);
+            }
             fetchData();
         } catch (error) {
             console.error('Error deleting user:', error);

@@ -79,6 +79,9 @@ export default function ProductRepository() {
     const handleDelete = async (productGuid) => {
         try {
             await remove(productGuid);
+            if (products.length === 1) {
+                setProducts([]);
+            }
             fetchData();
         }
         catch (error) {

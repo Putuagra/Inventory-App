@@ -54,6 +54,9 @@ export default function SupplierRepositories() {
     const handleDelete = async (supplierGuid) => {
         try {
             await remove(supplierGuid);
+            if (suppliers.length === 1) {
+                setSuppliers([]);
+            }
             fetchData();
         }
         catch (error) {
