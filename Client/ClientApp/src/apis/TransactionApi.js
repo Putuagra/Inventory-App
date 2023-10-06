@@ -11,6 +11,16 @@ export const getAllTransactions = async () => {
     }
 }
 
+export const getTransactionByGuid = async (transactionGuid) => {
+    try {
+        const response = await axios.get(`${apiUrl}/Transaction/${transactionGuid}`)
+        return response.data.data
+    }
+    catch (error) {
+        throw error
+    }
+}
+
 export const create = async (createdTransaction) => {
     try {
         const response = await axios.post(`${apiUrl}/Transaction`, createdTransaction)

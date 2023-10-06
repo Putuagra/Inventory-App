@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getAll } from '../apis/UserAPI'
 import { getAllProducts, updateStock } from '../apis/ProductApi'
-import { getAllTransactions, create, update, remove } from '../apis/TransactionApi'
+import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
 import TransactionList from '../components/transactions/TransactionList'
 import TransactionForm from '../components/transactions/TransactionForm'
 
@@ -65,6 +65,30 @@ export default function TransactionRepository(){
 
     const handleUpdate = async (updatedTransaction) => {
         try {
+            const transactionUpdate = await getTransactionByGuid(updatedTransaction.guid)
+            const product = products.find(product => product.guid === transactionUpdate.productGuid)
+            if (transactionUpdate.productGuid !== updatedTransaction.productGuid) {
+                const quantityProduct = updatedTransaction.quantity
+                const newProduct = products.find(product => product.guid === updatedTransaction.productGuid)
+                console.log(quantityProduct)
+                console.log(product)
+                product.stock += quantityProduct
+                newProduct.stock -= quantityProduct
+                await updateStock(product)
+                await updateStock(newProduct)
+                console.log(newProduct)
+            }
+            if (transactionUpdate) {
+                const oldQuantity = transactionUpdate.quantity
+                const newQuantity = updatedTransaction.quantity
+                const stockDifference = newQuantity - oldQuantity
+                if (stockDifference > 0) {
+                    product.stock -= stockDifference;
+                } else if (stockDifference < 0) {
+                    product.stock += Math.abs(stockDifference);
+                }
+                await updateStock(product)
+            }
             await update(updatedTransaction)
             setEditingTransaction(null)
             fetchData()
