@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Input from '../Input';
+import Button from '../Button';
 
 export default function SupplierForm({ handleCreate }) {
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' });
@@ -9,45 +11,49 @@ export default function SupplierForm({ handleCreate }) {
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Name"
-                name="name"
-                value={newSupplier.name}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                placeholder="Address"
-                name="address"
-                value={newSupplier.address}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                placeholder="Email"
-                name="email"
-                value={newSupplier.email}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                placeholder="PhoneNumber"
-                name="phoneNumber"
-                value={newSupplier.phoneNumber}
-                onChange={handleChange}
-            />
-            <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                    handleCreate(newSupplier);
-                    setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' });
-                }}
-            >
-                Add User
-            </button>
+        <div className="row">
+            <div className="col-lg-12" noValidate>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        handleCreate(newSupplier);
+                        setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' });
+                    }}
+                    className="row g-3 needs-validation"
+                >
+                    <Input
+                        name="name"
+                        type="text"
+                        placeholder="Supplier Name"
+                        value={newSupplier.name}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="address"
+                        type="text"
+                        placeholder="Address"
+                        value={newSupplier.address}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="email"
+                        type="text"
+                        placeholder="Email"
+                        value={newSupplier.email}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="phoneNumber"
+                        type="text"
+                        placeholder="Phone Number"
+                        value={newSupplier.phoneNumber}
+                        onChange={handleChange}
+                    />
+                    <Button
+                        name="Add Supplier"
+                    />
+                </form>
+            </div>
         </div>
     );
 }

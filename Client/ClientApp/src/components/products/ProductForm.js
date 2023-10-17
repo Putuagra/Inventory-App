@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Button from '../Button';
+import Input from '../Input';
+import Select from '../Select';
 
 export default function ProductForm({ handleCreate, suppliers, categories }) {
     const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' });
@@ -18,72 +21,63 @@ export default function ProductForm({ handleCreate, suppliers, categories }) {
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Name"
-                name="name"
-                value={newProduct.name}
-                onChange={handleChange}
-            />
-            <select
-                name="supplierGuid"
-                value={newProduct.supplierGuid}
-                onChange={handleSupplierChange}
+        <div className="row">
+            <div className="col-lg-12" noValidate>
+            <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        handleCreate(newProduct);
+                        setNewProduct({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' });
+                        }}
+                    className="row g-3 needs-validation"
             >
-                <option value="">Select Supplier</option>
-                {suppliers.map((supplier) => (
-                    <option key={supplier.guid} value={supplier.guid}>
-                        {supplier.name}
-                    </option>
-                ))}
-            </select>
-            <select
-                name="categoryGuid"
-                value={newProduct.categoryGuid}
-                onChange={handleChange}
-            >
-                <option value="">Select Category</option>
-                {
-                    categories.filter((category) => category.supplierGuid === newProduct.supplierGuid)
-                        .map((category) => (
-                            <option key={category.guid} value={category.guid}>
-                                {category.name}
-                            </option>
-                        ))
-                }
-            </select>
-            <input
-                type="text"
-                placeholder="Stock"
-                name="stock"
-                value={newProduct.stock}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                placeholder="Price"
-                name="price"
-                value={newProduct.price}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                placeholder="Description"
-                name="description"
-                value={newProduct.description}
-                onChange={handleChange}
-            />
-            <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                    handleCreate(newProduct);
-                    setNewProduct({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' });
-                }}
-            >
-                Add Product
-            </button>
+                    <Input
+                        name="name"
+                        type="text"
+                        placeholder="Product Name"
+                        value={newProduct.name}
+                        onChange={handleChange}
+                    />
+                    <Select
+                        name="supplierGuid"
+                        label="Supplier"
+                        value={newProduct.supplierGuid}
+                        onChange={handleSupplierChange}
+                        options={suppliers}
+                    />
+                    <Select
+                        name="categoryGuid"
+                        label="Category"
+                        value={newProduct.categoryGuid}
+                        onChange={handleChange}
+                        options={categories.filter((category) => category.supplierGuid === newProduct.supplierGuid)}
+                    />
+                    <Input
+                        name="stock"
+                        type="number"
+                        placeholder="Stock"
+                        value={newProduct.stock}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="price"
+                        type="number"
+                        placeholder="Price"
+                        value={newProduct.price}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="description"
+                        type="text"
+                        placeholder="Description"
+                        value={newProduct.description}
+                        onChange={handleChange}
+                    />
+                    <Button
+                        name="Add Product"
+                    />
+                </form>
+            </div>
         </div>
     )
 }

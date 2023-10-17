@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Button from '../Button';
+import Input from '../Input';
+import Select from '../Select';
 
 export default function TransactionForm({ handleCreate, products, users, handleUpdateStock }) {
     const [newTransaction, setNewTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })
@@ -30,58 +33,40 @@ export default function TransactionForm({ handleCreate, products, users, handleU
     }
 
     return (
-        <div>
-            <div className="col-md-6">
-                <select
-                    name="productGuid"
-                    value={newTransaction.productGuid}
-                    onChange={handleChange}
-                >
-                    <option value="">Select Product</option>
-                    {
-                        products.map((product) => (
-                            <option key={product.guid} value={product.guid}>
-                                {product.name}
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
-            <div className="col-md-6">
-                <select
-                    name="userGuid"
-                    value={newTransaction.userGuid}
-                    onChange={handleChange}
-                >
-                    <option value="">Select User</option>
-                    {
-                        users.map((user) => (
-                            <option key={user.guid} value={user.guid}>
-                                {user.name}
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
-            <div className="col-md-6">
-                <input
-                    type="text"
-                    placeholder="Quantity"
-                    name="quantity"
-                    value={newTransaction.quantity}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="col-md-6">
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
+        <div className="row">
+            <div className="col-lg-12" noValidate>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
                         handleCreateTransaction()
                     }}
+                    className="row g-3 needs-validation" 
                 >
-                    Add Transaction
-                </button>
+                    <Select
+                        name="productGuid"
+                        label="Product"
+                        value={newTransaction.productGuid}
+                        onChange={handleChange}
+                        options={products}
+                    />
+                    <Select
+                        name="userGuid"
+                        label="User"
+                        value={newTransaction.userGuid}
+                        onChange={handleChange}
+                        options={users}
+                    />
+                    <Input
+                        name="quantity"
+                        type="number"
+                        placeholder="Quantity"
+                        value={newTransaction.quantity}
+                        onChange={handleChange}
+                    />
+                    <Button
+                        name="Add Transaction"
+                    />
+                </form>
             </div>
         </div>
     )

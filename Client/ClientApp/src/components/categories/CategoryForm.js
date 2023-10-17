@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Button from '../Button';
+import Input from '../Input';
+import Select from '../Select';
 
 export default function CategoryForm({ handleCreate,suppliers }) {
     const [newCategory, setNewCategory] = useState({ name: '', supplierGuid: '' });
@@ -9,36 +12,35 @@ export default function CategoryForm({ handleCreate,suppliers }) {
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Name"
-                name="name"
-                value={newCategory.name}
-                onChange={handleChange}
-            />
-            <select
-                name="supplierGuid"
-                value={newCategory.supplierGuid}
-                onChange={handleChange}
-            >
-                <option value="">Pilih Supplier</option> 
-                {suppliers.map((supplier) => (
-                    <option key={supplier.guid} value={supplier.guid}>
-                        {supplier.name} 
-                    </option>
-                ))}
-            </select>
-            <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                    handleCreate(newCategory);
-                    setNewCategory({ name: '', supplierGuid: '' });
-                }}
-            >
-                Add Category
-            </button>
+        <div className="row">
+            <div className="col-lg-12" noValidate>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        handleCreate(newCategory);
+                        setNewCategory({ name: '', supplierGuid: '' });
+                    }}
+                    className="row g-3 needs-validation"
+                >
+                    <Input
+                        name="name"
+                        type="text"
+                        placeholder="Category Name"
+                        value={newCategory.name}
+                        onChange={handleChange}
+                    />
+                    <Select
+                        name="supplierGuid"
+                        label="Supplier"
+                        value={newCategory.supplierGuid}
+                        onChange={handleChange}
+                        options={suppliers}
+                    />
+                    <Button
+                        name="Add Category"
+                    />
+                </form>
+            </div>
         </div>
     );
 }
