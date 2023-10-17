@@ -70,13 +70,10 @@ export default function TransactionRepository(){
             if (transactionUpdate.productGuid !== updatedTransaction.productGuid) {
                 const quantityProduct = updatedTransaction.quantity
                 const newProduct = products.find(product => product.guid === updatedTransaction.productGuid)
-                console.log(quantityProduct)
-                console.log(product)
                 product.stock += quantityProduct
                 newProduct.stock -= quantityProduct
                 await updateStock(product)
                 await updateStock(newProduct)
-                console.log(newProduct)
             }
             if (transactionUpdate) {
                 const oldQuantity = transactionUpdate.quantity
