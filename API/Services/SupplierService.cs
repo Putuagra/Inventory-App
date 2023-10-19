@@ -33,6 +33,22 @@ public class SupplierService
         return (SupplierDtoGet)supplier;
     }
 
+    public SupplierDtoGet? GetEmail(string email)
+    {
+        var supplier = _supplierRepository.GetSupplierByEmail(email);
+        if (supplier is null) return null;
+
+        return (SupplierDtoGet)supplier;
+    }
+
+    public SupplierDtoGet? GetPhoneNumber(string phone)
+    {
+        var supplier = _supplierRepository.GetSupplierByPhone(phone);
+        if (supplier is null) return null;
+
+        return (SupplierDtoGet)supplier;
+    }
+
     public SupplierDtoCreate? Create(SupplierDtoCreate supplierDtoCreate)
     {
         var supplierCreated = _supplierRepository.Create(supplierDtoCreate);
