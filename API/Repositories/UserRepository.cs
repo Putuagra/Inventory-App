@@ -15,7 +15,7 @@ public class UserRepository : GeneralRepository<User>, IUserRepository
         return Context.Set<User>().FirstOrDefault(u => u.Email.Contains(value)) is null;
     }
 
-    public User? GetEmployeeByEmail(string email)
+    public User? GetUserByEmail(string email)
     {
         return Context.Set<User>().FirstOrDefault(u => u.Email == email);
     }
