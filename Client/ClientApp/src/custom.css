@@ -31,3 +31,7 @@ code {
     font-size: 16px;
     font-weight: bold;
 }
+
+.error-label{
+    color: red
+}
