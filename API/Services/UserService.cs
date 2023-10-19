@@ -41,6 +41,13 @@ public class UserService
         return (UserDtoGet)user;
     }
 
+    public UserDtoGet? Get(string email)
+    {
+        var user = _userRepository.GetUserByEmail(email);
+        if (user is null) return null;
+        return (UserDtoGet)user;
+    }
+
     public UserDtoCreate? Create(UserDtoCreate userDtoCreate)
     {
         var userCreated = _userRepository.Create(userDtoCreate);
@@ -83,7 +90,7 @@ public class UserService
 
     public string Login(UserDtoLogin userDtoLogin)
     {
-        var user = _userRepository.GetEmployeeByEmail(userDtoLogin.Email);
+        var user = _userRepository.GetUserByEmail(userDtoLogin.Email);
         if (user is null) return "0";
 
         if(!HashingHandler.Validate(userDtoLogin.Password, user!.Password)) return "-1";
