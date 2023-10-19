@@ -5,10 +5,11 @@ const Input = ({
     type,
     placeholder,
     value,
-    onChange
+    onChange,
+    errors,
 }) => {
     return (
-        <div className="col-md-6">
+        <div className="col-md-5">
             <label className="form-label">{placeholder}</label>
             <input
                 className="form-input"
@@ -17,8 +18,8 @@ const Input = ({
                 name={name}
                 value={value}
                 onChange={onChange}
-                required
             />
+            {errors && <label className="error-label">{errors}</label>}
         </div>
     )
 }
