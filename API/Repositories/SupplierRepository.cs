@@ -11,6 +11,17 @@ public class SupplierRepository : GeneralRepository<Supplier>, ISupplierReposito
     }
     public bool IsDuplicateValue(string value)
     {
-        return Context.Set<Supplier>().FirstOrDefault(s => s.Email.Contains(value) || s.PhoneNumber.Contains(value)) is null;
+        string lowerValue = value.ToLower();
+        return Context.Set<Supplier>().FirstOrDefault(s => s.Email.ToLower() == lowerValue || s.PhoneNumber.ToLower() == lowerValue || s.Name.ToLower() == lowerValue) is null;
+    }
+
+    public Supplier? GetSupplierByEmail(string email)
+    {
+        return Context.Set<Supplier>().FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
+    }
+
+    public Supplier? GetSupplierByPhone(string phone)
+    {
+        return Context.Set<Supplier>().FirstOrDefault(u => u.PhoneNumber == phone);
     }
 }
