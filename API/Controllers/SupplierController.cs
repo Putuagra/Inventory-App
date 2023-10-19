@@ -67,6 +67,54 @@ public class SupplierController : ControllerBase
         });
     }
 
+    [HttpGet("ByEmail/{email}")]
+    public IActionResult GetEmail(string email)
+    {
+        var supplier = _service.GetEmail(email);
+
+        if (supplier is null)
+        {
+            return NotFound(new ResponseHandler<SupplierDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Supplier not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<SupplierDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Supplier found",
+            Data = supplier
+        });
+    }
+
+    [HttpGet("ByPhone/{phone}")]
+    public IActionResult GetPhone(string phone)
+    {
+        var supplier = _service.GetPhoneNumber(phone);
+
+        if (supplier is null)
+        {
+            return NotFound(new ResponseHandler<SupplierDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Supplier not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<SupplierDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Supplier found",
+            Data = supplier
+        });
+    }
+
     [HttpPost]
     public IActionResult Create(SupplierDtoCreate supplierDtoCreate)
     {
