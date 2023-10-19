@@ -65,6 +65,29 @@ public class UserController : ControllerBase
         });
     }
 
+    [HttpGet("ByEmail/{email}")]
+    public IActionResult Get(string email)
+    {
+        var user = _userService.Get(email);
+        if (user is null)
+        {
+            return NotFound(new ResponseHandler<UserDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No user found",
+                Data = null
+            });
+        }
+        return Ok(new ResponseHandler<UserDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "User found",
+            Data = user
+        });
+    }
+
     [HttpPost]
     public IActionResult Create(UserDtoCreate userDtoCreate)
     {
