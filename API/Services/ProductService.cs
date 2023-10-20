@@ -1,5 +1,7 @@
 ﻿using API.Contracts;
+using API.DataTransferObjects.Categories;
 using API.DataTransferObjects.Products;
+using API.Repositories;
 
 namespace API.Services;
 
@@ -28,6 +30,14 @@ public class ProductService
     {
         var product = _productRepository.GetByGuid(guid);
         if (product is null) return null;
+        return (ProductDtoGet)product;
+    }
+
+    public ProductDtoGet? CheckDuplicate(string name, Guid supplierGuid, Guid categoryGuid)
+    {
+        var product = _productRepository.CheckDuplicate(name, supplierGuid, categoryGuid);
+        if (product is null) return null;
+
         return (ProductDtoGet)product;
     }
 
