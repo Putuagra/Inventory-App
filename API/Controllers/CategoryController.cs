@@ -65,6 +65,29 @@ public class CategoryController : ControllerBase
         });
     }
 
+    [HttpGet("CheckDuplicate/{name}/{guid}")]
+    public IActionResult Get(string name, Guid guid)
+    {
+        var category = _services.CheckDuplicate(name, guid);
+        if (category is null)
+        {
+            return NotFound(new ResponseHandler<CategoryDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Category not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<CategoryDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Category found",
+            Data = category
+        });
+    }
+
     [HttpPost]
     public IActionResult Create(CategoryDtoCreate categoryDtoCreate) 
     {
