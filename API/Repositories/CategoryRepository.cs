@@ -9,4 +9,9 @@ public class CategoryRepository : GeneralRepository<Category>, ICategoryReposito
     public CategoryRepository(InventoryDbContext context) : base(context)
     {
     }
+
+    public Category? CheckDuplicate(string name, Guid guid)
+    {
+        return Context.Set<Category>().FirstOrDefault(x => x.Name == name && x.SupplierGuid == guid);
+    }
 }
