@@ -1,4 +1,5 @@
-﻿using API.DataTransferObjects.Products;
+﻿using API.DataTransferObjects.Categories;
+using API.DataTransferObjects.Products;
 using API.DataTransferObjects.Transactions;
 using API.Services;
 using API.Utilities.Handlers;
@@ -47,6 +48,29 @@ public class ProductController : ControllerBase
     public IActionResult Get(Guid guid)
     {
         var product = _productService.Get(guid);
+        if (product is null)
+        {
+            return NotFound(new ResponseHandler<ProductDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No product found",
+                Data = null
+            });
+        }
+        return Ok(new ResponseHandler<ProductDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Product found",
+            Data = product
+        });
+    }
+
+    [HttpGet("CheckDuplicate/{name}/{supplierGuid}/{categoryGuid}")]
+    public IActionResult Get(string name, Guid supplierGuid, Guid categoryGuid)
+    {
+        var product = _productService.CheckDuplicate(name, supplierGuid, categoryGuid);
         if (product is null)
         {
             return NotFound(new ResponseHandler<ProductDtoGet>
