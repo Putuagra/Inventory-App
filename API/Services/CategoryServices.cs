@@ -34,6 +34,14 @@ public class CategoryServices
         return (CategoryDtoGet)category;
     }
 
+    public CategoryDtoGet? CheckDuplicate(string name,Guid guid)
+    {
+        var category = _categoryRepository.CheckDuplicate(name, guid);
+        if (category is null) return null;
+
+        return (CategoryDtoGet)category;
+    }
+
     public CategoryDtoCreate? Create(CategoryDtoCreate categoryDtoCreate)
     {
         var categoryCreated = _categoryRepository.Create(categoryDtoCreate);
