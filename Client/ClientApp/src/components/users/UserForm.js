@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios from "axios";
 import Input from '../Input';
 import Button from '../Button';
 import Validation from '../../Validation/UserValidation';
+import SuccessAlert from '../SuccessAlert';
+import ErrorAlert from '../ErrorAlert';
 
-export default function UserForm({ handleRegister }) {
+export default function UserForm({ handleRegister, handleCheckEmail }) {
     const [newUser, setNewUser] = useState({ name: '', email: '', password: '', confirmPassword: '' });
 
     const [errors, setErrors] = useState({})
@@ -17,13 +18,8 @@ export default function UserForm({ handleRegister }) {
     const handleRegisterUser = async () => {
         const namePattern = /^[a-zA-Z]+$/;
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        const apiUrl = 'https://localhost:7020/api';
+        
         if (!newUser.name || !newUser.email) {
-            return;
-        }
-
-        if (newUser.password !== newUser.confirmPassword) {
-            alert('Password and Confirm Password do not match.');
             return;
         }
 
@@ -31,26 +27,35 @@ export default function UserForm({ handleRegister }) {
             return;
         }
 
-        try {
-            const response = await axios.get(`${apiUrl}/User/ByEmail/${newUser.email}`);
+        const emailStatus = await handleCheckEmail(newUser.email);
 
-            if (response.status === 200) {
-                alert('Email already exists. Please use a different email.');
-            } else {
-                alert('Failed to check email availability. Please try again later.');
-            }
-        } catch {
+        if (emailStatus === 200) {
+            ErrorAlert({ message: 'Email already exists. Please use a different email.' });
+        } else if (emailStatus === 404) {
             if (newUser.password.length >= 8 && newUser.confirmPassword.length >= 8) {
                 if (newUser.password === newUser.confirmPassword) {
-                    await handleRegister(newUser);
-                    setNewUser({
-                        name: '',
-                        email: '',
-                        password: '',
-                        confirmPassword: '',
-                    });
+                    try {
+                        await handleRegister(newUser);
+                        setNewUser({
+                            name: '',
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                        });
+                        SuccessAlert({ message: 'Registration successful.' });
+                    } catch (error) {
+                        console.error('Error during registration:', error);
+                        ErrorAlert({ message: 'Failed to register user. Please try again later.' });
+                    }
+                } else {
+                    alert('Password and Confirm Password do not match.');
+                    ErrorAlert({ message: 'Password and Confirm Password do not match.' });
                 }
-            }  
+            } else {
+                ErrorAlert({ message: 'Password must be at least 8 characters long.' });
+            }
+        } else {
+            ErrorAlert({ message: 'Failed to check email availability. Please try again later.' });
         }
     }
 
@@ -101,6 +106,7 @@ export default function UserForm({ handleRegister }) {
                     />
                     <Button
                         name="Add User"
+                        className="btn btn-primary"
                     />
                 </form>
             </div>
