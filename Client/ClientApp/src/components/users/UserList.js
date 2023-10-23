@@ -1,6 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
+import InputUpdate from '../InputUpdate'
+import Button from '../Button';
+import SuccessAlert from '../SuccessAlert';
+import ErrorAlert from '../ErrorAlert';
 
-export default function UserList({ users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete }) {
+export default function UserList({ users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCheckEmail }) {
+
+    const [email, setEmail] = useState('');
+
+    const handleEmailEdit = (guid) => {
+        const userToEdit = users.find((user) => user.guid === guid);
+        setEmail(userToEdit.email);
+    };
+
+    const handleUpdateUser = async (data) => {
+        const namePattern = /^[a-zA-Z]+$/;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+        if (data.name === '' && data.email === '') {
+            ErrorAlert({ message: 'Nama dan Email harus diisi.' });
+            return
+        }
+
+        if (data.name === '') {
+            ErrorAlert({ message: 'Nama harus diisi.' });
+            return
+        } else if (!namePattern.test(data.name)) {
+            ErrorAlert({ message: 'Invalid format name.' });
+            return
+        }
+
+        if (data.email === '') {
+            ErrorAlert({ message: 'Email harus diisi.' });
+            return;
+        } else if (!emailPattern.test(data.email)) {
+            ErrorAlert({ message: 'Invalid format email.' });
+            return
+        }
+
+        const emailStatus = await handleCheckEmail(data.email);
+
+        if (emailStatus === 200 && email !== data.email) {
+            ErrorAlert({ message: 'Email already exists. Please use a different email.' });
+        } else if (emailStatus === 404 || email === data.email) { 
+            try {
+                await handleUpdate(data)
+                SuccessAlert({ message: 'Update data successful.' });
+            } catch (error) {
+                console.error('Error during update data:', error);
+                ErrorAlert({ message: 'Failed to update user. Please try again later.' });
+            }
+        } else {
+            ErrorAlert({ message: 'Failed to check email availability. Please try again later.' });
+        }  
+    };
     return (
         <table className="table table-striped">
             <thead>
@@ -16,7 +69,8 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
                         <tr key={index}>
                             <td>
                                 {editingUser === data.guid ? (
-                                    <input
+                                    <InputUpdate
+                                        name="name"
                                         type="text"
                                         value={data.name}
                                         onChange={(e) => handleInputChange(data.guid, 'name', e.target.value)}
@@ -27,7 +81,8 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
                             </td>
                             <td>{
                                 editingUser === data.guid ? (
-                                    <input
+                                    <InputUpdate
+                                        name="email"
                                         type="text"
                                         value={data.email}
                                         onChange={(e) => handleInputChange(data.guid, 'email', e.target.value)}
@@ -38,30 +93,27 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
                             </td>
                             <td>
                                 {editingUser === data.guid ? (
-                                    <button
-                                        type="button"
+                                    <Button
+                                        name="Save" 
                                         className="btn btn-success"
-                                        onClick={() => handleUpdate(data)}
-                                    >
-                                        Save
-                                    </button>
+                                        onClick={() => handleUpdateUser(data)}
+                                    />
                                 ) : (
-                                    <>
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            onClick={() => handleEdit(data.guid)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={() => handleDelete(data.guid)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </>
+                                        <>
+                                            <Button
+                                                name="Edit"
+                                                className="btn btn-primary"
+                                                onClick={() => {
+                                                    handleEmailEdit(data.guid)
+                                                    handleEdit(data.guid)
+                                                }}
+                                            />
+                                            <Button
+                                                name="Delete"
+                                                className="btn btn-danger"
+                                                onClick={() => handleDelete(data.guid)}
+                                            />
+                                        </>
                                 )}
                             </td>
                         </tr>
