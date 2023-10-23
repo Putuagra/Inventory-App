@@ -117,6 +117,7 @@ export default function ProductForm({ handleCreate, suppliers, categories }) {
                     />
                     <Button
                         name="Add Product"
+                        className="btn btn-primary"
                     />
                 </form>
             </div>
