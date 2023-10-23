@@ -4,7 +4,6 @@ const InputUpdate = ({
     type,
     value,
     onChange,
-    errors,
 }) => {
     return (
         <div className="col-md-11">
@@ -14,7 +13,6 @@ const InputUpdate = ({
                 value={value}
                 onChange={onChange}
             />
-            {errors && <label className="error-label">{errors}</label>}
         </div>
     )
 }
