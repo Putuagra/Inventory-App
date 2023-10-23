@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Input from '../Input';
 import Button from '../Button';
-import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
 import SupplierValidation from '../../Validation/SupplierValidation';
+import SuccessAlert from '../SuccessAlert';
+import ErrorAlert from '../ErrorAlert';
 
-export default function SupplierForm({ handleCreate }) {
+export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNumber }) {
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' });
 
     const [errors, setErrors] = useState({})
@@ -20,7 +20,6 @@ export default function SupplierForm({ handleCreate }) {
         const addressPattern = /^[a-zA-Z0-9\s]+$/
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
         const phoneNumberPattern = /^\+[1-9]\d{1,20}$/
-        const apiUrl = 'https://localhost:7020/api'
         if (!newSupplier.name || !newSupplier.email || !newSupplier.address || !newSupplier.phoneNumber) {
             return;
         }
@@ -33,30 +32,27 @@ export default function SupplierForm({ handleCreate }) {
             return;
         }
 
-        try {
-            const responseEmail = await axios.get(`${apiUrl}/Supplier/ByEmail/${newSupplier.email}`);
+        const emailStatus = await handleEmail(newSupplier.email);
+        if (emailStatus === 200) {
+            ErrorAlert({ message: 'Email already exists. Please use a different email.' });
+            return;
+        }
 
-            if (responseEmail.status === 200) {
-                alert('Email already exists. Please use a different email.');
-                return;
-            }
-        } catch {
-            console.log('Something went wrong with the email response.');
+        const phoneStatus = await handlePhoneNumber(newSupplier.phoneNumber);
+        if (phoneStatus === 200) {
+            ErrorAlert({ message: 'Phone number already exists. Please use a different number.' });
+            return;
         }
 
         try {
-            const responsePhone = await axios.get(`${apiUrl}/Supplier/ByPhone/${newSupplier.phoneNumber}`);
-
-            if (responsePhone.status === 200) {
-                alert('Phone number already exists.');
-                return;
-            }
-        } catch {
-            console.log('Something went wrong with the phone response.');
+            await handleCreate(newSupplier);
+            setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' });
+            SuccessAlert({ message: 'Add supplier successful.' });
+        } catch (error) {
+            console.error('Error during add:', error);
+            ErrorAlert({ message: 'Failed to add supplier. Please try again later.' });
         }
-       
-        handleCreate(newSupplier);
-        setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' });
+        
     }
 
     const handleSubmit = (e) => {
