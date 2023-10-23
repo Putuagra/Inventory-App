@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAll, create, update, remove, register } from '../apis/UserAPI'
+import { getAll, create, update, remove, register, checkEmailAvailability } from '../apis/UserAPI'
 import UserForm from '../components/users/UserForm'
 import UserList from '../components/users/UserList'
 
@@ -79,9 +79,11 @@ export default function UserRepository() {
                 handleInputChange={handleInputChange}
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
+                handleCheckEmail={checkEmailAvailability}
             />
             <UserForm
                 handleRegister={handleRegister}
+                handleCheckEmail={checkEmailAvailability}
             />
         </div>
     )
