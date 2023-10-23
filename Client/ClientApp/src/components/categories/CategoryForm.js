@@ -71,6 +71,7 @@ export default function CategoryForm({ handleCreate,suppliers }) {
                     />
                     <Button
                         name="Add Category"
+                        className="btn btn-primary"
                     />
                 </form>
             </div>
