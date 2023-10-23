@@ -51,3 +51,15 @@ export const register = async (userData) => {
         throw error;
     }
 };
+
+export const checkEmailAvailability = async (email) => {
+    try {
+        const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`);
+        return response.status;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404;
+        }
+        console.error('Error during API request:', error);
+    }
+};
