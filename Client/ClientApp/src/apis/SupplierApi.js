@@ -41,3 +41,27 @@ export const remove = async (supllierGuid) => {
         throw error;
     }
 };
+
+export const checkEmailAvailability = async (email) => {
+    try {
+        const response = await axios.get(`${apiUrl}/Supplier/ByEmail/${email}`);
+        return response.status;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404;
+        }
+        console.error('Error during API request:', error);
+    }
+};
+
+export const checkPhoneAvailability = async (phoneNumber) => {
+    try {
+        const response = await axios.get(`${apiUrl}/Supplier/ByPhone/${phoneNumber}`);
+        return response.status;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404;
+        }
+        console.error('Error during API request:', error);
+    }
+};
