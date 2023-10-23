@@ -106,6 +106,7 @@ export default function SupplierForm({ handleCreate }) {
                     />
                     <Button
                         name="Add Supplier"
+                        className="btn btn-primary"
                     />
                 </form>
             </div>
