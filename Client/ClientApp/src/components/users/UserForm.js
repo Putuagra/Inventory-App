@@ -48,7 +48,6 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
                         ErrorAlert({ message: 'Failed to register user. Please try again later.' });
                     }
                 } else {
-                    alert('Password and Confirm Password do not match.');
                     ErrorAlert({ message: 'Password and Confirm Password do not match.' });
                 }
             } else {
