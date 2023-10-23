@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Button = ({name }) => {
+const Button = ({ name, className, onClick }) => {
     return (
         <div className="col-md-8">
             <button
-                className="form-button btn btn-primary"
+                className={`form-button ${className}`}
+                onClick={onClick}
             >
                 {name}
             </button>
