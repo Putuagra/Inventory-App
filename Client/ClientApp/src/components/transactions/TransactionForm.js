@@ -95,6 +95,7 @@ export default function TransactionForm({ handleCreate, products, users, handleU
                     />
                     <Button
                         name="Add Transaction"
+                        className="btn btn-primary"
                     />
                 </form>
             </div>
