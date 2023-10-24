@@ -1,10 +1,42 @@
 import React from 'react'
+import Button from '../Button'
+import Input from '../Input'
+import Select from '../Select'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
 
 const cardStyle = {
     maxWidth: '18rem',
 }
 
 export default function TransactionList({ products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete }) {
+
+    const handleUpdateTransaction = async (data) => {
+        const selectedProduct = products.find(product => product.guid === data.productGuid)
+
+        if (!data.quantity) {
+            ErrorAlert({ message: 'Quantity harus diisi.' })
+            return
+        }
+        if (selectedProduct.stock >= data.quantity) {
+            if (data.quantity < 1) {
+                ErrorAlert({ message: 'Quantity must be greater than 1!' });
+            }
+            else {
+                try {
+                    await handleUpdate(data)
+                    SuccessAlert({ message: 'Your transaction has been updated' });
+                } catch (error) {
+                    ErrorAlert({ message: 'Error updating stock!' });
+                    console.error("Error updating stock:", error);
+                }
+            } 
+        } else {
+            ErrorAlert({ message: 'Invalid product or insufficient stock.!' });
+            console.log("Invalid product or insufficient stock.");
+        }
+    }
+
     return (
         <div className="card-container">
             {
@@ -16,47 +48,41 @@ export default function TransactionList({ products, users, transactions, editing
                                 <h5 className="card-title">
                                     {
                                         editingTransaction === data.guid ? (
-                                            <select
+                                            <Select
+                                                name="productGuid"
+                                                label="Product"
                                                 value={data.productGuid || ''}
                                                 onChange={(e) => handleInputChange(data.guid, 'productGuid', e.target.value)}
-                                            >
-                                                <option value="">Select Product</option>
-                                                {products.map((product) => (
-                                                    <option key={product.guid} value={product.guid}>
-                                                        {product.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                                options={products}
+                                            />
                                         ) : (
                                                 (products.find((product) => product.guid === data.productGuid) || {}).name
                                         )
                                     }
                                 </h5>
-                                <p className="card-text">
+                                <h6 className="card-text">
                                     {
                                         editingTransaction === data.guid ? (
-                                            <select
+                                            <Select
+                                                name="userGuid"
+                                                label="User"
                                                 value={data.userGuid || ''}
                                                 onChange={(e) => handleInputChange(data.guid, 'userGuid', e.target.value)}
-                                            >
-                                                <option value="">Select User</option>
-                                                {users.map((user) => (
-                                                    <option key={user.guid} value={user.guid}>
-                                                        {user.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                                options={users}
+                                            />
                                         ) : (
                                                 (users.find((user) => user.guid === data.userGuid) || {}).name
                                         )
                                     }
-                                </p>
-                                <p className="card-text">
+                                </h6>
+                                <h6 className="card-text">
                                     Quantity: 
                                     {
                                         editingTransaction === data.guid ? (
-                                            <input
-                                                type="text"
+                                            <Input
+                                                name="quantity"
+                                                type="number"
+                                                placeholder="Quantity"
                                                 value={data.quantity}
                                                 onChange={(e) => handleInputChange(data.guid, 'quantity', e.target.value)}
                                             />
@@ -64,44 +90,40 @@ export default function TransactionList({ products, users, transactions, editing
                                             data.quantity
                                         )
                                     }
-                                </p>
-                                <p className="card-text">
+                                </h6>
+                                <h6 className="card-text">
                                     Price: 
                                     {
                                         (products.find((product) => product.guid === data.productGuid) || {}).price * data.quantity
                                     }
-                                </p>
+                                </h6>
                                 {editingTransaction === data.guid ? (
-                                    <button
-                                        type="button"
+                                    <Button
+                                        name="Save" 
                                         className="btn btn-success"
-                                        onClick={() => handleUpdate(data)}
-                                    >
-                                        Save
-                                    </button>
+                                        onClick={() => handleUpdateTransaction(data)}
+                                    />
                                 ) : (
-                                    <>
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary"
-                                            onClick={() => handleEdit(data.guid)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={() => handleDelete(data.guid)}
-                                        >
-                                            Delete
-                                        </button>
+                                        <>
+                                            <Button
+                                                name="Edit"
+                                                className="btn btn-primary"
+                                                onClick={() => {
+                                                    handleEdit(data.guid)
+                                                }}
+                                            />
+                                            <Button
+                                                name="Delete"
+                                                className="btn btn-danger"
+                                                onClick={() => handleDelete(data.guid)}
+                                            />
                                     </>
                                 )}
                             </div>
                         </div>
                     )
                 ) : (
-                    <p>No transactions available.</p>
+                    <h5>No transactions available.</h5>
                 )
             }     
         </div>
