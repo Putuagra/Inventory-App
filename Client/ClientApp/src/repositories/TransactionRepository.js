@@ -67,15 +67,16 @@ export default function TransactionRepository(){
         try {
             const transactionUpdate = await getTransactionByGuid(updatedTransaction.guid)
             const product = products.find(product => product.guid === transactionUpdate.productGuid)
+            const newProduct = products.find(product => product.guid === updatedTransaction.productGuid)
             if (transactionUpdate.productGuid !== updatedTransaction.productGuid) {
-                const quantityProduct = updatedTransaction.quantity
-                const newProduct = products.find(product => product.guid === updatedTransaction.productGuid)
-                product.stock += quantityProduct
-                newProduct.stock -= quantityProduct
-                await updateStock(product)
+                const oldQuantity = transactionUpdate.quantity
+                const newQuantity = updatedTransaction.quantity    
+                product.stock += oldQuantity
+                newProduct.stock -= newQuantity
                 await updateStock(newProduct)
+                await updateStock(product)
             }
-            if (transactionUpdate) {
+            else if (transactionUpdate) {
                 const oldQuantity = transactionUpdate.quantity
                 const newQuantity = updatedTransaction.quantity
                 const stockDifference = newQuantity - oldQuantity
@@ -137,6 +138,7 @@ export default function TransactionRepository(){
                 handleInputChange={handleInputChange}
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
+                handleUpdateStock={handleUpdateStock}
             />
             <TransactionForm
                 handleCreate={handleCreate}
