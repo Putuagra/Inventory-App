@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import Button from '../Button';
-import Input from '../Input';
-import Select from '../Select';
-import axios from "axios";
-import ProductValidation from '../../Validation/ProductValidation';
+import React, { useState } from 'react'
+import Button from '../Button'
+import Input from '../Input'
+import Select from '../Select'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
+import ProductValidation from '../../Validation/ProductValidation'
 
-export default function ProductForm({ handleCreate, suppliers, categories }) {
-    const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' });
+export default function ProductForm({ handleCreate, suppliers, categories, handleCheckProduct }) {
+    const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewProduct({ ...newProduct, [name]: value });
-    };
+        const { name, value } = e.target
+        setNewProduct({ ...newProduct, [name]: value })
+    }
 
     const handleSupplierChange = (e) => {
         const selectedSupplierGuid = e.target.value;
@@ -20,17 +21,16 @@ export default function ProductForm({ handleCreate, suppliers, categories }) {
             ...newProduct,
             supplierGuid: selectedSupplierGuid,
             categoryGuid: '',
-        });
-    };
+        })
+    }
 
     const handleCreateProduct = async () => {
-        const productPattern = /^[a-zA-Z0-9\s]+$/;
-        const stockPattern = /^\d+$/;
-        const pricePattern = /^\d+$/;
-        const descriptionPattern = /^[a-zA-Z0-9\s]+$/;
-        const apiUrl = 'https://localhost:7020/api'
+        const productPattern = /^[a-zA-Z0-9\s]+$/
+        const stockPattern = /^\d+$/
+        const pricePattern = /^\d+$/
+        const descriptionPattern = /^[a-zA-Z0-9\s]+$/
         if (!newProduct.name || !newProduct.stock || !newProduct.price || !newProduct.description || !newProduct.supplierGuid || !newProduct.categoryGuid) {
-            return;
+            return
         }
 
         if (!productPattern.test(newProduct.name) ||
@@ -38,22 +38,24 @@ export default function ProductForm({ handleCreate, suppliers, categories }) {
             !pricePattern.test(newProduct.price) ||
             !descriptionPattern.test(newProduct.description)
         ) {
-            return;
+            return
         }
 
-        try {
-            const response = await axios.get(`${apiUrl}/Product/CheckDuplicate/${newProduct.name}/${newProduct.supplierGuid}/${newProduct.categoryGuid}`);
-
-            if (response.status === 200) {
-                alert('Product Name already exists in this category and supplier.');
-                return;
+        const status = await handleCheckProduct(newProduct.name, newProduct.supplierGuid, newProduct.categoryGuid)
+        if (status === 200) {
+            ErrorAlert({ message: 'Product Name already exists in this category and supplier.' })
+        } else if (status === 404) {
+            try {
+                await handleCreate(newProduct);
+                setNewProduct({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
+                SuccessAlert({ message: 'Add product successful.' })
+            } catch (error) {
+                console.error('Error during add:', error)
+                ErrorAlert({ message: 'Failed to add product. Please try again later.' })
             }
-        } catch {
-            console.log('Something went wrong with the product response.');
-        }
-
-        handleCreate(newProduct);
-        setNewProduct({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' });
+        } else {
+            ErrorAlert({ message: 'Failed to check product availability. Please try again later.' })
+        }   
     }
 
     const handleSubmit = (e) => {
