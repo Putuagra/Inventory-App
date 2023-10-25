@@ -42,6 +42,14 @@ public class CategoryServices
         return (CategoryDtoGet)category;
     }
 
+    public CategoryDtoGet? CheckAvailability(Guid categoryGuid, Guid supplierGuid)
+    {
+        var category = _categoryRepository.CheckAvailability(categoryGuid, supplierGuid);
+        if (category is null) return null;
+
+        return (CategoryDtoGet)category;
+    }
+
     public CategoryDtoCreate? Create(CategoryDtoCreate categoryDtoCreate)
     {
         var categoryCreated = _categoryRepository.Create(categoryDtoCreate);
