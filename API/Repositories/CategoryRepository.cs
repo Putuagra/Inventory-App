@@ -14,4 +14,9 @@ public class CategoryRepository : GeneralRepository<Category>, ICategoryReposito
     {
         return Context.Set<Category>().FirstOrDefault(x => x.Name == name && x.SupplierGuid == guid);
     }
+
+    public Category? CheckAvailability(Guid categoryGuid, Guid supplierGuid)
+    {
+        return Context.Set<Category>().FirstOrDefault(x => x.Guid == categoryGuid && x.SupplierGuid == supplierGuid);
+    }
 }
