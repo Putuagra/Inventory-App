@@ -1,44 +1,45 @@
-import React, { useState } from 'react';
-import Button from '../Button';
-import Input from '../Input';
-import Select from '../Select';
-import axios from "axios";
-import CategoryValidation from '../../Validation/CategoryValidation';
+import React, { useState } from 'react'
+import Button from '../Button'
+import Input from '../Input'
+import Select from '../Select'
+import CategoryValidation from '../../Validation/CategoryValidation'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
 
-export default function CategoryForm({ handleCreate,suppliers }) {
-    const [newCategory, setNewCategory] = useState({ name: '', supplierGuid: '' });
+export default function CategoryForm({ handleCreate, suppliers, handleDuplicate }) {
+    const [newCategory, setNewCategory] = useState({ name: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewCategory({ ...newCategory, [name]: value });
+        const { name, value } = e.target
+        setNewCategory({ ...newCategory, [name]: value })
     };
 
     const handleCreateCategory = async () => {
         const namePattern = /^[a-zA-Z0-9\s]+$/
-        const apiUrl = 'https://localhost:7020/api'
 
         if (!newCategory.name || !newCategory.supplierGuid) {
-            return;
+            return
         }
 
         if (!namePattern.test(newCategory.name)) {
-            return;
+            return
+        }
+
+        const status = await handleDuplicate(newCategory.name, newCategory.supplierGuid)
+        if (status === 200) {
+            ErrorAlert({ message: 'Supplier categories already exists.' })
+            return
         }
 
         try {
-            const response = await axios.get(`${apiUrl}/Category/CheckDuplicate/${newCategory.name}/${newCategory.supplierGuid}`);
-
-            if (response.status === 200) {
-                alert('Category Name already exists.');
-                return;
-            }
-        } catch {
-            console.log('Something went wrong with the category response.');
+            await handleCreate(newCategory)
+            setNewCategory({ name: '', supplierGuid: '' })
+            SuccessAlert({ message: 'Add category successful.' })
+        } catch (error) {
+            console.error('Error during add:', error);
+            ErrorAlert({ message: 'Failed to add category. Please try again later.' })
         }
-
-        handleCreate(newCategory);
-        setNewCategory({ name: '', supplierGuid: '' });
     }
 
     const handleSubmit = (e) => {
