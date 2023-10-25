@@ -32,7 +32,7 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
 
         if (data.email === '') {
             ErrorAlert({ message: 'Email harus diisi.' });
-            return;
+            return
         } else if (!emailPattern.test(data.email)) {
             ErrorAlert({ message: 'Invalid format email.' });
             return

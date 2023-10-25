@@ -20,20 +20,20 @@ export default function TransactionList({ products, users, transactions, editing
         }
         if (selectedProduct.stock >= data.quantity) {
             if (data.quantity < 1) {
-                ErrorAlert({ message: 'Quantity must be greater than 1!' });
+                ErrorAlert({ message: 'Quantity must be greater than 1!' })
             }
             else {
                 try {
                     await handleUpdate(data)
-                    SuccessAlert({ message: 'Your transaction has been updated' });
+                    SuccessAlert({ message: 'Your transaction has been updated' })
                 } catch (error) {
-                    ErrorAlert({ message: 'Error updating stock!' });
-                    console.error("Error updating stock:", error);
+                    ErrorAlert({ message: 'Error updating stock!' })
+                    console.error("Error updating stock:", error)
                 }
             } 
         } else {
-            ErrorAlert({ message: 'Invalid product or insufficient stock.!' });
-            console.log("Invalid product or insufficient stock.");
+            ErrorAlert({ message: 'Invalid product or insufficient stock.!' })
+            console.log("Invalid product or insufficient stock.")
         }
     }
 

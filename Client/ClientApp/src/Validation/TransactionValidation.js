@@ -1,10 +1,10 @@
 export default function TransactionValidation(value) {
     const errors = {}
 
-    const quantityPattern = /^\d+$/;
+    const quantityPattern = /^\d+$/
 
     if (value.quantity === "") {
-        errors.quantity = "Quantity is required.";
+        errors.quantity = "Quantity is required."
     } else if (!quantityPattern.test(value.quantity)) {
         errors.quantity = "Quantity is invalid."
     } else if (value.quantity < 1) {

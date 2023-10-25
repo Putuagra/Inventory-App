@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import Input from '../Input';
-import Button from '../Button';
-import SupplierValidation from '../../Validation/SupplierValidation';
-import SuccessAlert from '../SuccessAlert';
-import ErrorAlert from '../ErrorAlert';
+import React, { useState } from 'react'
+import Input from '../Input'
+import Button from '../Button'
+import SupplierValidation from '../../Validation/SupplierValidation'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
 
 export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNumber }) {
-    const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' });
+    const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })
 
     const [errors, setErrors] = useState({})
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setNewSupplier({ ...newSupplier, [name]: value });
-    };
+        setNewSupplier({ ...newSupplier, [name]: value })
+    }
 
     const handleCreateSupplier = async () => {
         const namePattern = /^[a-zA-Z0-9]+$/
@@ -21,7 +21,7 @@ export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNum
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
         const phoneNumberPattern = /^\+[1-9]\d{1,20}$/
         if (!newSupplier.name || !newSupplier.email || !newSupplier.address || !newSupplier.phoneNumber) {
-            return;
+            return
         }
 
         if (!namePattern.test(newSupplier.name) ||
@@ -29,28 +29,28 @@ export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNum
             !addressPattern.test(newSupplier.address) ||
             !phoneNumberPattern.test(newSupplier.phoneNumber)
         ) {
-            return;
+            return
         }
 
         const emailStatus = await handleEmail(newSupplier.email);
         if (emailStatus === 200) {
-            ErrorAlert({ message: 'Email already exists. Please use a different email.' });
-            return;
+            ErrorAlert({ message: 'Email already exists. Please use a different email.' })
+            return
         }
 
         const phoneStatus = await handlePhoneNumber(newSupplier.phoneNumber);
         if (phoneStatus === 200) {
-            ErrorAlert({ message: 'Phone number already exists. Please use a different number.' });
-            return;
+            ErrorAlert({ message: 'Phone number already exists. Please use a different number.' })
+            return
         }
 
         try {
-            await handleCreate(newSupplier);
-            setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' });
-            SuccessAlert({ message: 'Add supplier successful.' });
+            await handleCreate(newSupplier)
+            setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' })
+            SuccessAlert({ message: 'Add supplier successful.' })
         } catch (error) {
-            console.error('Error during add:', error);
-            ErrorAlert({ message: 'Failed to add supplier. Please try again later.' });
+            console.error('Error during add:', error)
+            ErrorAlert({ message: 'Failed to add supplier. Please try again later.' })
         }
         
     }

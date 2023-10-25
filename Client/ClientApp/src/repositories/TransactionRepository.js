@@ -6,10 +6,10 @@ import TransactionList from '../components/transactions/TransactionList'
 import TransactionForm from '../components/transactions/TransactionForm'
 
 export default function TransactionRepository(){
-    const [products, setProducts] = useState([]);
-    const [users, setUser] = useState([]);
-    const [transactions, setTransactions] = useState([]);
-    const [editingTransaction, setEditingTransaction] = useState(null);
+    const [products, setProducts] = useState([])
+    const [users, setUser] = useState([])
+    const [transactions, setTransactions] = useState([])
+    const [editingTransaction, setEditingTransaction] = useState(null)
 
     useEffect(() => {
         fetchData()
@@ -20,27 +20,27 @@ export default function TransactionRepository(){
     const fetchData = async () => {
         try {
             const data = await getAllTransactions()
-            setTransactions(data);
+            setTransactions(data)
         } catch (error) {
-            console.error("Error fetching data: ", error);
+            console.error("Error fetching data: ", error)
         }
     }
 
     const fetchDataProducts = async () => {
         try {
-            const data = await getAllProducts();
-            setProducts(data);
+            const data = await getAllProducts()
+            setProducts(data)
         } catch (error) {
-            console.error("Error fetching data: ", error);
+            console.error("Error fetching data: ", error)
         }
     }
 
     const fetchDataUser = async () => {
         try {
-            const data = await getAll();
-            setUser(data);
+            const data = await getAll()
+            setUser(data)
         } catch (error) {
-            console.error("Error fetching data: ", error);
+            console.error("Error fetching data: ", error)
         }
     }
 
@@ -92,7 +92,7 @@ export default function TransactionRepository(){
             fetchData()
         }
         catch (error) {
-            console.error('Error editing transaction:', error);
+            console.error('Error editing transaction:', error)
         }
     }
 
@@ -108,12 +108,12 @@ export default function TransactionRepository(){
             }
             await remove(transactionGuid)
             if (transactions.length === 1) {
-                setTransactions([]);
+                setTransactions([])
             }
             fetchData()
         }
         catch (error) {
-            console.error('Error deleting transaction:', error);
+            console.error('Error deleting transaction:', error)
         }
     }
 
@@ -122,7 +122,7 @@ export default function TransactionRepository(){
             await updateStock(stock)
             fetchDataProducts()
         } catch (error) {
-            console.error('Error editing transaction:', error);
+            console.error('Error editing transaction:', error)
         }
     }
 

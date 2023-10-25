@@ -1,53 +1,53 @@
 import React, { useState, useEffect } from 'react'
 import { getAllSuppliers, create, update, remove, checkEmailAvailability, checkPhoneAvailability } from '../apis/SupplierApi'
-import SupplierList from '../components/suppliers/SupplierList';
-import SupplierForm from '../components/suppliers/SupplierForm';
+import SupplierList from '../components/suppliers/SupplierList'
+import SupplierForm from '../components/suppliers/SupplierForm'
 
 export default function SupplierRepositories() {
-    const [suppliers, setSuppliers] = useState([]);
-    const [editingSupplier, setEditingSupplier] = useState(null);
+    const [suppliers, setSuppliers] = useState([])
+    const [editingSupplier, setEditingSupplier] = useState(null)
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData()
+    }, [])
 
     const fetchData = async () => {
         try {
-            const data = await getAllSuppliers();
-            setSuppliers(data);
+            const data = await getAllSuppliers()
+            setSuppliers(data)
         }
         catch (error) {
-            console.error("Error fetching data: ", error);
+            console.error("Error fetching data: ", error)
         }
     };
 
     const handleCreate = async (newSupplier) => {
         try {
-            await create(newSupplier);
-            fetchData();
+            await create(newSupplier)
+            fetchData()
         }
         catch (error) {
-            console.error("Error create supplier", error);
+            console.error("Error create supplier", error)
         }
     };
 
     const handleEdit = (supplierGuid) => {
-        setEditingSupplier(supplierGuid);
+        setEditingSupplier(supplierGuid)
     };
 
     const handleInputChange = (supplierGuid, field, value) => {
         const updatedSuplliers = suppliers.map((supplier) => (supplier.guid === supplierGuid ? { ...supplier, [field]: value } : supplier))
-        setSuppliers(updatedSuplliers);
+        setSuppliers(updatedSuplliers)
     };
 
     const handleUpdate = async (updatedSupplier) => {
         try {
-            await update(updatedSupplier);
-            setEditingSupplier(null);
-            fetchData();
+            await update(updatedSupplier)
+            setEditingSupplier(null)
+            fetchData()
         }
         catch (error) {
-            console.error('Error editing supplier:', error);
+            console.error('Error editing supplier:', error)
         }
     }
 
@@ -55,12 +55,12 @@ export default function SupplierRepositories() {
         try {
             await remove(supplierGuid);
             if (suppliers.length === 1) {
-                setSuppliers([]);
+                setSuppliers([])
             }
-            fetchData();
+            fetchData()
         }
         catch (error) {
-            console.error('Error deleting supplier:', error);
+            console.error('Error deleting supplier:', error)
         }
     }
 

@@ -1,7 +1,7 @@
 export default function CategoryValidation(value) {
     const errors = {}
 
-    const namePattern = /^[a-zA-Z0-9\s]+$/;
+    const namePattern = /^[a-zA-Z0-9\s]+$/
 
     if (value.name === "") {
         errors.name = "Category name is required.";
@@ -9,5 +9,5 @@ export default function CategoryValidation(value) {
         errors.name = "Category name is invalid."
     }
 
-    return errors;
+    return errors
 }

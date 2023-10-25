@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
 
 const SuccessAlert = ({ message }) => {
     Swal.fire({
@@ -9,4 +9,4 @@ const SuccessAlert = ({ message }) => {
     });
 };
 
-export default SuccessAlert;
+export default SuccessAlert

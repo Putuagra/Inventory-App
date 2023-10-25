@@ -10,60 +10,60 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleEmailEdit = (guid) => {
-        const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid);
-        setEmail(supplierToEdit.email);
+        const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid)
+        setEmail(supplierToEdit.email)
     };
 
     const handlePhoneNumberEdit = (guid) => {
-        const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid);
-        setPhoneNumber(supplierToEdit.phoneNumber);
+        const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid)
+        setPhoneNumber(supplierToEdit.phoneNumber)
     };
 
     const handleUpdateSupplier = async (data) => {
         const namePattern = /^[a-zA-Z0-9]+$/
         const addressPattern = /^[a-zA-Z0-9\s]+$/
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
         const phoneNumberPattern = /^\+[1-9]\d{1,20}$/
 
         if (data.name === '' && data.email === '' && data.address === '' && data.phoneNumber === '') {
-            ErrorAlert({ message: 'Semua field harus diisi.' });
+            ErrorAlert({ message: 'Semua field harus diisi.' })
             return
         }
 
         if (data.name === '') {
-            ErrorAlert({ message: 'Nama harus diisi.' });
+            ErrorAlert({ message: 'Nama harus diisi.' })
             return
         } else if (!namePattern.test(data.name)) {
-            ErrorAlert({ message: 'Invalid format name.' });
+            ErrorAlert({ message: 'Invalid format name.' })
             return
         }
 
         if (data.email === '') {
-            ErrorAlert({ message: 'Email harus diisi.' });
+            ErrorAlert({ message: 'Email harus diisi.' })
             return;
         } else if (!emailPattern.test(data.email)) {
-            ErrorAlert({ message: 'Invalid format email.' });
+            ErrorAlert({ message: 'Invalid format email.' })
             return
         }
 
         if (data.address === '') {
-            ErrorAlert({ message: 'Address harus diisi.' });
+            ErrorAlert({ message: 'Address harus diisi.' })
             return;
         } else if (!addressPattern.test(data.address)) {
-            ErrorAlert({ message: 'Invalid format address.' });
+            ErrorAlert({ message: 'Invalid format address.' })
             return
         }
 
         if (data.phoneNumber === '') {
-            ErrorAlert({ message: 'Phone number harus diisi.' });
+            ErrorAlert({ message: 'Phone number harus diisi.' })
             return;
         } else if (!phoneNumberPattern.test(data.phoneNumber)) {
-            ErrorAlert({ message: 'Invalid format phone number.' });
+            ErrorAlert({ message: 'Invalid format phone number.' })
             return
         }
 
-        const emailStatus = await handleEmail(data.email);
-        const phoneStatus = await handlePhoneNumber(data.phoneNumber);
+        const emailStatus = await handleEmail(data.email)
+        const phoneStatus = await handlePhoneNumber(data.phoneNumber)
 
         if (emailStatus === 200 && email !== data.email) {
             ErrorAlert({ message: 'Email already exists. Please use a different email.' })
@@ -80,10 +80,10 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
         if ((emailStatus === 404 && phoneStatus === 404) || email === data.email || phoneNumber === data.phoneNumber) {
             try {
                 await handleUpdate(data)
-                SuccessAlert({ message: 'Update data successful.' });
+                SuccessAlert({ message: 'Update data successful.' })
             } catch (error) {
                 console.error('Error during update data:', error);
-                ErrorAlert({ message: 'Failed to update supplier. Please try again later.' });
+                ErrorAlert({ message: 'Failed to update supplier. Please try again later.' })
             }
         }
     }

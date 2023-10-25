@@ -4,68 +4,68 @@ import UserForm from '../components/users/UserForm'
 import UserList from '../components/users/UserList'
 
 export default function UserRepository() {
-    const [users, setUsers] = useState([]);
-    const [editingUser, setEditingUser] = useState(null);
+    const [users, setUsers] = useState([])
+    const [editingUser, setEditingUser] = useState(null)
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData()
+    }, [])
 
     const fetchData = async () => {
         try {
-            const data = await getAll();
-            setUsers(data);
+            const data = await getAll()
+            setUsers(data)
         } catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const handleCreate = async (newUser) => {
         try {
-            await create(newUser);
-            fetchData();
+            await create(newUser)
+            fetchData()
         } catch (error) {
-            console.error("Error create user", error);
+            console.error("Error create user", error)
         }
-    };
+    }
 
     const handleEdit = (userGuid) => {
-        setEditingUser(userGuid);
-    };
+        setEditingUser(userGuid)
+    }
 
     const handleInputChange = (userGuid, field, value) => {
         const updatedUsers = users.map((user) => (user.guid === userGuid ? { ...user, [field]: value } : user));
-        setUsers(updatedUsers);
-    };
+        setUsers(updatedUsers)
+    }
 
     const handleUpdate = async (updatedUser) => {
         try {
-            await update(updatedUser);
-            setEditingUser(null);
-            fetchData();
+            await update(updatedUser)
+            setEditingUser(null)
+            fetchData()
         } catch (error) {
-            console.error('Error editing user:', error);
+            console.error('Error editing user:', error)
         }
     };
 
     const handleDelete = async (userGuid) => {
         try {
-            await remove(userGuid);
+            await remove(userGuid)
             if (users.length === 1) {
-                setUsers([]);
+                setUsers([])
             }
-            fetchData();
+            fetchData()
         } catch (error) {
-            console.error('Error deleting user:', error);
+            console.error('Error deleting user:', error)
         }
     };
 
     const handleRegister = async (newUser) => {
         try {
-            await register(newUser);
-            fetchData();
+            await register(newUser)
+            fetchData()
         } catch (error) {
-            console.error("Error create user", error);
+            console.error("Error create user", error)
         }
     };
 

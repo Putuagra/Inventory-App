@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Button from '../Button';
-import Input from '../Input';
-import Select from '../Select';
-import TransactionValidation from '../../Validation/TransactionValidation';
-import SuccessAlert from '../SuccessAlert';
-import ErrorAlert from '../ErrorAlert';
+import React, { useState } from 'react'
+import Button from '../Button'
+import Input from '../Input'
+import Select from '../Select'
+import TransactionValidation from '../../Validation/TransactionValidation'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
 
 export default function TransactionForm({ handleCreate, products, users, handleUpdateStock }) {
     const [newTransaction, setNewTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })
@@ -22,23 +22,23 @@ export default function TransactionForm({ handleCreate, products, users, handleU
         if (selectedProduct && selectedProduct.stock >= newTransaction.quantity) {
             try {
                 if (newTransaction.quantity < 1) {
-                    ErrorAlert({ message: 'Quantity must be greater than 1!' });
+                    ErrorAlert({ message: 'Quantity must be greater than 1!' })
                 } else {
-                    selectedProduct.stock -= newTransaction.quantity;
+                    selectedProduct.stock -= newTransaction.quantity
 
-                    await handleUpdateStock(selectedProduct);
+                    await handleUpdateStock(selectedProduct)
 
-                    await handleCreate(newTransaction);
-                    setNewTransaction({ productGuid: '', userGuid: '', quantity: '' });
-                    SuccessAlert({ message: 'Your transaction has been successfully' });
+                    await handleCreate(newTransaction)
+                    setNewTransaction({ productGuid: '', userGuid: '', quantity: '' })
+                    SuccessAlert({ message: 'Your transaction has been successfully' })
                 }   
             } catch (error) {
-                ErrorAlert({ message: 'Error updating stock!' });
-                console.error("Error updating stock:", error);
+                ErrorAlert({ message: 'Error updating stock!' })
+                console.error("Error updating stock:", error)
             }
         } else {
-            ErrorAlert({ message: 'Invalid product or insufficient stock.!' });
-            console.log("Invalid product or insufficient stock.");
+            ErrorAlert({ message: 'Invalid product or insufficient stock.!' })
+            console.log("Invalid product or insufficient stock.")
         }
     }
 
