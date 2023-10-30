@@ -49,6 +49,14 @@ public class SupplierService
         return (SupplierDtoGet)supplier;
     }
 
+    public SupplierDtoGet? Get(string name)
+    {
+        var supplier = _supplierRepository.GetSupplierByName(name);
+        if (supplier is null) return null;
+
+        return (SupplierDtoGet)supplier;
+    }
+
     public SupplierDtoCreate? Create(SupplierDtoCreate supplierDtoCreate)
     {
         var supplierCreated = _supplierRepository.Create(supplierDtoCreate);
