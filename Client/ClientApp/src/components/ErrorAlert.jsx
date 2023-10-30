@@ -6,6 +6,6 @@ const ErrorAlert = ({ message }) => {
         title: 'Oops...',
         text: message,
     })
-};
+}
 
-export default ErrorAlert;
+export default ErrorAlert
