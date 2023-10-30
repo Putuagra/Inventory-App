@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getAllSuppliers } from '../apis/SupplierApi'
-import { getAll, checkAvailability, checkDuplicate } from '../apis/CategoryApi'
+import { getAll, checkAvailability} from '../apis/CategoryApi'
 import { getAllProducts, create, update, remove, checkProductAvailability } from '../apis/ProductApi'
 import ProductForm from '../components/products/ProductForm'
 import ProductList from '../components/products/ProductList'
@@ -34,7 +34,7 @@ export default function ProductRepository() {
         catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const fetchDataCategories = async () => {
         try {
@@ -44,7 +44,7 @@ export default function ProductRepository() {
         catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const handleCreate = async (newProduct) => {
         try {
@@ -108,7 +108,7 @@ export default function ProductRepository() {
                 handleCreate={handleCreate}
                 suppliers={suppliers}
                 categories={categories}
-                handleDuplicate={checkDuplicate}
+                handleCheckProduct={checkProductAvailability}
             />
         </div>
     )
