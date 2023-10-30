@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Input from '../Input'
 import Button from '../Button'
-import SupplierValidation from '../../Validation/Suppliers/SupplierValidation'
+import { SupplierValidation, ValidateData } from '../../Validation/Suppliers/SupplierValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
-import ValidateData from '../../Validation/Suppliers/SupplierPattern'
 
 export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNumber, handleName }) {
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })

@@ -4,8 +4,7 @@ import Button from '../Button'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import DeleteAlert from '../DeleteAlert'
-import ValidateData from '../../Validation/Suppliers/SupplierPattern'
-import ValidationDuplicate from '../../Validation/Suppliers/SupplierDuplicate'
+import { ValidateData, ValidationDuplicate } from '../../Validation/Suppliers/SupplierValidation'
 
 export default function SupplierList({ suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleEmail, handlePhoneNumber, handleName }) {
 
