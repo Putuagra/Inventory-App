@@ -5,12 +5,15 @@ const apiUrl = 'https://localhost:7020/api'
 export const getAll = async () => {
     try {
         const response = await axios.get(`${apiUrl}/Category`)
-        return response.data.data
+        return response?.data?.data || []
     } catch (error) {
-        console.log(error);
-        throw error
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
     }
-};
+}
 
 export const create = async (userData) => {
     try {
@@ -20,7 +23,7 @@ export const create = async (userData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const update = async (updatedData) => {
     try {
@@ -30,7 +33,7 @@ export const update = async (updatedData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const remove = async (supllierGuid) => {
     try {
@@ -40,7 +43,7 @@ export const remove = async (supllierGuid) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const checkAvailability = async (categoryGuid, supplierGuid) => {
     try {
@@ -52,7 +55,7 @@ export const checkAvailability = async (categoryGuid, supplierGuid) => {
         }
         console.error('Error during API request:', error)
     }
-};
+}
 
 export const checkDuplicate = async (name, supplierGuid) => {
     try {
@@ -64,4 +67,4 @@ export const checkDuplicate = async (name, supplierGuid) => {
         }
         console.error('Error during API request:', error)
     }
-};
+}

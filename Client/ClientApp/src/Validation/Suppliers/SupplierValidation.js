@@ -57,8 +57,6 @@ export function ValidateData(data){
     } else if (!phoneNumberPattern.test(data.phoneNumber)) {
         return 'Invalid format phone number.'
     }
-
-    return null
 }
 
 export function ValidationDuplicate(data, name, email, phoneNumber, emailStatus, phoneStatus, nameStatus){
@@ -79,5 +77,19 @@ export function ValidationDuplicate(data, name, email, phoneNumber, emailStatus,
         return 'Phone number already exists. Please use a different number.'
     } else if (phoneStatus === 500 || phoneStatus === 400) {
         return 'Failed to check phone number availability. Please try again later.'
+    }
+}
+
+export function StatusValidate(nameStatus, emailStatus, phoneStatus) {
+    if (nameStatus === 200) {
+        return 'Name supplier already exists. Please use a different name.'
+    }
+
+    if (emailStatus === 200) {
+        return 'Email already exists. Please use a different email.'
+    }
+
+    if (phoneStatus === 200) {
+        return 'Phone number already exists. Please use a different number.'
     }
 }

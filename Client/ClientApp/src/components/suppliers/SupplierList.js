@@ -40,31 +40,25 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
         const phoneStatus = await handlePhoneNumber(data.phoneNumber)
         const nameStatus = await handleName(data.name)
 
-        try {
-            const validationDuplicateResult = await ValidationDuplicate(data, name, email, phoneNumber, emailStatus, phoneStatus, nameStatus)
+        const validationDuplicateResult = ValidationDuplicate(data, name, email, phoneNumber, emailStatus, phoneStatus, nameStatus)
 
-            if (validationDuplicateResult) {
-                ErrorAlert({ message: validationDuplicateResult })
-                return
-            } else {
-                if ((emailStatus === 404 && phoneStatus === 404 && nameStatus === 404) || email === data.email || phoneNumber === data.phoneNumber || name === data.name) {
-                    try {
-                        await handleUpdate(data)
-                        SuccessAlert({ message: 'Update data successful.' })
-                        return
-                    } catch (error) {
-                        console.error('Error during update data:', error)
-                        ErrorAlert({ message: 'Failed to update supplier. Please try again later.' })
-                        return
-                    }
+        if (validationDuplicateResult) {
+            ErrorAlert({ message: validationDuplicateResult })
+            return
+        } else {
+            if ((emailStatus === 404 && phoneStatus === 404 && nameStatus === 404) || email === data.email || phoneNumber === data.phoneNumber || name === data.name) {
+                try {
+                    await handleUpdate(data)
+                    SuccessAlert({ message: 'Update data successful.' })
+                    return
+                } catch (error) {
+                    console.error('Error during update data:', error)
+                    ErrorAlert({ message: 'Failed to update supplier. Please try again later.' })
+                    return
                 }
             }
-        } catch (error) {
-            console.error('Error during validation or update data:', error)
-            ErrorAlert({ message: 'Failed to validate or update supplier. Please try again later.' })
         }
-
-    }
+    } 
 
     return (
         <table className="table table-striped">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Input from '../Input'
 import Button from '../Button'
-import { SupplierValidation, ValidateData } from '../../Validation/Suppliers/SupplierValidation'
+import { SupplierValidation, ValidateData, StatusValidate } from '../../Validation/Suppliers/SupplierValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 
@@ -24,20 +24,13 @@ export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNum
         }
 
         const nameStatus = await handleName(newSupplier.name)
-        if (nameStatus === 200) {
-            ErrorAlert({ message: 'Name supplier already exists. Please use a different name.' })
-            return
-        }
-
         const emailStatus = await handleEmail(newSupplier.email)
-        if (emailStatus === 200) {
-            ErrorAlert({ message: 'Email already exists. Please use a different email.' })
-            return
-        }
-
         const phoneStatus = await handlePhoneNumber(newSupplier.phoneNumber)
-        if (phoneStatus === 200) {
-            ErrorAlert({ message: 'Phone number already exists. Please use a different number.' })
+
+        const validationStatus = StatusValidate(nameStatus, emailStatus, phoneStatus)
+
+        if (validationStatus) {
+            ErrorAlert({ message: validationStatus })
             return
         }
 

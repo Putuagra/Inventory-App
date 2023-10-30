@@ -5,12 +5,15 @@ const apiUrl = 'https://localhost:7020/api'
 export const getAll = async () => {
     try {
         const response = await axios.get(`${apiUrl}/User`)
-        return response.data.data
+        return response?.data?.data || []
     } catch (error) {
-        console.log(error)
-        throw error
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
     }
-};
+}
 
 export const create = async (userData) => {
     try {
@@ -20,7 +23,7 @@ export const create = async (userData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const update = async (updatedData) => {
     try {
@@ -30,7 +33,7 @@ export const update = async (updatedData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const remove = async (userId) => {
     try {
@@ -40,7 +43,7 @@ export const remove = async (userId) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const register = async (userData) => {
     try {
@@ -50,7 +53,7 @@ export const register = async (userData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const checkEmailAvailability = async (email) => {
     try {
@@ -62,4 +65,4 @@ export const checkEmailAvailability = async (email) => {
         }
         console.error('Error during API request:', error)
     }
-};
+}

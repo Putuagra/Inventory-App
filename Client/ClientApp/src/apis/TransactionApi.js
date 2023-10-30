@@ -5,19 +5,27 @@ const apiUrl = 'https://localhost:7020/api'
 export const getAllTransactions = async () => {
     try {
         const response = await axios.get(`${apiUrl}/Transaction`)
-        return response.data.data
+        return response?.data?.data || []
     } catch (error) {
-        throw error
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
     }
 }
 
 export const getTransactionByGuid = async (transactionGuid) => {
     try {
         const response = await axios.get(`${apiUrl}/Transaction/${transactionGuid}`)
-        return response.data.data
+        return response?.data?.data || null
     }
     catch (error) {
-        throw error
+        if (error.response.status === 404) {
+            return null
+        } else {
+            throw error
+        }
     }
 }
 
