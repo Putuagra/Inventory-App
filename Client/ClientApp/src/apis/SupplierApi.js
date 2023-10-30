@@ -5,12 +5,15 @@ const apiUrl = 'https://localhost:7020/api'
 export const getAllSuppliers = async () => {
     try {
         const response = await axios.get(`${apiUrl}/Supplier`)
-        return response.data.data
+        return response?.data?.data || []
     } catch (error) {
-        console.log(error)
-        throw error
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
     }
-};
+}
 
 export const create = async (userData) => {
     try {
@@ -20,7 +23,7 @@ export const create = async (userData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const update = async (updatedData) => {
     try {
@@ -30,7 +33,7 @@ export const update = async (updatedData) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const remove = async (supllierGuid) => {
     try {
@@ -40,7 +43,7 @@ export const remove = async (supllierGuid) => {
         console.log(error)
         throw error
     }
-};
+}
 
 export const checkEmailAvailability = async (email) => {
     try {
@@ -52,7 +55,7 @@ export const checkEmailAvailability = async (email) => {
         }
         console.error('Error during API request:', error)
     }
-};
+}
 
 export const checkPhoneAvailability = async (phoneNumber) => {
     try {
@@ -64,4 +67,16 @@ export const checkPhoneAvailability = async (phoneNumber) => {
         }
         console.error('Error during API request:', error)
     }
-};
+}
+
+export const checkName = async (name) => {
+    try {
+        const response = await axios.get(`${apiUrl}/Supplier/ByName/${name}`)
+        return response.status
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        console.error('Error during API request:', error)
+    }
+}
