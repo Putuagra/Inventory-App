@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Input from '../Input'
 import Button from '../Button'
-import Validation from '../../Validation/UserValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import { Validation, ValidateData } from '../../Validation/Users/UserValidation'
 
 export default function UserForm({ handleRegister, handleCheckEmail }) {
     const [newUser, setNewUser] = useState({ name: '', email: '', password: '', confirmPassword: '' })
@@ -16,14 +16,10 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
     };
 
     const handleRegisterUser = async () => {
-        const namePattern = /^[a-zA-Z]+$/
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-        
-        if (!newUser.name || !newUser.email) {
-            return
-        }
+        const validationError = ValidateData(newUser)
 
-        if (!namePattern.test(newUser.name) || !emailPattern.test(newUser.email)) {
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
@@ -32,7 +28,6 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
         if (emailStatus === 200) {
             ErrorAlert({ message: 'Email already exists. Please use a different email.' })
         } else if (emailStatus === 404) {
-            if (newUser.password.length >= 8 && newUser.confirmPassword.length >= 8) {
                 if (newUser.password === newUser.confirmPassword) {
                     try {
                         await handleRegister(newUser)
@@ -50,9 +45,6 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
                 } else {
                     ErrorAlert({ message: 'Password and Confirm Password do not match.' })
                 }
-            } else {
-                ErrorAlert({ message: 'Password must be at least 8 characters long.' })
-            }
         } else {
             ErrorAlert({ message: 'Failed to check email availability. Please try again later.' })
         }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from '../Button'
 import Input from '../Input'
 import Select from '../Select'
-import CategoryValidation from '../../Validation/CategoryValidation'
+import { CategoryValidation, ValidateData } from '../../Validation/Categories/CategoryValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 
@@ -13,16 +13,13 @@ export default function CategoryForm({ handleCreate, suppliers, handleDuplicate 
     const handleChange = (e) => {
         const { name, value } = e.target
         setNewCategory({ ...newCategory, [name]: value })
-    };
+    }
 
     const handleCreateCategory = async () => {
-        const namePattern = /^[a-zA-Z0-9\s]+$/
+        const validationError = ValidateData(newCategory)
 
-        if (!newCategory.name || !newCategory.supplierGuid) {
-            return
-        }
-
-        if (!namePattern.test(newCategory.name)) {
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 

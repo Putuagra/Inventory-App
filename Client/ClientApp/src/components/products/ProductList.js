@@ -4,6 +4,8 @@ import InputUpdate from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import DeleteAlert from '../DeleteAlert'
+import { ValidateData, ValidationDuplicate } from '../../Validation/Products/ProductValidation'
 
 export default function ProductList({ products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCheckProduct, handleCategoryAvailability }) {
 
@@ -21,71 +23,21 @@ export default function ProductList({ products, categories, suppliers, editingPr
     }
 
     const handleUpdateProduct = async (data) => {
-        const productPattern = /^[a-zA-Z0-9\s]+$/
-        const stockPattern = /^\d+$/
-        const pricePattern = /^\d+$/
-        const descriptionPattern = /^[a-zA-Z0-9\s]+$/
+        const validationError = ValidateData(data)
 
-        if (data.name === '' && data.stock === '' && data.price === '' && data.description === '' && data.supplierGuid === '' && data.categoryGuid === '') {
-            ErrorAlert({ message: 'Semua field harus diisi.' })
-            return
-        }
-
-        if (data.name === '') {
-            ErrorAlert({ message: 'Nama harus diisi.' })
-            return
-        } else if (!productPattern.test(data.name)) {
-            ErrorAlert({ message: 'Invalid format name.' })
-            return
-        }
-
-        if (data.supplierGuid === '') {
-            ErrorAlert({ message: 'Supplier harus diisi.' })
-            return
-        }
-
-        if (data.categoryGuid === '') {
-            ErrorAlert({ message: 'Category harus diisi.' })
-            return
-        }
-
-        if (data.stock === '') {
-            ErrorAlert({ message: 'Stock harus diisi.' })
-            return;
-        } else if (!stockPattern.test(data.stock)) {
-            ErrorAlert({ message: 'Invalid format stock.' })
-            return
-        }
-
-        if (data.price === '') {
-            ErrorAlert({ message: 'Price harus diisi.' })
-            return;
-        } else if (!pricePattern.test(data.price)) {
-            ErrorAlert({ message: 'Invalid format price.' })
-            return
-        }
-
-        if (data.description === '') {
-            ErrorAlert({ message: 'Description harus diisi.' })
-            return;
-        } else if (!descriptionPattern.test(data.description)) {
-            ErrorAlert({ message: 'Invalid format description.' })
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
         const status = await handleCheckProduct(data.name, data.supplierGuid, data.categoryGuid)
         const statusCategory = await handleCategoryAvailability(data.categoryGuid, data.supplierGuid)
         
-        if (status === 200 && name !== data.name) {
-            ErrorAlert({ message: 'Product Name already exists in this category and supplier.' })
-            return 
-        }
+        const validationDuplicate = ValidationDuplicate(data, name, supplier, status, statusCategory)
 
-        if (supplier !== data.supplierGuid) {
-            if (statusCategory === 404) {
-                ErrorAlert({ message: 'Category and supplier do not match.' })
-                return
-            }
+        if (validationDuplicate) {
+            ErrorAlert({ message: validationDuplicate })
+            return
         }
 
         if ((status === 404 && statusCategory === 200) || name === data.name) {
@@ -224,7 +176,7 @@ export default function ProductList({ products, categories, suppliers, editingPr
                                                 <Button
                                                     name="Delete"
                                                     className="btn btn-danger"
-                                                    onClick={() => handleDelete(data.guid)}
+                                                    onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                                 />
                                         </>
                                     )}
@@ -234,7 +186,7 @@ export default function ProductList({ products, categories, suppliers, editingPr
                         )
                     ) : (
                         <tr>
-                            <td colSpan="3">No user data available.</td>
+                            <td colSpan="3">No product available.</td>
                         </tr>
                     )
                 }

@@ -4,7 +4,7 @@ import Input from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
-import ProductValidation from '../../Validation/ProductValidation'
+import { ProductValidation, ValidateData, StatusValidate } from '../../Validation/Products/ProductValidation'
 
 export default function ProductForm({ handleCreate, suppliers, categories, handleCheckProduct }) {
     const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
@@ -25,25 +25,19 @@ export default function ProductForm({ handleCreate, suppliers, categories, handl
     }
 
     const handleCreateProduct = async () => {
-        const productPattern = /^[a-zA-Z0-9\s]+$/
-        const stockPattern = /^\d+$/
-        const pricePattern = /^\d+$/
-        const descriptionPattern = /^[a-zA-Z0-9\s]+$/
-        if (!newProduct.name || !newProduct.stock || !newProduct.price || !newProduct.description || !newProduct.supplierGuid || !newProduct.categoryGuid) {
-            return
-        }
+        const validationError = ValidateData(newProduct)
 
-        if (!productPattern.test(newProduct.name) ||
-            !stockPattern.test(newProduct.stock) ||
-            !pricePattern.test(newProduct.price) ||
-            !descriptionPattern.test(newProduct.description)
-        ) {
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
         const status = await handleCheckProduct(newProduct.name, newProduct.supplierGuid, newProduct.categoryGuid)
-        if (status === 200) {
-            ErrorAlert({ message: 'Product Name already exists in this category and supplier.' })
+        const validationStatus = StatusValidate(status)
+
+        if (validationStatus) {
+            ErrorAlert({ message: validationStatus })
+            return
         } else if (status === 404) {
             try {
                 await handleCreate(newProduct);

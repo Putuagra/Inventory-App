@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import Button from '../Button'
 import Input from '../Input'
 import Select from '../Select'
-import TransactionValidation from '../../Validation/TransactionValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import TransactionValidation from '../../Validation/Transactions/TransactionValidation'
 
 export default function TransactionForm({ handleCreate, products, users, handleUpdateStock }) {
     const [newTransaction, setNewTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })

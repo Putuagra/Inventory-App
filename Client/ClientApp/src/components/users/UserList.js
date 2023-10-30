@@ -1,59 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import InputUpdate from '../InputUpdate'
-import Button from '../Button';
-import SuccessAlert from '../SuccessAlert';
-import ErrorAlert from '../ErrorAlert';
+import Button from '../Button'
+import SuccessAlert from '../SuccessAlert'
+import ErrorAlert from '../ErrorAlert'
+import DeleteAlert from '../DeleteAlert'
+import { ValidateData, ValidationDuplicate } from '../../Validation/Users/UserValidation'
 
 export default function UserList({ users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCheckEmail }) {
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('')
 
     const handleEmailEdit = (guid) => {
         const userToEdit = users.find((user) => user.guid === guid);
-        setEmail(userToEdit.email);
-    };
+        setEmail(userToEdit.email)
+    }
 
     const handleUpdateUser = async (data) => {
-        const namePattern = /^[a-zA-Z]+$/;
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        const validationError = ValidateData(data)
 
-        if (data.name === '' && data.email === '') {
-            ErrorAlert({ message: 'Nama dan Email harus diisi.' });
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
-        if (data.name === '') {
-            ErrorAlert({ message: 'Nama harus diisi.' });
+        const emailStatus = await handleCheckEmail(data.email)
+        const validateDuplicate = ValidationDuplicate(data, emailStatus, email)
+        if (validateDuplicate) {
+            ErrorAlert({ message: validateDuplicate })
             return
-        } else if (!namePattern.test(data.name)) {
-            ErrorAlert({ message: 'Invalid format name.' });
-            return
-        }
-
-        if (data.email === '') {
-            ErrorAlert({ message: 'Email harus diisi.' });
-            return
-        } else if (!emailPattern.test(data.email)) {
-            ErrorAlert({ message: 'Invalid format email.' });
-            return
-        }
-
-        const emailStatus = await handleCheckEmail(data.email);
-
-        if (emailStatus === 200 && email !== data.email) {
-            ErrorAlert({ message: 'Email already exists. Please use a different email.' });
         } else if (emailStatus === 404 || email === data.email) { 
             try {
                 await handleUpdate(data)
-                SuccessAlert({ message: 'Update data successful.' });
+                SuccessAlert({ message: 'Update data successful.' })
             } catch (error) {
                 console.error('Error during update data:', error);
-                ErrorAlert({ message: 'Failed to update user. Please try again later.' });
+                ErrorAlert({ message: 'Failed to update user. Please try again later.' })
             }
         } else {
-            ErrorAlert({ message: 'Failed to check email availability. Please try again later.' });
+            ErrorAlert({ message: 'Failed to check email availability. Please try again later.' })
         }  
-    };
+    }
     return (
         <table className="table table-striped">
             <thead>
@@ -111,7 +97,7 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
-                                                onClick={() => handleDelete(data.guid)}
+                                                onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                         </>
                                 )}

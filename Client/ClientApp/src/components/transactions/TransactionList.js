@@ -4,6 +4,7 @@ import Input from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import DeleteAlert from '../DeleteAlert'
 
 const cardStyle = {
     maxWidth: '18rem',
@@ -115,7 +116,7 @@ export default function TransactionList({ products, users, transactions, editing
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
-                                                onClick={() => handleDelete(data.guid)}
+                                                onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                     </>
                                 )}

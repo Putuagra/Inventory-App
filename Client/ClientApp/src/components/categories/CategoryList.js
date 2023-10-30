@@ -4,6 +4,8 @@ import InputUpdate from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import DeleteAlert from '../DeleteAlert'
+import { ValidateData, ValidationDuplicate } from '../../Validation/Categories/CategoryValidation'
 
 export default function CategoryList({ categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleDuplicate }) {
 
@@ -15,42 +17,30 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
     }
 
     const handleUpdateCategory = async (data) => {
-        const namePattern = /^[a-zA-Z0-9\s]+$/
+        const validationError = ValidateData(data)
 
-        if (data.name === '' && data.supplierGuid === '') {
-            ErrorAlert({ message: 'Semua field harus diisi.' })
-            return
-        }
-
-        if (data.name === '') {
-            ErrorAlert({ message: 'Nama harus diisi.' })
-            return
-        } else if (!namePattern.test(data.name)) {
-            ErrorAlert({ message: 'Invalid format name.' })
-            return
-        }
-
-        if (data.supplierGuid === '') {
-            ErrorAlert({ message: 'Supplier harus diisi.' })
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
         const status = await handleDuplicate(data.name, data.supplierGuid)
+        const validationDuplicateResult = ValidationDuplicate(data, status, category)
 
-        if (status === 200 && category !== data.name) {
-            ErrorAlert({ message: 'Category name already exists in this supplier.' })
+        if (validationDuplicateResult) {
+            ErrorAlert({ message: validationDuplicateResult })
             return
-        }
-
-        if (status === 404  || category === data.name) {
-            try {
-                await handleUpdate(data)
-                SuccessAlert({ message: 'Update category successful.' })
-            } catch (error) {
-                console.error('Error during update:', error)
-                ErrorAlert({ message: 'Failed to update category. Please try again later.' })
-            }
-        } 
+        } else {
+            if (status === 404 || category === data.name) {
+                try {
+                    await handleUpdate(data)
+                    SuccessAlert({ message: 'Update category successful.' })
+                } catch (error) {
+                    console.error('Error during update:', error)
+                    ErrorAlert({ message: 'Failed to update category. Please try again later.' })
+                }
+            } 
+        }  
     }
 
     return (
@@ -111,7 +101,7 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
-                                                onClick={() => handleDelete(data.guid)}
+                                                onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                     </>
                                 )}
@@ -120,10 +110,10 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="3">No user data available.</td>
+                        <td colSpan="3">No category available.</td>
                     </tr>
                 )}
             </tbody>
         </table>
-    );
+    )
 }
