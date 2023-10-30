@@ -3,89 +3,68 @@ import InputUpdate from '../InputUpdate'
 import Button from '../Button'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import DeleteAlert from '../DeleteAlert'
+import ValidateData from '../../Validation/Suppliers/SupplierPattern'
+import ValidationDuplicate from '../../Validation/Suppliers/SupplierDuplicate'
 
-export default function SupplierList({ suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleEmail, handlePhoneNumber }) {
+export default function SupplierList({ suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleEmail, handlePhoneNumber, handleName }) {
 
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [name, setName] = useState('')
 
     const handleEmailEdit = (guid) => {
         const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid)
         setEmail(supplierToEdit.email)
-    };
+    }
 
     const handlePhoneNumberEdit = (guid) => {
         const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid)
         setPhoneNumber(supplierToEdit.phoneNumber)
-    };
+    }
+
+    const handleNameEdit = (guid) => {
+        const supplierToEdit = suppliers.find((supplier) => supplier.guid === guid)
+        setName(supplierToEdit.name)
+    }
 
     const handleUpdateSupplier = async (data) => {
-        const namePattern = /^[a-zA-Z0-9]+$/
-        const addressPattern = /^[a-zA-Z0-9\s]+$/
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-        const phoneNumberPattern = /^\+[1-9]\d{1,20}$/
 
-        if (data.name === '' && data.email === '' && data.address === '' && data.phoneNumber === '') {
-            ErrorAlert({ message: 'Semua field harus diisi.' })
-            return
-        }
+        const validationError = ValidateData(data)
 
-        if (data.name === '') {
-            ErrorAlert({ message: 'Nama harus diisi.' })
-            return
-        } else if (!namePattern.test(data.name)) {
-            ErrorAlert({ message: 'Invalid format name.' })
-            return
-        }
-
-        if (data.email === '') {
-            ErrorAlert({ message: 'Email harus diisi.' })
-            return;
-        } else if (!emailPattern.test(data.email)) {
-            ErrorAlert({ message: 'Invalid format email.' })
-            return
-        }
-
-        if (data.address === '') {
-            ErrorAlert({ message: 'Address harus diisi.' })
-            return;
-        } else if (!addressPattern.test(data.address)) {
-            ErrorAlert({ message: 'Invalid format address.' })
-            return
-        }
-
-        if (data.phoneNumber === '') {
-            ErrorAlert({ message: 'Phone number harus diisi.' })
-            return;
-        } else if (!phoneNumberPattern.test(data.phoneNumber)) {
-            ErrorAlert({ message: 'Invalid format phone number.' })
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
 
         const emailStatus = await handleEmail(data.email)
         const phoneStatus = await handlePhoneNumber(data.phoneNumber)
+        const nameStatus = await handleName(data.name)
 
-        if (emailStatus === 200 && email !== data.email) {
-            ErrorAlert({ message: 'Email already exists. Please use a different email.' })
-        } else {
-            ErrorAlert({ message: 'Failed to check email availability. Please try again later.' })
-        }
+        try {
+            const validationDuplicateResult = await ValidationDuplicate(data, name, email, phoneNumber, emailStatus, phoneStatus, nameStatus)
 
-        if (phoneStatus === 200 && phoneNumber !== data.phoneNumber) {
-            ErrorAlert({ message: 'Phone number already exists. Please use a different number.' })
-        } else {
-            ErrorAlert({ message: 'Failed to check phone number availability. Please try again later.' })
-        }
-
-        if ((emailStatus === 404 && phoneStatus === 404) || email === data.email || phoneNumber === data.phoneNumber) {
-            try {
-                await handleUpdate(data)
-                SuccessAlert({ message: 'Update data successful.' })
-            } catch (error) {
-                console.error('Error during update data:', error);
-                ErrorAlert({ message: 'Failed to update supplier. Please try again later.' })
+            if (validationDuplicateResult) {
+                ErrorAlert({ message: validationDuplicateResult })
+                return
+            } else {
+                if ((emailStatus === 404 && phoneStatus === 404 && nameStatus === 404) || email === data.email || phoneNumber === data.phoneNumber || name === data.name) {
+                    try {
+                        await handleUpdate(data)
+                        SuccessAlert({ message: 'Update data successful.' })
+                        return
+                    } catch (error) {
+                        console.error('Error during update data:', error)
+                        ErrorAlert({ message: 'Failed to update supplier. Please try again later.' })
+                        return
+                    }
+                }
             }
+        } catch (error) {
+            console.error('Error during validation or update data:', error)
+            ErrorAlert({ message: 'Failed to validate or update supplier. Please try again later.' })
         }
+
     }
 
     return (
@@ -166,13 +145,14 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
                                                 onClick={() => {
                                                     handleEmailEdit(data.guid)
                                                     handlePhoneNumberEdit(data.guid)
+                                                    handleNameEdit(data.guid)
                                                     handleEdit(data.guid)
                                                 }}
                                             />
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
-                                                onClick={() => handleDelete(data.guid)}
+                                                onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                     </>
                                 )}
@@ -181,7 +161,7 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="3">No user data available.</td>
+                        <td colSpan="3">No supplier available.</td>
                     </tr>
                 )}
             </tbody>
