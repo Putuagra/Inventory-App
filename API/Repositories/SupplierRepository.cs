@@ -24,4 +24,9 @@ public class SupplierRepository : GeneralRepository<Supplier>, ISupplierReposito
     {
         return Context.Set<Supplier>().FirstOrDefault(u => u.PhoneNumber == phone);
     }
+
+    public Supplier? GetSupplierByName(string name)
+    {
+        return Context.Set<Supplier>().FirstOrDefault(u => u.Name == name);
+    }
 }
