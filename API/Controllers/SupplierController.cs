@@ -115,6 +115,30 @@ public class SupplierController : ControllerBase
         });
     }
 
+    [HttpGet("ByName/{name}")]
+    public IActionResult GetName(string name)
+    {
+        var supplier = _service.Get(name);
+
+        if (supplier is null)
+        {
+            return NotFound(new ResponseHandler<SupplierDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Supplier not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<SupplierDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Supplier found",
+            Data = supplier
+        });
+    }
+
     [HttpPost]
     public IActionResult Create(SupplierDtoCreate supplierDtoCreate)
     {
