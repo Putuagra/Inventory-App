@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getAllSuppliers, create, update, remove, checkEmailAvailability, checkPhoneAvailability } from '../apis/SupplierApi'
+import { getAllSuppliers, create, update, remove, checkEmailAvailability, checkPhoneAvailability, checkName } from '../apis/SupplierApi'
 import SupplierList from '../components/suppliers/SupplierList'
 import SupplierForm from '../components/suppliers/SupplierForm'
 
@@ -76,11 +76,13 @@ export default function SupplierRepositories() {
                 handleDelete={handleDelete}
                 handleEmail={checkEmailAvailability}
                 handlePhoneNumber={checkPhoneAvailability}
+                handleName={checkName}
             />
             <SupplierForm
                 handleCreate={handleCreate}
                 handleEmail={checkEmailAvailability}
                 handlePhoneNumber={checkPhoneAvailability}
+                handleName={checkName}
             />
         </div>
     );
