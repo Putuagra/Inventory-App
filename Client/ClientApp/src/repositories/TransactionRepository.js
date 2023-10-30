@@ -20,7 +20,11 @@ export default function TransactionRepository(){
     const fetchData = async () => {
         try {
             const data = await getAllTransactions()
-            setTransactions(data)
+            if (data) {
+                setTransactions(data)
+            } else {
+                console.log("Data not found")
+            }  
         } catch (error) {
             console.error("Error fetching data: ", error)
         }
