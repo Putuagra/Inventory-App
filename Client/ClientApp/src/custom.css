@@ -35,3 +35,32 @@ code {
 .error-label{
     color: red
 }
+
+nav {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    nav li {
+        margin: 0 15px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+        nav a:hover {
+            color: #0056b3;
+        }
