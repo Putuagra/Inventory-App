@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getAll, create, update, remove, register, checkEmailAvailability } from '../apis/UserAPI'
 import UserForm from '../components/users/UserForm'
 import UserList from '../components/users/UserList'
+import Navigate from '../components/Navigate'
 
 export default function UserRepository() {
     const [users, setUsers] = useState([])
@@ -71,6 +72,7 @@ export default function UserRepository() {
 
     return (
         <div className="container">
+            <Navigate/>
             <h1>Users</h1>
             <UserList
                 users={users}

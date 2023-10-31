@@ -4,6 +4,7 @@ import { getAllProducts, updateStock } from '../apis/ProductApi'
 import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
 import TransactionList from '../components/transactions/TransactionList'
 import TransactionForm from '../components/transactions/TransactionForm'
+import Navigate from '../components/Navigate'
 
 export default function TransactionRepository(){
     const [products, setProducts] = useState([])
@@ -132,6 +133,7 @@ export default function TransactionRepository(){
 
     return (
         <div className="container">
+            <Navigate />
             <h1>Transactions</h1>
             <TransactionList
                 products={products}

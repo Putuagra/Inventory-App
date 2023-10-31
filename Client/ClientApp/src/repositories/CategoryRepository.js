@@ -3,6 +3,7 @@ import { getAll, create, update, remove, checkAvailability, checkDuplicate } fro
 import { getAllSuppliers } from '../apis/SupplierApi'
 import CategoryList from '../components/categories/CategoryList'
 import CategoryForm from '../components/categories/CategoryForm'
+import Navigate from '../components/Navigate'
 
 export default function CategoryRepository() {
     const [suppliers, setSuppliers] = useState([]);
@@ -79,6 +80,7 @@ export default function CategoryRepository() {
 
     return (
         <div className="container">
+            <Navigate />
             <h1>Categories</h1>
             <CategoryList
                 categories={categories}

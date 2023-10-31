@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getAllSuppliers, create, update, remove, checkEmailAvailability, checkPhoneAvailability, checkName } from '../apis/SupplierApi'
 import SupplierList from '../components/suppliers/SupplierList'
 import SupplierForm from '../components/suppliers/SupplierForm'
+import Navigate from '../components/Navigate'
 
 export default function SupplierRepositories() {
     const [suppliers, setSuppliers] = useState([])
@@ -66,6 +67,7 @@ export default function SupplierRepositories() {
 
     return (
         <div className="container">
+            <Navigate/>
             <h1>Suppliers</h1>
             <SupplierList
                 suppliers={suppliers}

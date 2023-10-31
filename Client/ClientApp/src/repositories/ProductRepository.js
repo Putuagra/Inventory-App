@@ -4,6 +4,7 @@ import { getAll, checkAvailability} from '../apis/CategoryApi'
 import { getAllProducts, create, update, remove, checkProductAvailability } from '../apis/ProductApi'
 import ProductForm from '../components/products/ProductForm'
 import ProductList from '../components/products/ProductList'
+import Navigate from '../components/Navigate'
 
 export default function ProductRepository() {
     const [products, setProducts] = useState([])
@@ -91,6 +92,7 @@ export default function ProductRepository() {
 
     return (
         <div className="container">
+            <Navigate />
             <h1>Products</h1>
             <ProductList
                 products={products}
