@@ -59,6 +59,7 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
     return (
         <div className="row">
             <div className="col-lg-12" noValidate>
+                <h1>Register</h1>
                 <form
                     onSubmit={handleValidation}
                     className="row g-3 needs-validation"
@@ -96,7 +97,7 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
                         errors={errors.confirmPassword }
                     />
                     <Button
-                        name="Add User"
+                        name="Register"
                         className="btn btn-primary"
                     />
                 </form>

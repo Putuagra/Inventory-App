@@ -51,6 +51,7 @@ export default function TransactionForm({ handleCreate, products, users, handleU
     return (
         <div className="row">
             <div className="col-lg-12" noValidate>
+                <h1>Add Transaction</h1>
                 <form
                     onSubmit={handleValidation}
                     className="row g-3 needs-validation" 
