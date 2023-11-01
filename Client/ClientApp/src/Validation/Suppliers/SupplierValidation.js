@@ -1,4 +1,4 @@
-const namePattern = /^[a-zA-Z0-9]+$/
+const namePattern = /^[a-zA-Z0-9\s]+$/
 const addressPattern = /^[a-zA-Z0-9\s]+$/
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
 const phoneNumberPattern = /^\+[1-9]\d{1,20}$/
