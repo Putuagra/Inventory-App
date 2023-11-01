@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { getAll, create, update, remove, register, checkEmailAvailability } from '../apis/UserAPI'
-import UserForm from '../components/users/UserForm'
-import UserList from '../components/users/UserList'
-import Navigate from '../components/Navigate'
+import { useState, useEffect } from 'react'
+import { getAll, create, update, remove, register } from '../apis/UserAPI'
 
 export default function UserRepository() {
     const [users, setUsers] = useState([])
@@ -47,7 +44,7 @@ export default function UserRepository() {
         } catch (error) {
             console.error('Error editing user:', error)
         }
-    };
+    }
 
     const handleDelete = async (userGuid) => {
         try {
@@ -59,7 +56,7 @@ export default function UserRepository() {
         } catch (error) {
             console.error('Error deleting user:', error)
         }
-    };
+    }
 
     const handleRegister = async (newUser) => {
         try {
@@ -68,25 +65,7 @@ export default function UserRepository() {
         } catch (error) {
             console.error("Error create user", error)
         }
-    };
+    }
 
-    return (
-        <div className="container">
-            <Navigate/>
-            <h1>Users</h1>
-            <UserList
-                users={users}
-                editingUser={editingUser}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                handleCheckEmail={checkEmailAvailability}
-            />
-            <UserForm
-                handleRegister={handleRegister}
-                handleCheckEmail={checkEmailAvailability}
-            />
-        </div>
-    )
+    return { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, handleRegister }
 }

@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getAllSuppliers } from '../apis/SupplierApi'
-import { getAll, checkAvailability} from '../apis/CategoryApi'
-import { getAllProducts, create, update, remove, checkProductAvailability } from '../apis/ProductApi'
-import ProductForm from '../components/products/ProductForm'
-import ProductList from '../components/products/ProductList'
-import Navigate from '../components/Navigate'
+import { getAll} from '../apis/CategoryApi'
+import { getAllProducts, create, update, remove } from '../apis/ProductApi'
 
 export default function ProductRepository() {
     const [products, setProducts] = useState([])
@@ -90,28 +87,7 @@ export default function ProductRepository() {
         }
     }
 
-    return (
-        <div className="container">
-            <Navigate />
-            <h1>Products</h1>
-            <ProductList
-                products={products}
-                categories={categories}
-                suppliers={suppliers}
-                editingProduct={editingProduct}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                handleCheckProduct={checkProductAvailability}
-                handleCategoryAvailability={checkAvailability}
-            />
-            <ProductForm
-                handleCreate={handleCreate}
-                suppliers={suppliers}
-                categories={categories}
-                handleCheckProduct={checkProductAvailability}
-            />
-        </div>
-    )
+    return {
+        products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+    }
 }

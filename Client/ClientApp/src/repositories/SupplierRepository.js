@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { getAllSuppliers, create, update, remove, checkEmailAvailability, checkPhoneAvailability, checkName } from '../apis/SupplierApi'
-import SupplierList from '../components/suppliers/SupplierList'
-import SupplierForm from '../components/suppliers/SupplierForm'
-import Navigate from '../components/Navigate'
+import { useState, useEffect } from 'react'
+import { getAllSuppliers, create, update, remove } from '../apis/SupplierApi'
 
 export default function SupplierRepositories() {
     const [suppliers, setSuppliers] = useState([])
@@ -64,28 +61,7 @@ export default function SupplierRepositories() {
             console.error('Error deleting supplier:', error)
         }
     }
-
-    return (
-        <div className="container">
-            <Navigate/>
-            <h1>Suppliers</h1>
-            <SupplierList
-                suppliers={suppliers}
-                editingSupplier={editingSupplier}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                handleEmail={checkEmailAvailability}
-                handlePhoneNumber={checkPhoneAvailability}
-                handleName={checkName}
-            />
-            <SupplierForm
-                handleCreate={handleCreate}
-                handleEmail={checkEmailAvailability}
-                handlePhoneNumber={checkPhoneAvailability}
-                handleName={checkName}
-            />
-        </div>
-    );
+    return {
+        suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+    }
 }

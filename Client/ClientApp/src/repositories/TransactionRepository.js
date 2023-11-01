@@ -131,27 +131,7 @@ export default function TransactionRepository(){
         }
     }
 
-    return (
-        <div className="container">
-            <Navigate />
-            <h1>Transactions</h1>
-            <TransactionList
-                products={products}
-                users={users}
-                transactions={transactions}
-                editingTransaction={editingTransaction}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                handleUpdateStock={handleUpdateStock}
-            />
-            <TransactionForm
-                handleCreate={handleCreate}
-                products={products}
-                users={users}
-                handleUpdateStock={handleUpdateStock}
-            />
-        </div>
-    )
+    return {
+        products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete, handleUpdateStock, handleCreate
+    }
 }

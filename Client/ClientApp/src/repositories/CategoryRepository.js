@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getAll, create, update, remove, checkAvailability, checkDuplicate } from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
-import CategoryList from '../components/categories/CategoryList'
-import CategoryForm from '../components/categories/CategoryForm'
-import Navigate from '../components/Navigate'
 
 export default function CategoryRepository() {
     const [suppliers, setSuppliers] = useState([]);
@@ -77,26 +74,7 @@ export default function CategoryRepository() {
             console.error('Error deleting category:', error)
         }
     }
-
-    return (
-        <div className="container">
-            <Navigate />
-            <h1>Categories</h1>
-            <CategoryList
-                categories={categories}
-                suppliers={suppliers}
-                editingCategory={editingCategory}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
-                handleDelete={handleDelete}
-                handleDuplicate={checkDuplicate}
-            />
-            <CategoryForm
-                handleCreate={handleCreate}
-                suppliers={suppliers}
-                handleDuplicate={checkDuplicate}
-            />
-        </div>
-    );
+    return {
+        categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+    }
 }
