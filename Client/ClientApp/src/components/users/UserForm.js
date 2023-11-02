@@ -36,7 +36,7 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
                             email: '',
                             password: '',
                             confirmPassword: '',
-                        });
+                        })
                         SuccessAlert({ message: 'Registration successful.' })
                     } catch (error) {
                         console.error('Error during registration:', error);
