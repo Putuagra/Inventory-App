@@ -75,5 +75,5 @@ export default function CategoryForm({ handleCreate, suppliers, handleDuplicate 
                 </form>
             </div>
         </div>
-    );
+    )
 }
