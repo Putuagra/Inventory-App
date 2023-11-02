@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 
-const SuccessAlert = ({ message }) => {
+const SuccessAlert = (props) => {
+    const {message } = props
     Swal.fire({
         icon: 'success',
         title: message,

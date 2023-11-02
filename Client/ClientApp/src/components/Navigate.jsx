@@ -1,23 +1,33 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const Navigate = () => {
     return (
         <nav>
             <ul>
                 <li>
-                    <Link to="/">Products</Link>
+                    <NavLink to="/" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Products</NavLink>
                 </li>
                 <li>
-                    <Link to="/supplier">Suppliers</Link>
+                    <NavLink to="/supplier" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Suppliers</NavLink>
                 </li>
                 <li>
-                    <Link to="/category">Categories</Link>
+                    <NavLink to="/category" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Categories</NavLink>
                 </li>
                 <li>
-                    <Link to="/user">Users</Link>
+                    <NavLink to="/user" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Users</NavLink>
                 </li>
                 <li>
-                    <Link to="/transaction">Transactions</Link>
+                    <NavLink to="/transaction" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Transactions</NavLink>
                 </li>
             </ul>
         </nav>

@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Select = ({ name, label, value, onChange, options }) => {
+const Select = (props) => {
+    const { name, label, value, onChange, options } = props
     return (
         <div className="col-md-5">
             <label className="form-label">{label}</label>

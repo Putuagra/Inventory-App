@@ -1,10 +1,9 @@
 import React from 'react'
 
-const InputUpdate = ({
-    type,
-    value,
-    onChange,
-}) => {
+const InputUpdate = (props) => {
+    const { type,
+        value,
+        onChange, } = props
     return (
         <div className="col-md-11">
             <input

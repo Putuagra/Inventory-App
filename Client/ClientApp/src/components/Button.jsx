@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Button = ({ name, className, onClick }) => {
+const Button = (props) => {
+    const { name, className, onClick } = props
     return (
         <div className="col-md-8">
             <button

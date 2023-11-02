@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 
-const DeleteAlert = async ({ handleDelete, guid }) => {
+const DeleteAlert = async (props) => {
+    const { guid, handleDelete } = props
     const result = await Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
