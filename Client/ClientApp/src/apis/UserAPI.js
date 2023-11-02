@@ -55,6 +55,16 @@ export const register = async (userData) => {
     }
 }
 
+export const login = async (userData) => {
+    try {
+        const response = await axios.post(`${apiUrl}/User/login`, userData)
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 export const checkEmailAvailability = async (email) => {
     try {
         const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`)
