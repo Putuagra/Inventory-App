@@ -10,6 +10,7 @@ import AddCategory from './pages/AddCategory'
 import AddProduct from './pages/AddProduct'
 import AddSupplier from './pages/AddSupplier'
 import AddTransaction from './pages/AddTransaction'
+import LoginPage from './pages/LoginPage'
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/add-category" element={<AddCategory />} />
                     <Route path="/add-product" element={<AddProduct />} />
                     <Route path="/add-transaction" element={<AddTransaction />} />
+                    <Route path="/login" element={<LoginPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
