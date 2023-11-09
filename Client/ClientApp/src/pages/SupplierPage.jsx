@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import SupplierRepository from "../repositories/SupplierRepository"
 import Navigate from "../components/Navigate"
 import SupplierList from "../components/suppliers/SupplierList"
+import Authenticated from "../components/IsAuthenticated"
 
 const SupplierPage = () => {
     const navigate = useNavigate()
@@ -11,6 +12,7 @@ const SupplierPage = () => {
     const handleAddSupplierClick = () => {
         navigate("/add-supplier")
     }
+    Authenticated()
     return (
         <div className="container">
             <Navigate />

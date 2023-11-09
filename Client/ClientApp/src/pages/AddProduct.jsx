@@ -3,14 +3,16 @@ import ProductRepository from "../repositories/ProductRepository"
 import Button from "../components/Button"
 import ProductForm from '../components/products/ProductForm'
 import { checkProductAvailability } from '../apis/ProductApi'
+import Authenticated from '../components/IsAuthenticated'
 
 
 const AddCategory = () => {
     const navigate = useNavigate()
     const handleProductClick = () => {
-        navigate("/")
+        navigate("/product")
     }
     const { handleCreate, suppliers, categories } = ProductRepository()
+    Authenticated()
     return (
         <div>
             <ProductForm

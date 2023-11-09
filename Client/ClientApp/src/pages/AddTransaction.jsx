@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from "../components/Button"
 import TransactionRepository from "../repositories/TransactionRepository"
 import TransactionForm from '../components/transactions/TransactionForm'
+import Authenticated from '../components/IsAuthenticated'
 
 const AddTransaction = () => {
     const navigate = useNavigate()
@@ -9,6 +10,7 @@ const AddTransaction = () => {
         navigate("/transaction")
     }
     const { handleCreate, products, users, handleUpdateStock } = TransactionRepository()
+    Authenticated()
     return (
         <div>
             <TransactionForm

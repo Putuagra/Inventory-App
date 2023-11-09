@@ -1,10 +1,12 @@
 import { checkEmailAvailability } from "../apis/UserAPI"
+import Authenticated from "../components/IsAuthenticated"
 import Navigate from "../components/Navigate"
 import UserList from "../components/users/UserList"
 import UserRepository from "../repositories/UserRepository"
 
 const UserPage = () => {
     const { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete } = UserRepository()
+    Authenticated()
     return (
         <div className="container">
             <Navigate />
