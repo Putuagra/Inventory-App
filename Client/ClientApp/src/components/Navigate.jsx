@@ -5,7 +5,7 @@ const Navigate = () => {
         <nav>
             <ul>
                 <li>
-                    <NavLink to="/" className={({ isActive }) =>
+                    <NavLink to="/product" className={({ isActive }) =>
                         isActive ? 'active' : ''
                     }>Products</NavLink>
                 </li>
