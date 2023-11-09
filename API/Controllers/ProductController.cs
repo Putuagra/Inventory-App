@@ -3,6 +3,7 @@ using API.DataTransferObjects.Products;
 using API.DataTransferObjects.Transactions;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly ProductService _productService;

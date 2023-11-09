@@ -1,6 +1,7 @@
 ﻿using API.DataTransferObjects.Users;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,6 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
@@ -177,6 +179,7 @@ public class UserController : ControllerBase
         });
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Regiter(UserDtoRegister userDtoRegister)
     {
@@ -198,6 +201,7 @@ public class UserController : ControllerBase
         });
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public IActionResult Login(UserDtoLogin userDtoLogin)
     {
