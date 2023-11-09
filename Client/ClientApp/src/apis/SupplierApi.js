@@ -1,10 +1,14 @@
 import axios from "axios"
 
 const apiUrl = 'https://localhost:7020/api'
+const token = localStorage.getItem('authToken')
+const headers = {
+    'Authorization': `Bearer ${token}`
+}
 
-export const getAllSuppliers = async () => {
+export const getAllSuppliers = async (token) => {
     try {
-        const response = await axios.get(`${apiUrl}/Supplier`)
+        const response = await axios.get(`${apiUrl}/Supplier`, { headers })
         return response?.data?.data || []
     } catch (error) {
         if (error.response.status === 404) {
@@ -17,7 +21,7 @@ export const getAllSuppliers = async () => {
 
 export const create = async (userData) => {
     try {
-        const response = await axios.post(`${apiUrl}/Supplier`, userData)
+        const response = await axios.post(`${apiUrl}/Supplier`, userData, { headers })
         return response.data
     } catch (error) {
         console.log(error)
@@ -27,7 +31,7 @@ export const create = async (userData) => {
 
 export const update = async (updatedData) => {
     try {
-        const response = await axios.put(`${apiUrl}/Supplier`, updatedData)
+        const response = await axios.put(`${apiUrl}/Supplier`, updatedData, { headers })
         return response.data
     } catch (error) {
         console.log(error)
@@ -37,7 +41,7 @@ export const update = async (updatedData) => {
 
 export const remove = async (supllierGuid) => {
     try {
-        const response = await axios.delete(`${apiUrl}/Supplier/${supllierGuid}`)
+        const response = await axios.delete(`${apiUrl}/Supplier/${supllierGuid}`, { headers })
         return response.data
     } catch (error) {
         console.log(error)
@@ -47,7 +51,7 @@ export const remove = async (supllierGuid) => {
 
 export const checkEmailAvailability = async (email) => {
     try {
-        const response = await axios.get(`${apiUrl}/Supplier/ByEmail/${email}`)
+        const response = await axios.get(`${apiUrl}/Supplier/ByEmail/${email}`, { headers })
         return response.status
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -59,7 +63,7 @@ export const checkEmailAvailability = async (email) => {
 
 export const checkPhoneAvailability = async (phoneNumber) => {
     try {
-        const response = await axios.get(`${apiUrl}/Supplier/ByPhone/${phoneNumber}`)
+        const response = await axios.get(`${apiUrl}/Supplier/ByPhone/${phoneNumber}`, { headers })
         return response.status
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -71,7 +75,7 @@ export const checkPhoneAvailability = async (phoneNumber) => {
 
 export const checkName = async (name) => {
     try {
-        const response = await axios.get(`${apiUrl}/Supplier/ByName/${name}`)
+        const response = await axios.get(`${apiUrl}/Supplier/ByName/${name}`, { headers })
         return response.status
     } catch (error) {
         if (error.response && error.response.status === 404) {
