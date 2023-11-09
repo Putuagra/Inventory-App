@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { getAll, create, update, remove, checkAvailability, checkDuplicate } from '../apis/CategoryApi'
+import { useState, useEffect } from 'react'
+import { getAll, create, update, remove} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
 
 export default function CategoryRepository() {
@@ -20,7 +20,7 @@ export default function CategoryRepository() {
         catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const fetchDataSuppliers = async () => {
         try {
@@ -30,7 +30,7 @@ export default function CategoryRepository() {
         catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const handleCreate = async (newCategory) => {
         try {
@@ -40,16 +40,16 @@ export default function CategoryRepository() {
         catch (error) {
             console.error("Error create category", error)
         }
-    };
+    }
 
     const handleEdit = (categoryGuid) => {
         setEditingCategory(categoryGuid)
-    };
+    }
 
     const handleInputChange = (categoryGuid, field, value) => {
         const updatedCategories = categories.map((category) => (category.guid === categoryGuid ? { ...category, [field]: value } : category))
         setCategories(updatedCategories)
-    };
+    }
 
     const handleUpdate = async (updatedCategory) => {
         try {

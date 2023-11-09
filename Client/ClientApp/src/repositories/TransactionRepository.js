@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getAll } from '../apis/UserAPI'
 import { getAllProducts, updateStock } from '../apis/ProductApi'
 import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
-import TransactionList from '../components/transactions/TransactionList'
-import TransactionForm from '../components/transactions/TransactionForm'
-import Navigate from '../components/Navigate'
 
 export default function TransactionRepository(){
     const [products, setProducts] = useState([])
