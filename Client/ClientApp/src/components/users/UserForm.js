@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Input from '../Input'
 import Button from '../Button'
 import SuccessAlert from '../SuccessAlert'
@@ -6,6 +7,10 @@ import ErrorAlert from '../ErrorAlert'
 import { Validation, ValidateData } from '../../Validation/Users/UserValidation'
 
 export default function UserForm({ handleRegister, handleCheckEmail }) {
+    const navigate = useNavigate()
+    const handleLoginClick = () => {
+        navigate("/login")
+    }
     const [newUser, setNewUser] = useState({ name: '', email: '', password: '', confirmPassword: '' })
 
     const [errors, setErrors] = useState({})
@@ -57,8 +62,8 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
     }
 
     return (
-        <div className="row">
-            <div className="col-lg-12" noValidate>
+        <div className="container-register">
+            <div className="register-form" noValidate>
                 <h1>Register</h1>
                 <form
                     onSubmit={handleValidation}
@@ -95,12 +100,18 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
                         value={newUser.confirmPassword}
                         onChange={handleChange}
                         errors={errors.confirmPassword }
-                    />
+                        />
                     <Button
                         name="Register"
                         className="btn btn-primary"
-                    />
+                        />
                 </form>
+                <br></br>
+                <Button
+                    name="Login"
+                    className="btn btn-success"
+                    onClick={handleLoginClick}
+                />
             </div>
         </div>
     )
