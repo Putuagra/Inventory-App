@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import Button from "../components/Button"
 import CategoryRepository from "../repositories/CategoryRepository"
 import CategoryForm from "../components/categories/CategoryForm"
-import Authenticated from "../components/IsAuthenticated"
 
 const AddCategory = () => {
     const navigate = useNavigate()
@@ -11,7 +10,6 @@ const AddCategory = () => {
         navigate("/category")
     }
     const { handleCreate, suppliers } = CategoryRepository()
-    Authenticated()
     return (
         <div>
             <CategoryForm

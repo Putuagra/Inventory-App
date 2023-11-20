@@ -5,7 +5,6 @@ import ProductRepository from "../repositories/ProductRepository"
 import Button from "../components/Button"
 import Navigate from "../components/Navigate"
 import ProductList from "../components/products/ProductList"
-import Authenticated from "../components/IsAuthenticated"
 
 const ProductPage = () => {
     const navigate = useNavigate()
@@ -13,7 +12,6 @@ const ProductPage = () => {
     const handleAddProductClick = () => {
         navigate("/add-product")
     }
-    Authenticated()
     return (
         <div className="container">
             <Navigate />

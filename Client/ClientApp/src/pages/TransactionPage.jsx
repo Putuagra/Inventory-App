@@ -3,7 +3,6 @@ import Button from "../components/Button"
 import Navigate from "../components/Navigate"
 import TransactionList from "../components/transactions/TransactionList"
 import TransactionRepository from "../repositories/TransactionRepository"
-import Authenticated from '../components/IsAuthenticated'
 
 const TransactionPage = () => {
     const navigate = useNavigate()
@@ -11,7 +10,6 @@ const TransactionPage = () => {
     const handleAddTransactionClick = () => {
         navigate("/add-transaction")
     }
-    Authenticated()
     return (
         <div className="container">
             <Navigate />
