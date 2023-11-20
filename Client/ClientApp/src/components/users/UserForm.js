@@ -18,7 +18,7 @@ export default function UserForm({ handleRegister, handleCheckEmail }) {
     const handleChange = (e) => {
         const { name, value } = e.target
         setNewUser({ ...newUser, [name]: value })
-    };
+    }
 
     const handleRegisterUser = async () => {
         const validationError = ValidateData(newUser)
