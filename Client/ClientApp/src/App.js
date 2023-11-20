@@ -11,6 +11,8 @@ import AddProduct from './pages/AddProduct'
 import AddSupplier from './pages/AddSupplier'
 import AddTransaction from './pages/AddTransaction'
 import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
+import Page401 from './pages/Unauthorized401'
 
 
 const App = () => {
@@ -19,7 +21,8 @@ const App = () => {
         <div className="container">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<ProductPage />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/product" element={<ProductPage />} />
                     <Route path="/supplier" element={<SupplierPage />} />
                     <Route path="/category" element={<CategoryPage />} />
                     <Route path="/user" element={<UserPage />} />
@@ -30,6 +33,7 @@ const App = () => {
                     <Route path="/add-product" element={<AddProduct />} />
                     <Route path="/add-transaction" element={<AddTransaction />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/error401" element={<Page401 />} />
                 </Routes>
             </BrowserRouter>
         </div>
