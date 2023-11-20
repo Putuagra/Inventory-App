@@ -1,9 +1,9 @@
 import { checkEmailAvailability } from "../apis/UserAPI"
 import UserForm from "../components/users/UserForm"
-import UserRepository from "../repositories/UserRepository"
+import AuthRepository from "../repositories/AuthRepository"
 
 const Register = () => {
-    const { handleRegister } = UserRepository()
+    const { handleRegister } = AuthRepository()
     return (
         <div>
             <UserForm
