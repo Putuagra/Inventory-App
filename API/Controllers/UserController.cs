@@ -67,6 +67,7 @@ public class UserController : ControllerBase
         });
     }
 
+    [AllowAnonymous]
     [HttpGet("ByEmail/{email}")]
     public IActionResult Get(string email)
     {
