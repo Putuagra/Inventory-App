@@ -1,12 +1,13 @@
 import axios from "axios"
+import { GetAuth } from "../components/Auth"
 
 const apiUrl = 'https://localhost:7020/api'
-const token = localStorage.getItem('authToken')
-const headers = {
-    'Authorization': `Bearer ${token}`
-}
 
-export const getAllSuppliers = async (token) => {
+export const getAllSuppliers = async () => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Supplier`, { headers })
         return response?.data?.data || []
@@ -20,6 +21,10 @@ export const getAllSuppliers = async (token) => {
 }
 
 export const create = async (userData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.post(`${apiUrl}/Supplier`, userData, { headers })
         return response.data
@@ -30,6 +35,10 @@ export const create = async (userData) => {
 }
 
 export const update = async (updatedData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.put(`${apiUrl}/Supplier`, updatedData, { headers })
         return response.data
@@ -40,6 +49,10 @@ export const update = async (updatedData) => {
 }
 
 export const remove = async (supllierGuid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.delete(`${apiUrl}/Supplier/${supllierGuid}`, { headers })
         return response.data
@@ -50,6 +63,10 @@ export const remove = async (supllierGuid) => {
 }
 
 export const checkEmailAvailability = async (email) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Supplier/ByEmail/${email}`, { headers })
         return response.status
@@ -62,6 +79,10 @@ export const checkEmailAvailability = async (email) => {
 }
 
 export const checkPhoneAvailability = async (phoneNumber) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Supplier/ByPhone/${phoneNumber}`, { headers })
         return response.status
@@ -74,6 +95,10 @@ export const checkPhoneAvailability = async (phoneNumber) => {
 }
 
 export const checkName = async (name) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Supplier/ByName/${name}`, { headers })
         return response.status

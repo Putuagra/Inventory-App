@@ -1,12 +1,13 @@
 import axios from "axios"
+import { GetAuth } from "../components/Auth"
 
 const apiUrl = 'https://localhost:7020/api'
-const token = localStorage.getItem('authToken')
-const headers = {
-    'Authorization': `Bearer ${token}`
-}
 
-export const getAllProducts = async (token) => {
+export const getAllProducts = async () => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Product`, { headers })
         return response?.data?.data || []
@@ -20,6 +21,10 @@ export const getAllProducts = async (token) => {
 }
 
 export const create = async (userData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.post(`${apiUrl}/Product`, userData, { headers })
         return response.data
@@ -30,6 +35,10 @@ export const create = async (userData) => {
 }
 
 export const update = async (updatedData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.put(`${apiUrl}/Product`, updatedData, { headers })
         return response.data
@@ -40,6 +49,10 @@ export const update = async (updatedData) => {
 }
 
 export const remove = async (productGuid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.delete(`${apiUrl}/Product/${productGuid}`, { headers })
         return response.data
@@ -50,6 +63,10 @@ export const remove = async (productGuid) => {
 }
 
 export const updateStock = async (updatedStock) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.put(`${apiUrl}/Product`, updatedStock, { headers })
         return response.data
@@ -60,6 +77,10 @@ export const updateStock = async (updatedStock) => {
 }
 
 export const checkProductAvailability = async (name, supplierGuid, categoryGuid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/Product/CheckDuplicate/${name}/${supplierGuid}/${categoryGuid}`, { headers })
         return response.status

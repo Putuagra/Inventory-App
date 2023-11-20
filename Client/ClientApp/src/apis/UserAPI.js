@@ -1,12 +1,13 @@
 import axios from "axios"
+import { GetAuth } from "../components/Auth"
 
 const apiUrl = 'https://localhost:7020/api'
-const token = localStorage.getItem('authToken')
-const headers = {
-    'Authorization': `Bearer ${token}`
-}
 
 export const getAll = async () => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.get(`${apiUrl}/User`, {headers})
         return response?.data?.data || []
@@ -20,6 +21,10 @@ export const getAll = async () => {
 }
 
 export const create = async (userData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.post(`${apiUrl}/User`, userData, { headers })
         return response.data
@@ -30,6 +35,10 @@ export const create = async (userData) => {
 }
 
 export const update = async (updatedData) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.put(`${apiUrl}/User`, updatedData, { headers })
         return response.data
@@ -40,6 +49,10 @@ export const update = async (updatedData) => {
 }
 
 export const remove = async (userId) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
     try {
         const response = await axios.delete(`${apiUrl}/User/${userId}`, { headers })
         return response.data
@@ -71,7 +84,7 @@ export const login = async (userData) => {
 
 export const checkEmailAvailability = async (email) => {
     try {
-        const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`, { headers })
+        const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`)
         return response.status
     } catch (error) {
         if (error.response && error.response.status === 404) {
