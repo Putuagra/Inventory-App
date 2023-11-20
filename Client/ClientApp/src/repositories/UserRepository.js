@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react'
-import { getAll, create, update, remove, register } from '../apis/UserAPI'
+import { getAll, create, update, remove } from '../apis/UserAPI'
+import { useNavigate } from 'react-router-dom'
+import { GetAuth } from '../components/Auth'
 
 export default function UserRepository() {
     const [users, setUsers] = useState([])
     const [editingUser, setEditingUser] = useState(null)
+    const navigateAuthenticated = useNavigate()
 
     useEffect(() => {
-        fetchData()
+        const storedToken = GetAuth()
+        console.log('Tokennnnnn:', storedToken)
+        const isAuthenticated = storedToken !== null
+        if (isAuthenticated) {
+            fetchData()
+        } else if (!isAuthenticated) {
+            navigateAuthenticated('/error401')
+        }
     }, [])
 
     const fetchData = async () => {
@@ -18,14 +28,14 @@ export default function UserRepository() {
         }
     }
 
-    const handleCreate = async (newUser) => {
+    /*const handleCreate = async (newUser) => {
         try {
             await create(newUser)
             fetchData()
         } catch (error) {
             console.error("Error create user", error)
         }
-    }
+    }*/
 
     const handleEdit = (userGuid) => {
         setEditingUser(userGuid)
@@ -58,14 +68,5 @@ export default function UserRepository() {
         }
     }
 
-    const handleRegister = async (newUser) => {
-        try {
-            await register(newUser)
-            fetchData()
-        } catch (error) {
-            console.error("Error create user", error)
-        }
-    }
-
-    return { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, handleRegister }
+    return { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete }
 }

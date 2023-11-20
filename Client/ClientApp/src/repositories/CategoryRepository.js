@@ -1,15 +1,24 @@
 import { useState, useEffect } from 'react'
 import { getAll, create, update, remove} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
+import { GetAuth } from '../components/Auth'
+import { useNavigate } from 'react-router-dom'
 
 export default function CategoryRepository() {
     const [suppliers, setSuppliers] = useState([]);
     const [categories, setCategories] = useState([]);
     const [editingCategory, setEditingCategory] = useState(null)
+    const navigateAuthenticated = useNavigate()
 
     useEffect(() => {
-        fetchData()
-        fetchDataSuppliers()
+        const storedToken = GetAuth()
+        const isAuthenticated = storedToken !== null
+        if (isAuthenticated) {
+            fetchData()
+            fetchDataSuppliers()
+        } else if (!isAuthenticated) {
+            navigateAuthenticated('/error401')
+        }
     }, [])
 
     const fetchData = async () => {

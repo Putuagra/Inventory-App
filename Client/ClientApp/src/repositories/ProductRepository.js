@@ -2,17 +2,26 @@ import { useState, useEffect } from 'react'
 import { getAllSuppliers } from '../apis/SupplierApi'
 import { getAll} from '../apis/CategoryApi'
 import { getAllProducts, create, update, remove } from '../apis/ProductApi'
+import { GetAuth } from '../components/Auth'
+import { useNavigate } from 'react-router-dom'
 
 export default function ProductRepository() {
     const [products, setProducts] = useState([])
     const [suppliers, setSuppliers] = useState([])
     const [categories, setCategories] = useState([])
     const [editingProduct, setEditingProduct] = useState(null)
+    const navigateAuthenticated = useNavigate()
 
     useEffect(() => {
-        fetchData()
-        fetchDataSuppliers()
-        fetchDataCategories()
+        const storedToken = GetAuth()
+        const isAuthenticated = storedToken !== null
+        if (isAuthenticated) {
+            fetchData()
+            fetchDataSuppliers()
+            fetchDataCategories()
+        } else if (!isAuthenticated) {
+            navigateAuthenticated('/error401')
+        }
     }, [])
 
     const fetchData = async () => {

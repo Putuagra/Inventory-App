@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react'
 import { getAllSuppliers, create, update, remove } from '../apis/SupplierApi'
+import { useNavigate } from 'react-router-dom'
+import { GetAuth } from '../components/Auth'
 
 export default function SupplierRepositories() {
     const [suppliers, setSuppliers] = useState([])
     const [editingSupplier, setEditingSupplier] = useState(null)
+    const navigateAuthenticated = useNavigate()
 
     useEffect(() => {
-        fetchData()
+        const storedToken = GetAuth()
+        const isAuthenticated = storedToken !== null
+        if (isAuthenticated) {
+            fetchData()
+        } else if (!isAuthenticated) {
+            navigateAuthenticated('/error401')
+        }
     }, [])
 
     const fetchData = async () => {
@@ -51,14 +60,19 @@ export default function SupplierRepositories() {
 
     const handleDelete = async (supplierGuid) => {
         try {
-            await remove(supplierGuid);
+            await remove(supplierGuid)
             if (suppliers.length === 1) {
                 setSuppliers([])
             }
             fetchData()
         }
         catch (error) {
-            console.error('Error deleting supplier:', error)
+            if (error.response.status === 400) {
+                console.error('Error deleting supplier:', error.response.data.message)
+                alert("error while delete")
+            } else {
+                console.error('Unexpected error deleting supplier:', error);
+            }
         }
     }
     return {

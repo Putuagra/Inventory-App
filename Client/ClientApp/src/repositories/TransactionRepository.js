@@ -2,17 +2,26 @@ import { useState, useEffect } from 'react'
 import { getAll } from '../apis/UserAPI'
 import { getAllProducts, updateStock } from '../apis/ProductApi'
 import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
+import { useNavigate } from 'react-router-dom'
+import { GetAuth } from '../components/Auth'
 
 export default function TransactionRepository(){
     const [products, setProducts] = useState([])
     const [users, setUser] = useState([])
     const [transactions, setTransactions] = useState([])
     const [editingTransaction, setEditingTransaction] = useState(null)
+    const navigateAuthenticated = useNavigate()
 
     useEffect(() => {
-        fetchData()
-        fetchDataProducts()
-        fetchDataUser()
+        const storedToken = GetAuth()
+        const isAuthenticated = storedToken !== null
+        if (isAuthenticated) {
+            fetchData()
+            fetchDataProducts()
+            fetchDataUser()
+        } else if (!isAuthenticated) {
+            navigateAuthenticated('/error401')
+        }
     }, [])
 
     const fetchData = async () => {
