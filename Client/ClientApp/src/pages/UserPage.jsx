@@ -7,7 +7,7 @@ import UserList from "../components/users/UserList"
 import UserRepository from "../repositories/UserRepository"
 
 const UserPage = () => {
-    const { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete } = UserRepository()
+    const { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, nameDecode } = UserRepository()
     const navigateLogout = useNavigate()
     const handleLogout = () => {
         RemoveAuth()
@@ -16,6 +16,7 @@ const UserPage = () => {
     return (
         <div className="container">
             <Navigate />
+            <h1>Welcome, {nameDecode}</h1>
             <h1>Users</h1>
             <UserList
                 users={users}
