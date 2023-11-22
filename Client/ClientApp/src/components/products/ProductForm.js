@@ -61,7 +61,6 @@ export default function ProductForm({ handleCreate, suppliers, categories, handl
     return (
         <div className="row">
             <div className="col-lg-12" noValidate>
-                <h1>Add Product</h1>
                 <form
                         onSubmit={handleSubmit}
                         className="row g-3 needs-validation"

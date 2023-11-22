@@ -16,8 +16,8 @@ const UserPage = () => {
     return (
         <div className="container">
             <Navigate />
+            <br></br>
             <h1>Welcome, {nameDecode}</h1>
-            <h1>Users</h1>
             <UserList
                 users={users}
                 editingUser={editingUser}

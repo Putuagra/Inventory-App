@@ -3,6 +3,7 @@ import ProductRepository from "../repositories/ProductRepository"
 import Button from "../components/Button"
 import ProductForm from '../components/products/ProductForm'
 import { checkProductAvailability } from '../apis/ProductApi'
+import Navigate from '../components/Navigate'
 
 
 const AddCategory = () => {
@@ -13,6 +14,8 @@ const AddCategory = () => {
     const { handleCreate, suppliers, categories } = ProductRepository()
     return (
         <div>
+            <Navigate />
+            <br></br>
             <ProductForm
                 handleCreate={handleCreate}
                 suppliers={suppliers}

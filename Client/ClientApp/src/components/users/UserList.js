@@ -41,50 +41,51 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
         }  
     }
     return (
-        <table className="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {Array.isArray(users) && users.length > 0 ? (
-                    users.map((data, index) => (
-                        <tr key={index}>
-                            <td>
-                                {editingUser === data.guid ? (
-                                    <InputUpdate
-                                        name="name"
-                                        type="text"
-                                        value={data.name}
-                                        onChange={(e) => handleInputChange(data.guid, 'name', e.target.value)}
-                                    />
-                                ) : (
-                                    data.name
-                                )}
-                            </td>
-                            <td>{
-                                editingUser === data.guid ? (
-                                    <InputUpdate
-                                        name="email"
-                                        type="text"
-                                        value={data.email}
-                                        onChange={(e) => handleInputChange(data.guid, 'email', e.target.value)}
-                                    />
-                                ) : (
-                                    data.email
-                                )}
-                            </td>
-                            <td>
-                                {editingUser === data.guid ? (
-                                    <Button
-                                        name="Save" 
-                                        className="btn btn-success"
-                                        onClick={() => handleUpdateUser(data)}
-                                    />
-                                ) : (
+        <div>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Array.isArray(users) && users.length > 0 ? (
+                        users.map((data, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {editingUser === data.guid ? (
+                                        <InputUpdate
+                                            name="name"
+                                            type="text"
+                                            value={data.name}
+                                            onChange={(e) => handleInputChange(data.guid, 'name', e.target.value)}
+                                        />
+                                    ) : (
+                                        data.name
+                                    )}
+                                </td>
+                                <td>{
+                                    editingUser === data.guid ? (
+                                        <InputUpdate
+                                            name="email"
+                                            type="text"
+                                            value={data.email}
+                                            onChange={(e) => handleInputChange(data.guid, 'email', e.target.value)}
+                                        />
+                                    ) : (
+                                        data.email
+                                    )}
+                                </td>
+                                <td>
+                                    {editingUser === data.guid ? (
+                                        <Button
+                                            name="Save"
+                                            className="btn btn-success"
+                                            onClick={() => handleUpdateUser(data)}
+                                        />
+                                    ) : (
                                         <>
                                             <Button
                                                 name="Edit"
@@ -100,16 +101,17 @@ export default function UserList({ users, editingUser, handleEdit, handleInputCh
                                                 onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                         </>
-                                )}
-                            </td>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="3">No user data available.</td>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="3">No user data available.</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>
+                    )}
+                </tbody>
+            </table>
+        </div>
     )
 }

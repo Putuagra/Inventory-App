@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from "../components/Button"
 import TransactionRepository from "../repositories/TransactionRepository"
 import TransactionForm from '../components/transactions/TransactionForm'
+import Navigate from '../components/Navigate'
 
 const AddTransaction = () => {
     const navigate = useNavigate()
@@ -11,6 +12,8 @@ const AddTransaction = () => {
     const { handleCreate, products, users, handleUpdateStock } = TransactionRepository()
     return (
         <div>
+            <Navigate />
+            <br></br>
             <TransactionForm
                 handleCreate={handleCreate}
                 products={products}

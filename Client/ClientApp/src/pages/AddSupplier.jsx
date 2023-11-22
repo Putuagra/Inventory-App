@@ -3,6 +3,7 @@ import Button from "../components/Button"
 import { useNavigate } from 'react-router-dom'
 import SupplierRepository from "../repositories/SupplierRepository"
 import SupplierForm from "../components/suppliers/SupplierForm"
+import Navigate from '../components/Navigate'
 
 const AddSupplier = () => {
     const navigate = useNavigate()
@@ -12,6 +13,8 @@ const AddSupplier = () => {
     const { handleCreate } = SupplierRepository()
     return (
         <div>
+            <Navigate />
+            <br></br>
             <SupplierForm
                 handleCreate={handleCreate}
                 handleEmail={checkEmailAvailability}

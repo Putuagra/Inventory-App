@@ -65,6 +65,7 @@ export default function ProductList({ products, categories, suppliers, editingPr
 
     return (
         <div className="card-container">
+            <br></br>
             {
                 Array.isArray(products) && products.length > 0 ? (
                         products.map((data, index) =>

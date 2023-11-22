@@ -54,7 +54,6 @@ export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNum
     return (
         <div className="row">
             <div className="col-lg-12" noValidate>
-                <h1>Add Supplier</h1>
                 <form
                     onSubmit={handleSubmit}
                     className="row g-3 needs-validation"

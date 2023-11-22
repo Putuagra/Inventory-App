@@ -44,6 +44,7 @@ export default function TransactionList({ products, users, transactions, editing
 
     return (
         <div className="card-container">
+            <br></br>
             {
                 Array.isArray(transactions) && transactions.length > 0 ? (
                     transactions.map((data, index) =>

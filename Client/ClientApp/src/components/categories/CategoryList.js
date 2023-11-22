@@ -44,50 +44,52 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
     }
 
     return (
-        <table className="table table-striped">
-            <thead>
-                <tr>
-                    <th>Category Name</th>
-                    <th>Supplier</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {Array.isArray(categories) && categories.length > 0 ? (
-                    categories.map((data, index) => (
-                        <tr key={index}>
-                            <td>
-                                {editingCategory === data.guid ? (
-                                    <InputUpdate
-                                        name="name"
-                                        type="text"
-                                        value={data.name}
-                                        onChange={(e) => handleInputChange(data.guid, 'name', e.target.value)}
-                                    />
-                                ) : (
-                                    data.name
-                                )}
-                            </td>
-                            <td>
-                                {editingCategory === data.guid ? (
-                                    <Select
-                                        name="supplierGuid"
-                                        value={data.supplierGuid || ''}
-                                        onChange={(e) => handleInputChange(data.guid, 'supplierGuid', e.target.value)}
-                                        options={suppliers}
-                                    />
-                                ) : (
-                                    (suppliers.find((supplier) => supplier.guid === data.supplierGuid) || {}).name
-                                )}
-                            </td>
-                            <td>
-                                {editingCategory === data.guid ? (
-                                    <Button
-                                        name="Save"
-                                        className="btn btn-success"
-                                        onClick={() => handleUpdateCategory(data)}
-                                    />
-                                ) : (
+        <div>
+            <br></br>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Supplier</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Array.isArray(categories) && categories.length > 0 ? (
+                        categories.map((data, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {editingCategory === data.guid ? (
+                                        <InputUpdate
+                                            name="name"
+                                            type="text"
+                                            value={data.name}
+                                            onChange={(e) => handleInputChange(data.guid, 'name', e.target.value)}
+                                        />
+                                    ) : (
+                                        data.name
+                                    )}
+                                </td>
+                                <td>
+                                    {editingCategory === data.guid ? (
+                                        <Select
+                                            name="supplierGuid"
+                                            value={data.supplierGuid || ''}
+                                            onChange={(e) => handleInputChange(data.guid, 'supplierGuid', e.target.value)}
+                                            options={suppliers}
+                                        />
+                                    ) : (
+                                        (suppliers.find((supplier) => supplier.guid === data.supplierGuid) || {}).name
+                                    )}
+                                </td>
+                                <td>
+                                    {editingCategory === data.guid ? (
+                                        <Button
+                                            name="Save"
+                                            className="btn btn-success"
+                                            onClick={() => handleUpdateCategory(data)}
+                                        />
+                                    ) : (
                                         <>
                                             <Button
                                                 name="Edit"
@@ -102,17 +104,18 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
                                                 className="btn btn-danger"
                                                 onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
-                                    </>
-                                )}
-                            </td>
+                                        </>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="3">No category available.</td>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="3">No category available.</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>
+                    )}
+                </tbody>
+            </table>
+        </div>  
     )
 }

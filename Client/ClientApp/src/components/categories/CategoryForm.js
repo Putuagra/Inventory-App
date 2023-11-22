@@ -48,7 +48,6 @@ export default function CategoryForm({ handleCreate, suppliers, handleDuplicate 
     return (
         <div className="row">
             <div className="col-lg-12" noValidate>
-                <h1>Add Category</h1>
                 <form
                     onSubmit={handleSubmit}
                     className="row g-3 needs-validation"

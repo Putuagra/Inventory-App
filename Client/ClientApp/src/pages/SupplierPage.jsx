@@ -14,7 +14,6 @@ const SupplierPage = () => {
     return (
         <div className="container">
             <Navigate />
-            <h1>Suppliers</h1>
             <SupplierList
                 suppliers={suppliers}
                 editingSupplier={editingSupplier}

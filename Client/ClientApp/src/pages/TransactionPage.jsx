@@ -13,7 +13,6 @@ const TransactionPage = () => {
     return (
         <div className="container">
             <Navigate />
-            <h1>Transactions</h1>
             <TransactionList
                 products={products}
                 users={users}

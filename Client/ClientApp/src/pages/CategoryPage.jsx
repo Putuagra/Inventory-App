@@ -17,7 +17,6 @@ const CategoryPage = () => {
     return (
         <div className="container">
             <Navigate />
-            <h1>Categories</h1>
             <CategoryList
                 categories={categories}
                 suppliers={suppliers}
