@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAll, create, update, remove } from '../apis/UserAPI'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth } from '../components/Auth'
+import { GetAuth, RemoveAuth } from '../components/Auth'
 import { jwtDecode } from "jwt-decode"
 
 export default function UserRepository() {
@@ -9,6 +9,7 @@ export default function UserRepository() {
     const [nameDecode, setNameDecode] = useState([])
     const [editingUser, setEditingUser] = useState(null)
     const navigateAuthenticated = useNavigate()
+    const navigateLogin = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -18,6 +19,12 @@ export default function UserRepository() {
             const decode = jwtDecode(storedToken)
             setNameDecode(decode.Name)
             fetchData()
+            const expirationTime = decode.exp * 1000
+            const currentTime = Date.now()
+            if (currentTime > expirationTime) {
+                RemoveAuth()
+                navigateLogin('/login')
+            }
         } else if (!isAuthenticated) {
             navigateAuthenticated('/error401')
         }

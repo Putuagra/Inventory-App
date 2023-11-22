@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react'
 import { getAllSuppliers, create, update, remove } from '../apis/SupplierApi'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth } from '../components/Auth'
+import { GetAuth, RemoveAuth } from '../components/Auth'
+import { jwtDecode } from "jwt-decode"
 
 export default function SupplierRepositories() {
     const [suppliers, setSuppliers] = useState([])
     const [editingSupplier, setEditingSupplier] = useState(null)
     const navigateAuthenticated = useNavigate()
+    const navigateLogin = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
+            const decode = jwtDecode(storedToken)
             fetchData()
+            const expirationTime = decode.exp * 1000
+            const currentTime = Date.now()
+            if (currentTime > expirationTime) {
+                RemoveAuth()
+                navigateLogin('/login')
+            }
         } else if (!isAuthenticated) {
             navigateAuthenticated('/error401')
         }

@@ -3,7 +3,8 @@ import { getAll } from '../apis/UserAPI'
 import { getAllProducts, updateStock } from '../apis/ProductApi'
 import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth } from '../components/Auth'
+import { GetAuth, RemoveAuth } from '../components/Auth'
+import { jwtDecode } from "jwt-decode"
 
 export default function TransactionRepository(){
     const [products, setProducts] = useState([])
@@ -11,14 +12,22 @@ export default function TransactionRepository(){
     const [transactions, setTransactions] = useState([])
     const [editingTransaction, setEditingTransaction] = useState(null)
     const navigateAuthenticated = useNavigate()
+    const navigateLogin = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
-        if (isAuthenticated) {
+        if (isAuthenticated) { 
+            const decode = jwtDecode(storedToken)
             fetchData()
             fetchDataProducts()
             fetchDataUser()
+            const expirationTime = decode.exp * 1000
+            const currentTime = Date.now()
+            if (currentTime > expirationTime) {
+                RemoveAuth()
+                navigateLogin('/login')
+            }
         } else if (!isAuthenticated) {
             navigateAuthenticated('/error401')
         }

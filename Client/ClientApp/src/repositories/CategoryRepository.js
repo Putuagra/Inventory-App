@@ -1,21 +1,30 @@
 import { useState, useEffect } from 'react'
 import { getAll, create, update, remove} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
-import { GetAuth } from '../components/Auth'
+import { GetAuth, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
+import { jwtDecode } from "jwt-decode"
 
 export default function CategoryRepository() {
     const [suppliers, setSuppliers] = useState([]);
     const [categories, setCategories] = useState([]);
     const [editingCategory, setEditingCategory] = useState(null)
     const navigateAuthenticated = useNavigate()
+    const navigateLogin = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
-        if (isAuthenticated) {
+        if (isAuthenticated) {       
+            const decode = jwtDecode(storedToken)
             fetchData()
             fetchDataSuppliers()
+            const expirationTime = decode.exp * 1000
+            const currentTime = Date.now()
+            if (currentTime > expirationTime) {
+                RemoveAuth()
+                navigateLogin('/login')
+            }
         } else if (!isAuthenticated) {
             navigateAuthenticated('/error401')
         }
