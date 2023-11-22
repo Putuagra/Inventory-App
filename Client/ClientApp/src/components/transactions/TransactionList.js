@@ -1,13 +1,14 @@
 import React from 'react'
 import Button from '../Button'
-import Input from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import DeleteAlert from '../DeleteAlert'
+import InputUpdate from '../InputUpdate'
+import { ValidateData } from '../../Validation/Transactions/TransactionValidation'
 
 const cardStyle = {
-    maxWidth: '18rem',
+    maxWidth: '20rem',
 }
 
 export default function TransactionList({ products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete }) {
@@ -15,10 +16,13 @@ export default function TransactionList({ products, users, transactions, editing
     const handleUpdateTransaction = async (data) => {
         const selectedProduct = products.find(product => product.guid === data.productGuid)
 
-        if (!data.quantity) {
-            ErrorAlert({ message: 'Quantity harus diisi.' })
+        const validationError = ValidateData(data)
+
+        if (validationError) {
+            ErrorAlert({ message: validationError })
             return
         }
+
         if (selectedProduct.stock >= data.quantity) {
             if (data.quantity < 1) {
                 ErrorAlert({ message: 'Quantity must be greater than 1!' })
@@ -46,7 +50,7 @@ export default function TransactionList({ products, users, transactions, editing
                         <div key={index} className="card text-bg-light mb-3" style={cardStyle}>
                             <div className="card-header">Transaction</div>
                             <div className="card-body">
-                                <h5 className="card-title">
+                                <h6 className="card-title">
                                     {
                                         editingTransaction === data.guid ? (
                                             <Select
@@ -60,7 +64,7 @@ export default function TransactionList({ products, users, transactions, editing
                                                 (products.find((product) => product.guid === data.productGuid) || {}).name
                                         )
                                     }
-                                </h5>
+                                </h6>
                                 <h6 className="card-text">
                                     {
                                         editingTransaction === data.guid ? (
@@ -77,13 +81,12 @@ export default function TransactionList({ products, users, transactions, editing
                                     }
                                 </h6>
                                 <h6 className="card-text">
-                                    Quantity: 
+                                    Quantity:  
                                     {
                                         editingTransaction === data.guid ? (
-                                            <Input
+                                            <InputUpdate
                                                 name="quantity"
                                                 type="number"
-                                                placeholder="Quantity"
                                                 value={data.quantity}
                                                 onChange={(e) => handleInputChange(data.guid, 'quantity', e.target.value)}
                                             />
