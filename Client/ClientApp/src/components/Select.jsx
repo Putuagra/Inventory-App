@@ -3,7 +3,7 @@ import React from 'react'
 const Select = (props) => {
     const { name, label, value, onChange, options } = props
     return (
-        <div className="col-md-5">
+        <div className="col-md-6">
             <label className="form-label">{label}</label>
             <select
                 className="form-input"
