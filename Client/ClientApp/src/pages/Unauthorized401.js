@@ -8,7 +8,7 @@ const Page401 = () => {
     }
     return (
         <div className="Error">
-            <h1>Unauthorized</h1>
+            <h1>401 Unauthorized</h1>
             <p>ACCESS IS ALLOWED ONLY FOR REGISTERED USERS</p>
             <Button
                 name="Back to Login"
