@@ -13,7 +13,7 @@ import AddTransaction from './pages/AddTransaction'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import Page401 from './pages/Unauthorized401'
-
+import Page404 from './pages/NotFound404'
 
 const App = () => {
 
@@ -34,6 +34,7 @@ const App = () => {
                     <Route path="/add-transaction" element={<AddTransaction />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/error401" element={<Page401 />} />
+                    <Route path="*" element={<Page404 />} />
                 </Routes>
             </BrowserRouter>
         </div>
