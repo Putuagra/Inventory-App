@@ -72,7 +72,6 @@ export default function CategoryList({ categories, suppliers, editingCategory, h
                                 {editingCategory === data.guid ? (
                                     <Select
                                         name="supplierGuid"
-                                        label="Supplier"
                                         value={data.supplierGuid || ''}
                                         onChange={(e) => handleInputChange(data.guid, 'supplierGuid', e.target.value)}
                                         options={suppliers}
