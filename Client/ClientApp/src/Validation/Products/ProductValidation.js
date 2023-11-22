@@ -47,6 +47,14 @@ export function ValidateData(data) {
         return "Product name format is invalid."
     }
 
+    if (data.supplierGuid === "") {
+        return "Supplier is required."
+    }
+
+    if (data.categoryGuid === "") {
+        return "Category is required."
+    }
+
     if (data.stock === "") {
         return "Stock is required."
     } else if (!stockPattern.test(data.stock)) {
