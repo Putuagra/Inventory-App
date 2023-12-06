@@ -39,7 +39,7 @@ public class UserController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "users found",
+            Message = "Users found",
             Data = users
         });
     }
@@ -234,6 +234,99 @@ public class UserController : ControllerBase
             Status = HttpStatusCode.OK.ToString(),
             Message = "Login Success",
             Data = login
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpPost("ForgotPassword")]
+    public IActionResult ForgotPassword(UserDtoForgotPassword userDtoForgotPassword)
+    {
+        var isUpdated = _userService.ForgotPassword(userDtoForgotPassword);
+
+        if (isUpdated == 0)
+            return NotFound(new ResponseHandler<UserDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email not found",
+                Data = null
+            });
+
+        if (isUpdated is -1)
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoGet>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving data from the database",
+                Data = null
+            });
+
+        return Ok(new ResponseHandler<UserDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Otp has been sent to your email",
+            Data = null
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpPost("ChangePassword")]
+    public IActionResult ChangePassword(UserDtoChangePassword userDtoChangePassword)
+    { 
+        var isUpdated = _userService.ChangePassword(userDtoChangePassword);
+
+        if (isUpdated == 0)
+            return NotFound(new ResponseHandler<UserDtoUpdateChangePassword>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email not found"
+            });
+
+        if (isUpdated == -1)
+        {
+            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Otp is already used"
+            });
+        }
+
+        if (isUpdated == -2)
+        {
+            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Otp is incorrect"
+            });
+        }
+
+        if (isUpdated == -3)
+        {
+            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Otp is expired"
+            });
+        }
+
+        if (isUpdated is -4)
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoUpdateChangePassword>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving data from the database"
+            });
+
+        return Ok(new ResponseHandler<UserDtoUpdateChangePassword>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Password has been changed successfully"
         });
     }
 }
