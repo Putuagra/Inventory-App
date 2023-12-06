@@ -42,6 +42,18 @@ public class InventoryDbContext : DbContext
             .WithOne(transaction => transaction.User)
             .HasForeignKey(transaction => transaction.UserGuid);
 
+        // User -> UserRole
+        modelBuilder.Entity<User>()
+            .HasMany(user => user.UserRoles)
+            .WithOne(userRole => userRole.User)
+            .HasForeignKey(UserRole => UserRole.UserGuid);
+
+        // Role -> UserRole
+        modelBuilder.Entity<Role>()
+            .HasMany(role => role.UserRoles)
+            .WithOne(userRole => userRole.Role)
+            .HasForeignKey(UserRole => UserRole.RoleGuid);
+
         // Supplier - Product
         modelBuilder.Entity<Supplier>()
             .HasMany(supplier => supplier.Products)
