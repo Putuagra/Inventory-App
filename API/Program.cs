@@ -2,6 +2,7 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
+using API.Utilities.Handlers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,9 +27,17 @@ builder.Services.AddDbContext<InventoryDbContext>(options => options.UseSqlServe
 // Register repositories
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+// Add SmtpClient
+builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler(builder.Configuration["EmailService:SmtpServer"],
+    int.Parse(builder.Configuration["EmailService:SmtpPort"]),
+    builder.Configuration["EmailService:FromEmailAddress"]
+    ));
 
 // Register Handler
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
@@ -36,9 +45,11 @@ builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 // Register services
 builder.Services.AddScoped<CategoryServices>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<SupplierService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserRoleService>();
 
 // Register Fluent validation
 builder.Services.AddFluentValidationAutoValidation()
