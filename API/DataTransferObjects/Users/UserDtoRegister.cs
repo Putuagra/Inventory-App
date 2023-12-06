@@ -17,6 +17,8 @@ public class UserDtoRegister
             Name = userDtoRegister.Name,
             Email = userDtoRegister.Email,
             Password = HashingHandler.Hash(userDtoRegister.Password),
+            Otp = 0,
+            IsUsed = false
         };
     }
 
