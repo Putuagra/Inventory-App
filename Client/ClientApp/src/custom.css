@@ -12,6 +12,17 @@
     height: 100vh;
 }
 
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.card {
+    margin: 30px;
+    flex: 0 0 250px;
+}
+
 .login-form {
     max-width: 600px;
     width: 100%;
