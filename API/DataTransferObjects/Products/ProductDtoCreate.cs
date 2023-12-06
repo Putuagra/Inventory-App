@@ -21,7 +21,6 @@ public class ProductDtoCreate
             Description = productDtoCreate.Description,
             CategoryGuid = productDtoCreate.CategoryGuid,
             SupplierGuid = productDtoCreate.SupplierGuid,
-            CreatedDate = DateTime.UtcNow
         };
     }
 

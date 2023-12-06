@@ -23,7 +23,6 @@ public class ProductDtoUpdate
             Description = productDtoUpdate.Description,
             CategoryGuid = productDtoUpdate.CategoryGuid,
             SupplierGuid = productDtoUpdate.SupplierGuid,
-            ModifiedDate = DateTime.UtcNow,
         };
     }
 
