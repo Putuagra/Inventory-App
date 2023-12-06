@@ -14,8 +14,7 @@ public class UserDtoCreate
         {
             Name = userDtoCreate.Name,
             Email = userDtoCreate.Email,
-            Password = userDtoCreate.Password,
-            CreatedDate = DateTime.UtcNow
+            Password = userDtoCreate.Password
         };
     }
 

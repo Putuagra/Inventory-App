@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.DataTransferObjects.Users;
 
@@ -16,8 +17,7 @@ public class UserDtoUpdate
             Guid = userDtoUpdate.Guid,
             Name = userDtoUpdate.Name,
             Email = userDtoUpdate.Email,
-            Password = userDtoUpdate.Password,
-            ModifiedDate = DateTime.UtcNow
+            Password = HashingHandler.Hash(userDtoUpdate.Password),
         };
     }
 

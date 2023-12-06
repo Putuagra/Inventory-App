@@ -14,8 +14,7 @@ public class TransactionDtoCreate
         {
             UserGuid = transactionDtoCreate.UserGuid,
             ProductGuid = transactionDtoCreate.ProductGuid,
-            Quantity = transactionDtoCreate.Quantity,
-            CreatedDate = DateTime.UtcNow
+            Quantity = transactionDtoCreate.Quantity
         };
     }
 

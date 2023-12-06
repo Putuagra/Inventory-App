@@ -17,7 +17,6 @@ public class TransactionDtoUpdate
             UserGuid = transactionDtoUpdate.UserGuid,
             ProductGuid = transactionDtoUpdate.ProductGuid,
             Quantity = transactionDtoUpdate.Quantity,
-            ModifiedDate = DateTime.UtcNow,
         };
     }
 
