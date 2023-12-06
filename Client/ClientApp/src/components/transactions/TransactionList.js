@@ -49,7 +49,7 @@ export default function TransactionList({ products, users, transactions, editing
                 Array.isArray(transactions) && transactions.length > 0 ? (
                     transactions.map((data, index) =>
                         <div key={index} className="card text-bg-light mb-3" style={cardStyle}>
-                            <div className="card-header">Transaction</div>
+                            <div className="card-header">{(products.find((product) => product.guid === data.productGuid) || {}).name}</div>
                             <div className="card-body">
                                 <h6 className="card-title">
                                     {
