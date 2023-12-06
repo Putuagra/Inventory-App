@@ -40,7 +40,7 @@ public class SupplierController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Supplier found",
+            Message = "Suppliers found",
             Data = suppliers
         });
     }

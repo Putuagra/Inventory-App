@@ -39,7 +39,7 @@ public class CategoryController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Category found",
+            Message = "Categories found",
             Data = categories
         });
     }
