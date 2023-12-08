@@ -93,3 +93,54 @@ export const checkEmailAvailability = async (email) => {
         console.error('Error during API request:', error)
     }
 }
+
+export const forgotPassword = async (email) => {
+    try {
+        const response = await axios.post(`${apiUrl}/User/ForgotPassword`, JSON.stringify({ email }), {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response.status
+    } catch (error) {
+        /*throw error*/
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        if (error.response && error.response.status === 500) {
+            return 500
+        }
+        console.error('Error during API request:', error)
+    }
+}
+
+export const changePassword = async (data) => {
+    try {
+        const response = await axios.post(`${apiUrl}/User/ChangePassword`, data)
+        return response.status
+    } catch (error) {
+        /* throw error*/
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
+        if (error.response && error.response.status === 500) {
+            return 500
+        }
+        console.error('Error during API request:', error)
+    }
+}
+
+export const getUserByEmail = async (email) => {
+    try {
+        const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`)
+        return response
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        console.error('Error during API request:', error)
+    }
+}
