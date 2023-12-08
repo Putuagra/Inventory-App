@@ -9,6 +9,7 @@ import { SetAuth } from '../Auth'
 const LoginForm = () => {
     const navigate = useNavigate()
     const navigateDashboard = useNavigate()
+    const navigateForgotPassword = useNavigate()
     const handleRegisterClick = () => {
         navigate("/register")
     }
@@ -16,6 +17,11 @@ const LoginForm = () => {
     const handleLoginClick = () => {
         navigateDashboard('/user')
     }
+
+    const handleForgotPasswordClick = () => {
+        navigateForgotPassword('/forgot-password')
+    }
+
     const [user, setUser] = useState({
         email: '',
         password: ''
@@ -77,11 +83,26 @@ const LoginForm = () => {
                     />
                 </form>
                 <br></br>
-                <Button
-                    name="Buat akun baru"
-                    className="btn btn-success"
-                    onClick={handleRegisterClick }
-                />
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Button
+                                    name="Buat akun baru"
+                                    className="btn btn-success"
+                                    onClick={handleRegisterClick}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <Button
+                                    name="Lupa password?"
+                                    className="btn btn-link"
+                                    onClick={handleForgotPasswordClick}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
