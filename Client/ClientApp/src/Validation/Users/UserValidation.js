@@ -1,6 +1,7 @@
 const namePattern = /^[a-zA-Z]+$/
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
 const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+~-]).{8,}$/
+const otpPattern = /^\d+$/
 
 export function Validation(value) {
     const errors = {}
@@ -45,9 +46,41 @@ export function ValidateData(data) {
         return 'Invalid format email.'
     }
 
+    if (data.otp === '') {
+        return 'OTP is required'
+    } else if (!otpPattern.test(data.otp)) {
+        return 'Invalid format OTP.'
+    }
+
     if (data.password === '') {
         return 'Password is required'
     } else if (!passwordPattern.test(data.password)) {
+        return 'Password must be at least 8 characters long, contain at least one uppercase letter, lowercase letter, one digit number, and one special character.'
+    }
+}
+
+export function ValidateChangePassword(data) {
+    if (data.email === '') {
+        return 'Email is required'
+    } else if (!emailPattern.test(data.email)) {
+        return 'Invalid format email.'
+    }
+
+    if (data.otp === '') {
+        return 'OTP is required'
+    } else if (!otpPattern.test(data.otp)) {
+        return 'Invalid format OTP.'
+    }
+
+    if (data.newPassword === '') {
+        return 'Password is required'
+    } else if (!passwordPattern.test(data.newPassword)) {
+        return 'Password must be at least 8 characters long, contain at least one uppercase letter, lowercase letter, one digit number, and one special character.'
+    }
+
+    if (data.confirmNewPassword === '') {
+        return 'Password is required'
+    } else if (!passwordPattern.test(data.confirmNewPassword)) {
         return 'Password must be at least 8 characters long, contain at least one uppercase letter, lowercase letter, one digit number, and one special character.'
     }
 }
