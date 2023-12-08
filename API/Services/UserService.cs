@@ -137,22 +137,32 @@ public class UserService
 
     public int ChangePassword(UserDtoChangePassword userDtoChangePassword)
     {
+        using var transaction = _inventoryDbContext.Database.BeginTransaction();
         var user = _userRepository.GetUserByEmail(userDtoChangePassword.Email);
         if (user is null) return 0;
         var user_guid = _userRepository.GetByGuid(user.Guid);
         if(user_guid.IsUsed) return -1;
         if(user_guid.Otp != userDtoChangePassword.Otp) return -2;
         if(user_guid.ExpiredTime < DateTime.Now) return -3;
-        var isUpdated = _userRepository.Update(new User
+        /*var isUpdated = _userRepository.Update(new User
         {
-            Guid = user_guid.Guid,
-            Name = user_guid.Name,
-            Email = user_guid.Email,
             Password = HashingHandler.Hash(userDtoChangePassword.NewPassword),
-            Otp = user_guid.Otp,
-            ExpiredTime = user_guid.ExpiredTime,
             IsUsed = true,
         });
-        return isUpdated ? 1 : -4;
+        return isUpdated ? 1 : -4;*/
+        try
+        {
+            var isUpdated = _userRepository.Update(new User
+            {
+                Password = HashingHandler.Hash(userDtoChangePassword.NewPassword),
+                IsUsed = true,
+            });
+            transaction.Commit();
+            return 1;
+        }catch 
+        {
+            transaction.Rollback();
+            return -4;
+        }
     }
 }
