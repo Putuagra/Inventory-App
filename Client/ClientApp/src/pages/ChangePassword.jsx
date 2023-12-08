@@ -5,6 +5,7 @@ import AuthRepository from "../repositories/AuthRepository"
 import ErrorAlert from "../components/ErrorAlert"
 import SuccessAlert from "../components/SuccessAlert"
 import { useNavigate } from 'react-router-dom'
+import { ValidateChangePassword } from "../Validation/Users/UserValidation"
 
 const ChangePassword = () => {
 
@@ -27,6 +28,13 @@ const ChangePassword = () => {
     }
 
     const handleChangeNewPassword = async () => {
+        const validationError = ValidateChangePassword(changePasswordData)
+
+        if (validationError) {
+            ErrorAlert({ message: validationError })
+            return
+        }
+
         try {
             const response = await handleChangePassword(changePasswordData)
             switch (response) {
@@ -58,7 +66,6 @@ const ChangePassword = () => {
 
     const handleValidation = (e) => {
         e.preventDefault()
-        /*setErrors(Validation(newUser))*/
         handleChangeNewPassword()
     }
 
@@ -103,12 +110,6 @@ const ChangePassword = () => {
                         className="btn btn-primary"
                     />
                 </form>
-                {/*<br></br>
-                <Button
-                    name="Login"
-                    className="btn btn-success"
-                    onClick={handleLoginClick}
-                />*/}
             </div>
         </div>
     )
