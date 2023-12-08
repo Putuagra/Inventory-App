@@ -1,4 +1,4 @@
-import { register } from "../apis/UserAPI"
+import { changePassword, forgotPassword, register } from "../apis/UserAPI"
 
 export default function AuthRepository() {
     const handleRegister = async (newUser) => {
@@ -9,5 +9,21 @@ export default function AuthRepository() {
         }
     }
 
-    return { handleRegister }
+    const handleForgotPassword = async (email) => {
+        try {
+            return await forgotPassword(email)
+        } catch (error) {
+            console.error('Error sending forgot password request:', error)
+        }
+    }
+
+    const handleChangePassword = async (data) => {
+        try {
+            return await changePassword(data)
+        } catch (error) {
+            console.error('Error sending change password request:', error)
+        }
+    }
+
+    return { handleRegister, handleForgotPassword, handleChangePassword }
 }
