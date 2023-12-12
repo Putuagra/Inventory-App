@@ -15,6 +15,8 @@ public class InventoryDbContext : DbContext
     public DbSet<Supplier> Suppliers { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> USerRoles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,7 +62,7 @@ public class InventoryDbContext : DbContext
             .WithOne(product => product.Supplier)
             .HasForeignKey(product => product.SupplierGuid);
 
-        // Supplier - Categorys
+        // Supplier - Category
         modelBuilder.Entity<Supplier>()
             .HasMany(supplier => supplier.Categories)
             .WithOne(category => category.Supplier)
