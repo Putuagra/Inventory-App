@@ -46,12 +46,6 @@ export function ValidateData(data) {
         return 'Invalid format email.'
     }
 
-    if (data.otp === '') {
-        return 'OTP is required'
-    } else if (!otpPattern.test(data.otp)) {
-        return 'Invalid format OTP.'
-    }
-
     if (data.password === '') {
         return 'Password is required'
     } else if (!passwordPattern.test(data.password)) {
