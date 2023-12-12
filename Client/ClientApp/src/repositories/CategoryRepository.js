@@ -82,11 +82,12 @@ export default function CategoryRepository() {
 
     const handleDelete = async (categoryGuid) => {
         try {
-            await remove(categoryGuid)
+            const response = await remove(categoryGuid)
             if (categories.length === 1) {
                 setCategories([])
             }
             fetchData()
+            return response
         }
         catch (error) {
             console.error('Error deleting category:', error)

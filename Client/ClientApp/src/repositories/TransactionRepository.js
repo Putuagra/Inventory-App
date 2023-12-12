@@ -126,11 +126,12 @@ export default function TransactionRepository(){
                     await updateStock(productUpdate)
                 }
             }
-            await remove(transactionGuid)
+            const response = await remove(transactionGuid)
             if (transactions.length === 1) {
                 setTransactions([])
             }
             fetchData()
+            return response
         }
         catch (error) {
             console.error('Error deleting transaction:', error)
