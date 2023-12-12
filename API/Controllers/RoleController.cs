@@ -1,4 +1,5 @@
 ﻿using API.DataTransferObjects.Roles;
+using API.DataTransferObjects.Suppliers;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,30 @@ public class RoleController : ControllerBase
     {
         var role = _roleService.Get(guid);
         if(role is null)
+        {
+            return NotFound(new ResponseHandler<RoleDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Role not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<RoleDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Role found",
+            Data = role
+        });
+    }
+
+    [HttpGet("ByName/{name}")]
+    public IActionResult GetName(string name)
+    {
+        var role = _roleService.Get(name);
+
+        if (role is null)
         {
             return NotFound(new ResponseHandler<RoleDtoGet>
             {
