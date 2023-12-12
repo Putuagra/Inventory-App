@@ -31,6 +31,13 @@ public class RoleService
         return(RoleDtoGet)role;
     }
 
+    public RoleDtoGet? Get(String name)
+    {
+        var role = _roleRepository.GetByName(name);
+        if(role is null) return null;
+        return(RoleDtoGet)role;
+    }
+
     public RoleDtoCreate? Create(RoleDtoCreate roleDtoCreate)
     {
         var roleCreated = _roleRepository.Create(roleDtoCreate);
