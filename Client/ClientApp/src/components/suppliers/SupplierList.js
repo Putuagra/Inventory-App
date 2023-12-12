@@ -147,7 +147,7 @@ export default function SupplierList({ suppliers, editingSupplier, handleEdit, h
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
-                                                onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
+                                                    onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
                                             />
                                         </>
                                     )}
