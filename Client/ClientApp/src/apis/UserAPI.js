@@ -55,10 +55,12 @@ export const remove = async (userId) => {
     }
     try {
         const response = await axios.delete(`${apiUrl}/User/${userId}`, { headers })
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
-        throw error
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
     }
 }
 

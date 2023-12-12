@@ -54,8 +54,10 @@ export const remove = async (userRoleId) => {
     }
     try {
         const response = await axios.delete(`${apiUrl}/UserRole/${userRoleId}`, { headers })
-        return response.data
+        return response
     } catch (error) {
-        throw error
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
     }
 }

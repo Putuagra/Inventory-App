@@ -71,8 +71,10 @@ export const remove = async (transactionGuid) => {
     }
     try {
         const response = await axios.delete(`${apiUrl}/Transaction/${transactionGuid}`, { headers })
-        return response.data
+        return response
     } catch (error) {
-        throw error
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
     }
 }

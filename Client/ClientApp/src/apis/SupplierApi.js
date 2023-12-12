@@ -55,10 +55,12 @@ export const remove = async (supllierGuid) => {
     }
     try {
         const response = await axios.delete(`${apiUrl}/Supplier/${supllierGuid}`, { headers })
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
-        throw error
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
     }
 }
 

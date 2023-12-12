@@ -55,10 +55,12 @@ export const remove = async (productGuid) => {
     }
     try {
         const response = await axios.delete(`${apiUrl}/Product/${productGuid}`, { headers })
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
-        throw error
+        if (error.response && error.response.status === 400) {
+            return 400
+        }
     }
 }
 
