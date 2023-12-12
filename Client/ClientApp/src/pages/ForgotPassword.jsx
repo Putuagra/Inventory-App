@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import ErrorAlert from '../components/ErrorAlert'
 import SuccessAlert from '../components/SuccessAlert'
-import { checkEmailAvailability } from '../apis/UserAPI'
 import Button from '../components/Button'
 import AuthRepository from '../repositories/AuthRepository'
 import Input from '../components/Input'
@@ -13,8 +12,8 @@ const ForgotPassword = () => {
     const navigateChangePassword = useNavigate()
 
     const handleChange = (e) => {
-        const { value } = e.target;
-        setEmail(value);
+        const { value } = e.target
+        setEmail(value)
     }
 
     const ForgotPasswordEmail = async () => {

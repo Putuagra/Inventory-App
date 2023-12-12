@@ -35,7 +35,7 @@ export default function SupplierRepositories() {
         catch (error) {
             console.error("Error fetching data: ", error)
         }
-    };
+    }
 
     const handleCreate = async (newSupplier) => {
         try {
@@ -45,16 +45,16 @@ export default function SupplierRepositories() {
         catch (error) {
             console.error("Error create supplier", error)
         }
-    };
+    }
 
     const handleEdit = (supplierGuid) => {
         setEditingSupplier(supplierGuid)
-    };
+    }
 
     const handleInputChange = (supplierGuid, field, value) => {
         const updatedSuplliers = suppliers.map((supplier) => (supplier.guid === supplierGuid ? { ...supplier, [field]: value } : supplier))
         setSuppliers(updatedSuplliers)
-    };
+    }
 
     const handleUpdate = async (updatedSupplier) => {
         try {
@@ -69,19 +69,15 @@ export default function SupplierRepositories() {
 
     const handleDelete = async (supplierGuid) => {
         try {
-            await remove(supplierGuid)
+            const response = await remove(supplierGuid)
             if (suppliers.length === 1) {
                 setSuppliers([])
             }
             fetchData()
+            return response
         }
         catch (error) {
-            if (error.response.status === 400) {
-                console.error('Error deleting supplier:', error.response.data.message)
-                alert("error while delete")
-            } else {
-                console.error('Unexpected error deleting supplier:', error);
-            }
+            console.error('Error deleting supplier request:', error)
         }
     }
     return {
