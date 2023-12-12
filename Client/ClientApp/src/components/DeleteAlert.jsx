@@ -13,12 +13,26 @@ const DeleteAlert = async (props) => {
     })
 
     if (result.isConfirmed) {
-        await handleDelete(guid)
-        Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-        )
+        const response = await handleDelete(guid)
+        if (response.status === 200) {
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        } /*else if (response.status === 400) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Deletion Failed',
+                text: 'This record is associated with other data and cannot be deleted.',
+            })
+        }*/ else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'This record is associated with other data and cannot be deleted.',
+            })
+        }
     }
 }
 
