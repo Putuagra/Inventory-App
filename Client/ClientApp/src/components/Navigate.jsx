@@ -10,19 +10,24 @@ const Navigate = () => {
                     }>Products</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/supplier" className={({ isActive }) =>
-                        isActive ? 'active' : ''
-                    }>Suppliers</NavLink>
-                </li>
-                <li>
                     <NavLink to="/category" className={({ isActive }) =>
                         isActive ? 'active' : ''
                     }>Categories</NavLink>
                 </li>
                 <li>
+                    <NavLink to="/supplier" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Suppliers</NavLink>
+                </li>
+                <li>
                     <NavLink to="/user" className={({ isActive }) =>
                         isActive ? 'active' : ''
                     }>Users</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/role" className={({ isActive }) =>
+                        isActive ? 'active' : ''
+                    }>Roles</NavLink>
                 </li>
                 <li>
                     <NavLink to="/transaction" className={({ isActive }) =>
