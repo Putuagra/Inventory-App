@@ -6,7 +6,7 @@ import { checkProductAvailability } from '../apis/ProductApi'
 import Navigate from '../components/Navigate'
 
 
-const AddCategory = () => {
+const AddProduct = () => {
     const navigate = useNavigate()
     const handleProductClick = () => {
         navigate("/product")
@@ -31,4 +31,4 @@ const AddCategory = () => {
     )
 }
 
-export default AddCategory
+export default AddProduct
