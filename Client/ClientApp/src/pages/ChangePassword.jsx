@@ -18,8 +18,6 @@ const ChangePassword = () => {
         confirmNewPassword: ''
     })
 
-    const [errors, setErrors] = useState({})
-
     const navigateLogin = useNavigate()
 
     const handleChange = (e) => {
