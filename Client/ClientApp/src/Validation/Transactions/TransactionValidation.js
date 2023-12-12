@@ -16,18 +16,18 @@ export function TransactionValidation(value) {
 
 export function ValidateData(data) {
     if (data.quantity === '' && data.userGuid === '' && data.productGuid === '') {
-        return 'Semua field harus diisi.'
+        return 'All fields must be filled in.'
     }
 
     if (data.quantity === '') {
-        return 'Quantity harus diisi.'
+        return 'Quantity is required.'
     } 
 
     if (data.productGuid === '') {
-        return 'Product harus diisi.'
+        return 'Product is required.'
     }
 
     if (data.userGuid === '') {
-        return 'User harus diisi.'
+        return 'User is required.'
     }
 }

@@ -35,25 +35,25 @@ export function SupplierValidation(value) {
 
 export function ValidateData(data){
     if (data.name === '') {
-        return 'Nama harus diisi.'
+        return 'Name is required.'
     } else if (!namePattern.test(data.name)) {
         return 'Invalid format name.'
     }
 
     if (data.email === '') {
-        return 'Email harus diisi.'
+        return 'Email is required.'
     } else if (!emailPattern.test(data.email)) {
         return 'Invalid format email.'
     }
 
     if (data.address === '') {
-        return 'Address harus diisi.'
+        return 'Address is required.'
     } else if (!addressPattern.test(data.address)) {
         return 'Invalid format address.'
     }
 
     if (data.phoneNumber === '') {
-        return 'Phone number harus diisi.'
+        return 'Phone number is required.'
     } else if (!phoneNumberPattern.test(data.phoneNumber)) {
         return 'Invalid format phone number.'
     }
@@ -64,7 +64,7 @@ export function ValidationDuplicate(data, name, email, phoneNumber, emailStatus,
     if (nameStatus === 200 && name !== data.name) {
         return 'Name supplier already exists. Please use a different name.'
     } else if (nameStatus === 500 || nameStatus === 400) {
-        return 'Failed to check name supplier availability. Please try again later.'
+        return 'Failed to check supplier name availability. Please try again later.'
     }
 
     if (emailStatus === 200 && email !== data.email) {
@@ -82,7 +82,7 @@ export function ValidationDuplicate(data, name, email, phoneNumber, emailStatus,
 
 export function StatusValidate(nameStatus, emailStatus, phoneStatus) {
     if (nameStatus === 200) {
-        return 'Name supplier already exists. Please use a different name.'
+        return 'Supplier name already exists. Please use a different name.'
     }
 
     if (emailStatus === 200) {

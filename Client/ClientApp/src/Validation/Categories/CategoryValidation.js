@@ -14,17 +14,17 @@ export function CategoryValidation(value) {
 
 export function ValidateData(data) {
     if (data.name === '' && data.supplierGuid === '') {
-        return 'Semua field harus diisi.'
+        return 'All fields must be filled in.'
     }
 
     if (data.name === '') {
-        return 'Nama harus diisi.'
+        return 'Category name is required'
     } else if (!namePattern.test(data.name)) {
         return 'Invalid format name.'
     }
 
     if (data.supplierGuid === '') {
-        return 'Supplier harus diisi.'
+        return 'Supplier is required'
     }
 }
 

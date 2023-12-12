@@ -38,7 +38,7 @@ export function ProductValidation(value) {
 
 export function ValidateData(data) {
     if (data.name === '' && data.stock === '' && data.price === '' && data.description === '' && data.supplierGuid === '' && data.categoryGuid === '') {
-        return 'Semua field harus diisi.'
+        return 'All fields must be filled in.'
     }
 
     if (data.name === "") {
