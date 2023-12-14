@@ -329,4 +329,56 @@ public class UserController : ControllerBase
             Message = "Password has been changed successfully"
         });
     }
+
+    [AllowAnonymous]
+    [HttpGet("GetByRole/{guid}")]
+    public IActionResult GetByRole(Guid guid)
+    {
+        var users = _userService.GetByRole(guid);
+
+        if (!users.Any())
+        {
+            return NotFound(new ResponseHandler<UserDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No user found",
+                Data = null
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<UserDtoGet>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Users found",
+            Data = users
+        });
+    }
+
+    [AllowAnonymous]
+    [HttpGet("GetExcludeRole/{guid}")]
+    public IActionResult GetExcludeRole(Guid guid)
+    {
+        var users = _userService.GetExcludeRole(guid);
+
+        if (!users.Any())
+        {
+            return NotFound(new ResponseHandler<UserDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No user found",
+                Data = null
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<UserDtoGet>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Users found",
+            Data = users
+        });
+    }
 }
