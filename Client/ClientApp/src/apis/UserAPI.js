@@ -146,3 +146,29 @@ export const getUserByEmail = async (email) => {
         console.error('Error during API request:', error)
     }
 }
+
+export const getByRole = async (roleGuid) => {
+    try {
+        const response = await axios.get(`${apiUrl}/User/GetByRole/${roleGuid}`)
+        return response?.data?.data || []
+    } catch (error) {
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
+    }
+}
+
+export const getExcludeRole = async (roleGuid) => {
+    try {
+        const response = await axios.get(`${apiUrl}/User/GetExcludeRole/${roleGuid}`)
+        return response?.data?.data || []
+    } catch (error) {
+        if (error.response.status === 404) {
+            return []
+        } else {
+            throw error
+        }
+    }
+}
