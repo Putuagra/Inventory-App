@@ -5,7 +5,9 @@ import { SupplierValidation, ValidateData, StatusValidate } from '../../Validati
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 
-export default function SupplierForm({ handleCreate, handleEmail, handlePhoneNumber, handleName }) {
+export default function SupplierForm(props) {
+
+    const { handleCreate, handleEmail, handlePhoneNumber, handleName } = props
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })
 
     const [errors, setErrors] = useState({})

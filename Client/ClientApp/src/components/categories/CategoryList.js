@@ -7,8 +7,9 @@ import ErrorAlert from '../ErrorAlert'
 import DeleteAlert from '../DeleteAlert'
 import { ValidateData, ValidationDuplicate } from '../../Validation/Categories/CategoryValidation'
 
-export default function CategoryList({ categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleDuplicate }) {
+export default function CategoryList(props) {
 
+    const { categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleDuplicate } = props
     const [category, setCategory] = useState('')
 
     const handleCategoryEdit = (guid) => {

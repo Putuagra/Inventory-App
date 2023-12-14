@@ -6,7 +6,9 @@ import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 
-export default function CategoryForm({ handleCreate, suppliers, handleDuplicate }) {
+export default function CategoryForm(props) {
+
+    const { handleCreate, suppliers, handleDuplicate } = props
     const [newCategory, setNewCategory] = useState({ name: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
 

@@ -6,8 +6,9 @@ import ErrorAlert from '../ErrorAlert'
 import DeleteAlert from '../DeleteAlert'
 import { ValidateData, ValidationDuplicate } from '../../Validation/Suppliers/SupplierValidation'
 
-export default function SupplierList({ suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleEmail, handlePhoneNumber, handleName }) {
+export default function SupplierList() {
 
+    const { suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleEmail, handlePhoneNumber, handleName } = props
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [name, setName] = useState('')

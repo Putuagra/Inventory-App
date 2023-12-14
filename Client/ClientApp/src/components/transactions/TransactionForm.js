@@ -6,7 +6,9 @@ import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import { TransactionValidation } from '../../Validation/Transactions/TransactionValidation'
 
-export default function TransactionForm({ handleCreate, products, users, handleUpdateStock }) {
+export default function TransactionForm(props) {
+
+    const { handleCreate, products, users, handleUpdateStock } = props
     const [newTransaction, setNewTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })
 
     const [errors, setErrors] = useState({})

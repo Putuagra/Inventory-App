@@ -11,7 +11,9 @@ const cardStyle = {
     maxWidth: '20rem',
 }
 
-export default function TransactionList({ products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete }) {
+export default function TransactionList(props) {
+
+    const { products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete } = props
 
     const handleUpdateTransaction = async (data) => {
         const selectedProduct = products.find(product => product.guid === data.productGuid)

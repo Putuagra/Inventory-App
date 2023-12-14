@@ -6,7 +6,9 @@ import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import { ProductValidation, ValidateData, StatusValidate } from '../../Validation/Products/ProductValidation'
 
-export default function ProductForm({ handleCreate, suppliers, categories, handleCheckProduct }) {
+export default function ProductForm(props) {
+
+    const { handleCreate, suppliers, categories, handleCheckProduct } = props
     const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
 

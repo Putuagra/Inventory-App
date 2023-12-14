@@ -10,7 +10,9 @@ import { ValidateData, ValidationDuplicate } from '../../Validation/Products/Pro
 const cardStyle = {
     maxWidth: '20rem',
 }
-export default function ProductList({ products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCheckProduct, handleCategoryAvailability }) {
+export default function ProductList(props) {
+
+    const { products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCheckProduct, handleCategoryAvailability } = props
 
     const [name, setName] = useState('')
     const [supplier, setSupplier] = useState('')

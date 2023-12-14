@@ -6,7 +6,10 @@ import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import { Validation, ValidateData } from '../../Validation/Users/UserValidation'
 
-export default function UserForm({ handleRegister, handleCheckEmail }) {
+export default function UserForm(props) {
+
+    const { handleRegister, handleCheckEmail } = props
+
     const navigate = useNavigate()
     const handleLoginClick = () => {
         navigate("/login")
