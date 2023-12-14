@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom'
 import { ValidationDuplicate } from "../../Validation/Roles/RoleValidation"
 import InputUpdate from "../InputUpdate"
 import { checkRole } from "../../apis/RoleApi"
@@ -11,10 +12,15 @@ export default function RoleList(props) {
     const { roles, handleUpdate, editingRole, handleInputChange, handleEdit, handleDelete } = props
 
     const [nameRole, setNameRole] = useState('')
+    const navigate = useNavigate()
 
     const handleRoleEdit = (guid) => {
         const roleToEdit = roles.find((role) => role.guid === guid)
         setNameRole(roleToEdit.name)
+    }
+
+    const handleDetailsClick = (guid) => {
+        navigate("/user-role", { state: { guid } });
     }
 
     const handleUpdateRole = async (data) => {
@@ -82,12 +88,17 @@ export default function RoleList(props) {
                                                     handleRoleEdit(data.guid)
                                                     handleEdit(data.guid)
                                                 }}
-                                            />
+                                                />
                                             <Button
                                                 name="Delete"
                                                 className="btn btn-danger"
                                                 onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
-                                            />
+                                                />
+                                                <Button
+                                                    name="Details"
+                                                    className="btn btn-info"
+                                                    onClick={() => handleDetailsClick(data.guid)}
+                                                />
                                         </>
                                     )}
                                 </td>
