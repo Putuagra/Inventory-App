@@ -18,6 +18,8 @@ import ForgotPassword from './pages/ForgotPassword'
 import ChangePassword from './pages/ChangePassword'
 import RolePage from './pages/RolePage'
 import AddRole from './pages/AddRole'
+import UserRolePage from './pages/UserRolePage'
+import AddUserRole from './pages/AddUserRole'
 
 const App = () => {
 
@@ -32,12 +34,14 @@ const App = () => {
                     <Route path="/user" element={<UserPage />} />
                     <Route path="/transaction" element={<TransactionPage />} />
                     <Route path="/role" element={<RolePage />} />
+                    <Route path="/user-role" element={<UserRolePage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/add-supplier" element={<AddSupplier />} />
                     <Route path="/add-category" element={<AddCategory />} />
                     <Route path="/add-product" element={<AddProduct />} />
                     <Route path="/add-transaction" element={<AddTransaction />} />
                     <Route path="/add-role" element={<AddRole />} />
+                    <Route path="/add-user-role" element={<AddUserRole />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/change-password" element={<ChangePassword /> } />
