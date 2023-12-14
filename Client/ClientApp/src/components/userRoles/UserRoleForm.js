@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate, useLocation } from 'react-router-dom'
 import Button from "../Button"
 import ErrorAlert from "../ErrorAlert"
 import Select from "../Select"
@@ -8,7 +9,10 @@ import { getExcludeRole } from "../../apis/UserAPI"
 export default function UserRoleForm(props) {
 
     const { handleCreate, roleGuid } = props
-    const [newUserRole, setNewUserRole] = useState({ userGuid: '', roleGuid: roleGuid })
+    const navigate = useNavigate()
+    const location = useLocation()
+    const guid = location.state?.guid
+    const [newUserRole, setNewUserRole] = useState({ userGuid: '', roleGuid })
     const [excludeUsers, setExcludeUsers] = useState([])
 
     const handleChange = (e) => {
@@ -16,12 +20,17 @@ export default function UserRoleForm(props) {
         setNewUserRole({ ...newUserRole, userGuid: value })
     }
 
+    const handleBackClick = () => {
+        navigate("/user-role", { state: { guid } })
+    }
+
     const handleCreateUserRole = async () => {
         try {
             await excludeRole()
             await handleCreate(newUserRole)
-            setNewUserRole({ userGuid: '' })
+            setNewUserRole({ ...newUserRole, userGuid: ''})
             SuccessAlert({ message: 'Add User Role successful.' })
+            handleBackClick()
         } catch(error){
             console.error('Error during add:', error)
             ErrorAlert({ message: 'Failed to add user role. Please try again later.' })
