@@ -1,5 +1,7 @@
 ﻿using API.Contracts;
+using API.DataTransferObjects.Products;
 using API.DataTransferObjects.UserRoles;
+using API.Repositories;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Services;
@@ -53,5 +55,13 @@ public class UserRoleService
         if(userRole is null) return -1;
         var userRoleDeleted = _userRoleRepository.Delete(userRole);
         return userRoleDeleted ? 1 : 0;
+    }
+
+    public UserRoleDtoGet? CheckUserRole(Guid userGuid, Guid roleGuid)
+    {
+        var userRole = _userRoleRepository.CheckUserRole(userGuid, roleGuid);
+        if (userRole is null) return null;
+
+        return (UserRoleDtoGet)userRole;
     }
 }
