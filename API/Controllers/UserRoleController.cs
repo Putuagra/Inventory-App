@@ -1,4 +1,5 @@
-﻿using API.DataTransferObjects.Roles;
+﻿using API.DataTransferObjects.Products;
+using API.DataTransferObjects.Roles;
 using API.DataTransferObjects.UserRoles;
 using API.Services;
 using API.Utilities.Handlers;
@@ -57,6 +58,29 @@ public class UserRoleController : ControllerBase
             });
         }
 
+        return Ok(new ResponseHandler<UserRoleDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "User role found",
+            Data = userRole
+        });
+    }
+
+    [HttpGet("CheckUserRole/{userGuid}/{roleGuid}")]
+    public IActionResult Get(Guid userGuid, Guid roleGuid)
+    {
+        var userRole = _userRoleService.CheckUserRole(userGuid, roleGuid);
+        if (userRole is null)
+        {
+            return NotFound(new ResponseHandler<UserRoleDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No user role found",
+                Data = null
+            });
+        }
         return Ok(new ResponseHandler<UserRoleDtoGet>
         {
             Code = StatusCodes.Status200OK,
