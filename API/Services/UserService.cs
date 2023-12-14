@@ -12,16 +12,20 @@ namespace API.Services;
 public class UserService
 {
     private readonly InventoryDbContext _inventoryDbContext;
+    private readonly IRoleRepository _roleRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
     private readonly ITokenHandler _tokenHandler;
     private readonly IEmailHandler _emailHandler;
 
-    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext, ITokenHandler tokenHandler, IEmailHandler emailHandler)
+    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext, ITokenHandler tokenHandler, IEmailHandler emailHandler, IUserRoleRepository userRoleRepository, IRoleRepository roleRepository)
     {
         _userRepository = userRepository;
         _inventoryDbContext = inventoryDbContext;
         _tokenHandler = tokenHandler;
         _emailHandler = emailHandler;
+        _userRoleRepository = userRoleRepository;
+        _roleRepository = roleRepository;
     }
 
     public IEnumerable<UserDtoGet> Get()
@@ -164,5 +168,32 @@ public class UserService
             transaction.Rollback();
             return -4;
         }
+    }
+
+    public IEnumerable<UserDtoGet> GetByRole(Guid roleGuid)
+    {
+        var userByRole = (from user in _userRepository.GetAll()
+                          join accountRole in _userRoleRepository.GetAll() on user.Guid equals accountRole.UserGuid
+                          join role in _roleRepository.GetAll() on accountRole.RoleGuid equals role.Guid
+                          where accountRole.RoleGuid == roleGuid
+                          select (UserDtoGet)user).ToList();
+
+        return userByRole;
+    }
+
+    public IEnumerable<UserDtoGet> GetExcludeRole(Guid roleGuid)
+    {
+        var userByRole = GetByRole(roleGuid);
+        var users = _userRepository.GetAll();
+
+        var usersByRoleGuid = userByRole.Select(user => user.Guid).ToList();
+        var userExcludeRole = users.Where(user => !usersByRoleGuid.Contains(user.Guid)).ToList();
+
+        if(!userExcludeRole.Any()) return Enumerable.Empty<UserDtoGet>();
+        List<UserDtoGet> userDtoGets = new();
+
+        foreach (var user in userExcludeRole) userDtoGets.Add((UserDtoGet)user);
+
+        return userDtoGets;
     }
 }
