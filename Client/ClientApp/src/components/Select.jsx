@@ -21,7 +21,7 @@ const Select = (props) => {
             </select>
         </div>
         
-    );
-};
+    )
+}
 
-export default Select;
+export default Select
