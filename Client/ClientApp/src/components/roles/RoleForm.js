@@ -4,10 +4,12 @@ import ErrorAlert from "../ErrorAlert"
 import SuccessAlert from "../SuccessAlert"
 import Input from "../Input"
 import Button from "../Button"
+import { useNavigate } from 'react-router-dom'
 
 const RoleForm = (props) => {
     const { handleCreate, handleCheckRole } = props
     const [newRole, setNewRole] = useState({ name: '' })
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { value } = e.target
@@ -33,6 +35,7 @@ const RoleForm = (props) => {
                 await handleCreate(newRole)
                 setNewRole({ name: '' })
                 SuccessAlert({ message: 'Add Role Name successful.' })
+                navigate("/role")
             } catch (error) {
                 console.error('Error during add:', error)
                 ErrorAlert({ message: 'Failed to add role. Please try again later.' })
