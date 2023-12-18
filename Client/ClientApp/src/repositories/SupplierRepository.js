@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { getAllSuppliers, create, update, remove } from '../apis/SupplierApi'
+import { getAllSuppliers, create, update, remove, GetSupplierById } from '../apis/SupplierApi'
 import { useNavigate } from 'react-router-dom'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { jwtDecode } from "jwt-decode"
 
-export default function SupplierRepositories() {
+export default function SupplierRepository() {
     const [suppliers, setSuppliers] = useState([])
     const [editingSupplier, setEditingSupplier] = useState(null)
     const navigateAuthenticated = useNavigate()
@@ -80,7 +80,16 @@ export default function SupplierRepositories() {
             console.error('Error deleting supplier request:', error)
         }
     }
+
+    const handleGetSupplierById = async (guid) => {
+        try {
+            return await GetSupplierById(guid)
+        } catch (error) {
+            console.error('Error sending get supplier request:', error)
+        }
+    }
+
     return {
-        suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+        suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetSupplierById
     }
 }
