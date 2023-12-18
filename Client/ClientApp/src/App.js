@@ -24,6 +24,7 @@ import ProductUpdatePage from './pages/ProductUpdatePage'
 import CategoryUpdatePage from './pages/CategoryUpdatePage'
 import SupplierUpdatePage from './pages/SupplierUpdatePage'
 import RoleUpdatePage from './pages/RoleUpdatePage'
+import TransactionUpdatePage from './pages/TransactionUpdatePage'
 
 const App = () => {
 
@@ -53,6 +54,7 @@ const App = () => {
                     <Route path="/update-category" element={<CategoryUpdatePage />} />
                     <Route path="/update-supplier" element={<SupplierUpdatePage />} />
                     <Route path="/update-role" element={<RoleUpdatePage />} />
+                    <Route path="/update-transaction" element={<TransactionUpdatePage />} />
                     <Route path="/error401" element={<Page401 />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
