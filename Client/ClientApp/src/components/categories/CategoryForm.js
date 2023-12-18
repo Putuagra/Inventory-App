@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CategoryValidation, ValidateData } from '../../Validation/Categories/CategoryValidation'
 import Button from '../Button'
 import Input from '../Input'
@@ -16,6 +17,8 @@ export default function CategoryForm(props) {
         const { name, value } = e.target
         setNewCategory({ ...newCategory, [name]: value })
     }
+
+    const navigate = useNavigate()
 
     const handleCreateCategory = async () => {
         const validationError = ValidateData(newCategory)
@@ -35,6 +38,7 @@ export default function CategoryForm(props) {
             await handleCreate(newCategory)
             setNewCategory({ name: '', supplierGuid: '' })
             SuccessAlert({ message: 'Add category successful.' })
+            navigate("/category")
         } catch (error) {
             console.error('Error during add:', error);
             ErrorAlert({ message: 'Failed to add category. Please try again later.' })
