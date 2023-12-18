@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from '../Button'
 import Input from '../Input'
 import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import { ProductValidation, ValidateData, StatusValidate } from '../../Validation/Products/ProductValidation'
+import { useNavigate } from 'react-router-dom'
 
 export default function ProductForm(props) {
 
     const { handleCreate, suppliers, categories, handleCheckProduct } = props
     const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -45,6 +47,7 @@ export default function ProductForm(props) {
                 await handleCreate(newProduct);
                 setNewProduct({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
                 SuccessAlert({ message: 'Add product successful.' })
+                navigate("/product")
             } catch (error) {
                 console.error('Error during add:', error)
                 ErrorAlert({ message: 'Failed to add product. Please try again later.' })
