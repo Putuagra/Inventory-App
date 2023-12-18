@@ -95,3 +95,20 @@ export const checkDuplicate = async (name, supplierGuid) => {
         console.error('Error during API request:', error)
     }
 }
+
+export const GetCategoryById = async (guid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
+    try {
+        const response = await axios.get(`${apiUrl}/Category/${guid}`, { headers })
+        return response
+    }
+    catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        console.error('Error during API request:', error)
+    }
+}
