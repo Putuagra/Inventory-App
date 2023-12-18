@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { create, getAllRoles, remove, update } from "../apis/RoleApi"
+import { GetRoleById, create, getAllRoles, remove, update } from "../apis/RoleApi"
 import { GetAuth, RemoveAuth } from "../components/Auth"
 import { jwtDecode } from "jwt-decode"
 import { useNavigate } from 'react-router-dom'
@@ -77,7 +77,15 @@ export default function RoleRepository() {
         }
     }
 
+    const handleGetRoleById = async (guid) => {
+        try {
+            return await GetRoleById(guid)
+        } catch (error) {
+            console.error('Error sending get role request:', error)
+        }
+    }
+
     return {
-        roles, editingRole, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+        roles, editingRole, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetRoleById
     }
 }
