@@ -8,7 +8,7 @@ const Input = (props) => {
         onChange,
         errors, } = props
     return (
-        <div className="col-md-5">
+        <div className="col-md-6">
             <label className="form-label">{placeholder}</label>
             <input
                 className="form-input"
