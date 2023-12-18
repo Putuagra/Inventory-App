@@ -1,5 +1,4 @@
 import Button from "../components/Button"
-import { checkDuplicate } from "../apis/CategoryApi"
 import { useNavigate } from 'react-router-dom'
 import CategoryRepository from "../repositories/CategoryRepository"
 import CategoryList from "../components/categories/CategoryList"
@@ -8,7 +7,7 @@ import Navigate from "../components/Navigate"
 const CategoryPage = () => {
     const navigate = useNavigate()
     
-    const { categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete } = CategoryRepository()
+    const { categories, suppliers, handleDelete } = CategoryRepository()
 
     const handleAddCategoryClick = () => {
         navigate("/add-category")
@@ -20,12 +19,7 @@ const CategoryPage = () => {
             <CategoryList
                 categories={categories}
                 suppliers={suppliers}
-                editingCategory={editingCategory}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
-                handleDuplicate={checkDuplicate}
             />
             <Button
                 name="Add Supplier"
