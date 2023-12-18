@@ -76,3 +76,20 @@ export const checkRole = async (name) => {
         console.error('Error during API request:', error)
     }
 }
+
+export const GetRoleById = async (guid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
+    try {
+        const response = await axios.get(`${apiUrl}/Role/${guid}`, { headers })
+        return response
+    }
+    catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        console.error('Error during API request:', error)
+    }
+}
