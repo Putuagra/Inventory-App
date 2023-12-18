@@ -1,4 +1,3 @@
-import { checkEmailAvailability, checkName, checkPhoneAvailability } from "../apis/SupplierApi"
 import Button from "../components/Button"
 import { useNavigate } from 'react-router-dom'
 import SupplierRepository from "../repositories/SupplierRepository"
@@ -8,22 +7,17 @@ import SupplierList from "../components/suppliers/SupplierList"
 const SupplierPage = () => {
     const navigate = useNavigate()
     const { suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete } = SupplierRepository()
+
     const handleAddSupplierClick = () => {
         navigate("/add-supplier")
     }
+
     return (
         <div className="container">
             <Navigate />
             <SupplierList
                 suppliers={suppliers}
-                editingSupplier={editingSupplier}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
-                handleEmail={checkEmailAvailability}
-                handlePhoneNumber={checkPhoneAvailability}
-                handleName={checkName}
             />
             <Button
                 name="Add Supplier"
