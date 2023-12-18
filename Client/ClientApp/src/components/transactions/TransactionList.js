@@ -6,6 +6,7 @@ import ErrorAlert from '../ErrorAlert'
 import DeleteAlert from '../DeleteAlert'
 import InputUpdate from '../InputUpdate'
 import { ValidateData } from '../../Validation/Transactions/TransactionValidation'
+import { useNavigate } from 'react-router-dom'
 
 const cardStyle = {
     maxWidth: '20rem',
@@ -14,6 +15,8 @@ const cardStyle = {
 export default function TransactionList(props) {
 
     const { products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete } = props
+
+    const navigate = useNavigate()
 
     const handleUpdateTransaction = async (data) => {
         const selectedProduct = products.find(product => product.guid === data.productGuid)
@@ -42,6 +45,21 @@ export default function TransactionList(props) {
             ErrorAlert({ message: 'Invalid product or insufficient stock.!' })
             console.log("Invalid product or insufficient stock.")
         }
+    }
+
+    const handleUpdateClick = (guid) => {
+        const transactionToEdit = transactions.find((transaction) => transaction.guid === guid)
+        const prevTransactionQuantity = transactionToEdit.quantity
+        const prevTransactionProduct = transactionToEdit.productGuid
+        const prevTransactionUser = transactionToEdit.userGuid
+        navigate("/update-transaction", {
+            state: {
+                guid,
+                prevTransactionQuantity: prevTransactionQuantity,
+                prevTransactionProduct: prevTransactionProduct,
+                prevTransactionUser: prevTransactionUser
+            }
+        })
     }
 
     return (
@@ -116,7 +134,7 @@ export default function TransactionList(props) {
                                                 name="Edit"
                                                 className="btn btn-primary"
                                                 onClick={() => {
-                                                    handleEdit(data.guid)
+                                                    handleUpdateClick(data.guid)
                                                 }}
                                             />
                                             <Button
