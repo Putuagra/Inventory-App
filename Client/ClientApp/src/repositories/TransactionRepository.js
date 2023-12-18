@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAll } from '../apis/UserAPI'
 import { getAllProducts, updateStock } from '../apis/ProductApi'
-import { getAllTransactions, getTransactionByGuid, create, update, remove } from '../apis/TransactionApi'
+import { getAllTransactions, getTransactionByGuid, create, update, remove, GetTransactionById } from '../apis/TransactionApi'
 import { useNavigate } from 'react-router-dom'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { jwtDecode } from "jwt-decode"
@@ -147,7 +147,15 @@ export default function TransactionRepository(){
         }
     }
 
+    const handleGetTransactionById = async (guid) => {
+        try {
+            return await GetTransactionById(guid)
+        } catch (error) {
+            console.error('Error sending get transaction request:', error)
+        }
+    }
+
     return {
-        products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete, handleUpdateStock, handleCreate
+        products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete, handleUpdateStock, handleCreate, handleGetTransactionById
     }
 }
