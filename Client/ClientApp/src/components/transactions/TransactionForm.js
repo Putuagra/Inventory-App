@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from '../Button'
 import Input from '../Input'
 import Select from '../Select'
@@ -12,6 +13,8 @@ export default function TransactionForm(props) {
     const [newTransaction, setNewTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })
 
     const [errors, setErrors] = useState({})
+
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -33,6 +36,7 @@ export default function TransactionForm(props) {
                     await handleCreate(newTransaction)
                     setNewTransaction({ productGuid: '', userGuid: '', quantity: '' })
                     SuccessAlert({ message: 'Your transaction has been successfully' })
+                    navigate('/transaction')
                 }   
             } catch (error) {
                 ErrorAlert({ message: 'Error updating stock!' })
