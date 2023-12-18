@@ -110,7 +110,7 @@ export default function ProductRepository() {
         try {
             return await GetProductById(guid)
         } catch (error) {
-            console.error('Error sending forgot password request:', error)
+            console.error('Error sending get product request:', error)
         }
     }
 
