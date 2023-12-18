@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getAll, create, update, remove} from '../apis/CategoryApi'
+import { getAll, create, update, remove, GetCategoryById} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
@@ -93,7 +93,16 @@ export default function CategoryRepository() {
             console.error('Error deleting category:', error)
         }
     }
+
+    const handleGetCategoryById = async (guid) => {
+        try {
+            return await GetCategoryById(guid)
+        } catch (error) {
+            console.error('Error sending get category request:', error)
+        }
+    }
+
     return {
-        categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+        categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetCategoryById
     }
 }
