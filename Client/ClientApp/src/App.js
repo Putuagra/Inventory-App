@@ -21,6 +21,7 @@ import AddRole from './pages/AddRole'
 import UserRolePage from './pages/UserRolePage'
 import AddUserRole from './pages/AddUserRole'
 import ProductUpdatePage from './pages/ProductUpdatePage'
+import CategoryUpdatePage from './pages/CategoryUpdatePage'
 
 const App = () => {
 
@@ -47,6 +48,7 @@ const App = () => {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/change-password" element={<ChangePassword />} />
                     <Route path="/update-product" element={<ProductUpdatePage />} />
+                    <Route path="/update-category" element={<CategoryUpdatePage />} />
                     <Route path="/error401" element={<Page401 />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
