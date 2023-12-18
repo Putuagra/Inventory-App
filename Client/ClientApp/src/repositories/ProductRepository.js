@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAllSuppliers } from '../apis/SupplierApi'
 import { getAll} from '../apis/CategoryApi'
-import { getAllProducts, create, update, remove } from '../apis/ProductApi'
+import { getAllProducts, create, update, remove, GetProductById } from '../apis/ProductApi'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode"
@@ -106,7 +106,15 @@ export default function ProductRepository() {
         }
     }
 
+    const handleGetProductById = async (guid) => {
+        try {
+            return await GetProductById(guid)
+        } catch (error) {
+            console.error('Error sending forgot password request:', error)
+        }
+    }
+
     return {
-        products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate
+        products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetProductById
     }
 }
