@@ -4,11 +4,14 @@ import Button from '../Button'
 import { SupplierValidation, ValidateData, StatusValidate } from '../../Validation/Suppliers/SupplierValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
+import { useNavigate } from 'react-router-dom'
 
 export default function SupplierForm(props) {
 
     const { handleCreate, handleEmail, handlePhoneNumber, handleName } = props
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })
+
+    const navigate = useNavigate()
 
     const [errors, setErrors] = useState({})
 
@@ -40,6 +43,7 @@ export default function SupplierForm(props) {
             await handleCreate(newSupplier)
             setNewSupplier({ name: '', address: '', email: '', phoneNumber: '' })
             SuccessAlert({ message: 'Add supplier successful.' })
+            navigate("/supplier")
         } catch (error) {
             console.error('Error during add:', error)
             ErrorAlert({ message: 'Failed to add supplier. Please try again later.' })
@@ -99,5 +103,5 @@ export default function SupplierForm(props) {
                 </form>
             </div>
         </div>
-    );
+    )
 }
