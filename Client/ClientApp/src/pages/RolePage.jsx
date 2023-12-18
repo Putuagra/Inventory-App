@@ -6,7 +6,7 @@ import Button from '../components/Button'
 
 const RolePage = () => {
     const navigate = useNavigate()
-    const { roles, handleUpdate, editingRole, handleInputChange, handleEdit, handleDelete } = RoleRepository()
+    const { roles, handleDelete } = RoleRepository()
 
     const handleAddRoleClick = () => {
         navigate("/add-role")
@@ -17,10 +17,6 @@ const RolePage = () => {
             <Navigate />
             <RoleList
                 roles={roles}
-                handleUpdate={handleUpdate}
-                editingRole={editingRole}
-                handleInputChange={handleInputChange}
-                handleEdit={handleEdit}
                 handleDelete={handleDelete}
             />
             <Button
