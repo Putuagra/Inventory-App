@@ -1,11 +1,6 @@
 ﻿using API.Contracts;
 using API.Data;
 using API.DataTransferObjects.Users;
-using API.Models;
-using API.Utilities.Handlers;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using static System.Net.WebRequestMethods;
 
 namespace API.Services;
 
@@ -14,26 +9,28 @@ public class UserService
     private readonly InventoryDbContext _inventoryDbContext;
     private readonly IRoleRepository _roleRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly IAccountRepository _accountRepository;
     private readonly ITokenHandler _tokenHandler;
     private readonly IEmailHandler _emailHandler;
 
-    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext, ITokenHandler tokenHandler, IEmailHandler emailHandler, IUserRoleRepository userRoleRepository, IRoleRepository roleRepository)
+    public UserService(IUserRepository userRepository, InventoryDbContext inventoryDbContext, ITokenHandler tokenHandler, IEmailHandler emailHandler, IAccountRoleRepository accountRoleRepository, IRoleRepository roleRepository, IAccountRepository accountRepository)
     {
         _userRepository = userRepository;
         _inventoryDbContext = inventoryDbContext;
         _tokenHandler = tokenHandler;
         _emailHandler = emailHandler;
-        _userRoleRepository = userRoleRepository;
+        _accountRoleRepository = accountRoleRepository;
         _roleRepository = roleRepository;
+        _accountRepository = accountRepository;
     }
 
     public IEnumerable<UserDtoGet> Get()
     {
         var users = _userRepository.GetAll().ToList();
-        if(!users.Any()) return Enumerable.Empty<UserDtoGet>();
+        if (!users.Any()) return Enumerable.Empty<UserDtoGet>();
         List<UserDtoGet> userDtoGets = new List<UserDtoGet>();
-        foreach(var user in users)
+        foreach (var user in users)
         {
             userDtoGets.Add((UserDtoGet)user);
         }
@@ -44,7 +41,7 @@ public class UserService
     public UserDtoGet? Get(Guid guid)
     {
         var user = _userRepository.GetByGuid(guid);
-        if(user is null) return null;
+        if (user is null) return null;
         return (UserDtoGet)user;
     }
 
@@ -79,101 +76,11 @@ public class UserService
         return userDeleted ? 1 : 0;
     }
 
-    public bool Register(UserDtoRegister userDtoRegister)
-    {
-        using var transaction = _inventoryDbContext.Database.BeginTransaction();
-
-        try
-        {
-            _userRepository.Create(userDtoRegister);
-            transaction.Commit();
-            return true;
-        }catch 
-        {
-            transaction.Rollback();
-            return false;
-        }
-    }
-
-    public string Login(UserDtoLogin userDtoLogin)
-    {
-        var user = _userRepository.GetUserByEmail(userDtoLogin.Email);
-        if (user is null) return "0";
-
-        if(!HashingHandler.Validate(userDtoLogin.Password, user!.Password)) return "-1";
-
-        try
-        {
-            var claims = new List<Claim>()
-            {
-                new Claim("Guid", user.Guid.ToString()),
-                new Claim("Name", $"{user.Name}"),
-            };
-            var token = _tokenHandler.GenerateToken(claims);
-            return token;
-        }
-        catch
-        {
-            return "-2";
-        }
-    }
-
-    public int ForgotPassword(UserDtoForgotPassword userDtoForgotPassword)
-    {
-        var user = _userRepository.GetUserByEmail(userDtoForgotPassword.Email);
-        if (user is null) return 0;
-        var user_guid = _userRepository.GetByGuid(user.Guid);
-        var otp = new Random().Next(111111, 999999);
-        var isUpdated = _userRepository.Update(new User
-        {
-            Guid = user_guid.Guid,
-            Name = user_guid.Name,
-            Email = user_guid.Email,
-            Password = user_guid.Password,
-            Otp = otp,
-            ExpiredTime = DateTime.Now.AddMinutes(5),
-            IsUsed = false
-        });
-        if (!isUpdated) return -1;
-        _emailHandler.SendEmail(userDtoForgotPassword.Email,"Forgot Password",$"Your OTP is {otp}");
-        return 1;
-    }
-
-    public int ChangePassword(UserDtoChangePassword userDtoChangePassword)
-    {
-        using var transaction = _inventoryDbContext.Database.BeginTransaction();
-        var user = _userRepository.GetUserByEmail(userDtoChangePassword.Email);
-        if (user is null) return 0;
-        var user_guid = _userRepository.GetByGuid(user.Guid);
-        if(user_guid.IsUsed) return -1;
-        if(user_guid.Otp != userDtoChangePassword.Otp) return -2;
-        if(user_guid.ExpiredTime < DateTime.Now) return -3;
-        /*var isUpdated = _userRepository.Update(new User
-        {
-            Password = HashingHandler.Hash(userDtoChangePassword.NewPassword),
-            IsUsed = true,
-        });
-        return isUpdated ? 1 : -4;*/
-        try
-        {
-            var isUpdated = _userRepository.Update(new User
-            {
-                Password = HashingHandler.Hash(userDtoChangePassword.NewPassword),
-                IsUsed = true,
-            });
-            transaction.Commit();
-            return 1;
-        }catch 
-        {
-            transaction.Rollback();
-            return -4;
-        }
-    }
-
     public IEnumerable<UserDtoGet> GetByRole(Guid roleGuid)
     {
         var userByRole = (from user in _userRepository.GetAll()
-                          join accountRole in _userRoleRepository.GetAll() on user.Guid equals accountRole.UserGuid
+                          join account in _accountRepository.GetAll() on user.Guid equals account.Guid
+                          join accountRole in _accountRoleRepository.GetAll() on account.Guid equals accountRole.AccountGuid
                           join role in _roleRepository.GetAll() on accountRole.RoleGuid equals role.Guid
                           where accountRole.RoleGuid == roleGuid
                           select (UserDtoGet)user).ToList();
@@ -189,7 +96,7 @@ public class UserService
         var usersByRoleGuid = userByRole.Select(user => user.Guid).ToList();
         var userExcludeRole = users.Where(user => !usersByRoleGuid.Contains(user.Guid)).ToList();
 
-        if(!userExcludeRole.Any()) return Enumerable.Empty<UserDtoGet>();
+        if (!userExcludeRole.Any()) return Enumerable.Empty<UserDtoGet>();
         List<UserDtoGet> userDtoGets = new();
 
         foreach (var user in userExcludeRole) userDtoGets.Add((UserDtoGet)user);
