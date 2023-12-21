@@ -1,10 +1,10 @@
 ﻿using API.Contracts;
-using API.DataTransferObjects.Users;
+using API.DataTransferObjects.Accounts;
 using FluentValidation;
 
 namespace API.Utilities.Validations.Users;
 
-public class UserRegisterValidation : AbstractValidator<UserDtoRegister>
+public class UserRegisterValidation : AbstractValidator<AccountDtoRegister>
 {
     private readonly IUserRepository _userRepository;
 
