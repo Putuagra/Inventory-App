@@ -48,7 +48,7 @@ public class UserController : ControllerBase
     public IActionResult Get(Guid guid)
     {
         var user = _userService.Get(guid);
-        if(user is null)
+        if (user is null)
         {
             return NotFound(new ResponseHandler<UserDtoGet>
             {
@@ -95,7 +95,7 @@ public class UserController : ControllerBase
     public IActionResult Create(UserDtoCreate userDtoCreate)
     {
         var userCreated = _userService.Create(userDtoCreate);
-        if(userCreated is null)
+        if (userCreated is null)
         {
             return BadRequest(new ResponseHandler<UserDtoCreate>
             {
@@ -119,7 +119,7 @@ public class UserController : ControllerBase
     {
         var userUpdated = _userService.Update(userDtoUpdate);
 
-        if(userUpdated == -1)
+        if (userUpdated == -1)
         {
             return NotFound(new ResponseHandler<UserDtoUpdate>
             {
@@ -129,7 +129,7 @@ public class UserController : ControllerBase
                 Data = null
             });
         }
-        if(userUpdated == 0)
+        if (userUpdated == 0)
         {
             return BadRequest(new ResponseHandler<UserDtoUpdate>
             {
@@ -153,7 +153,8 @@ public class UserController : ControllerBase
     {
         var userDeleted = _userService.Delete(guid);
 
-        if(userDeleted == -1) {
+        if (userDeleted == -1)
+        {
             return NotFound(new ResponseHandler<UserDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
@@ -162,7 +163,7 @@ public class UserController : ControllerBase
                 Data = null
             });
         }
-        if(userDeleted == 0)
+        if (userDeleted == 0)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoGet>
             {
@@ -177,156 +178,6 @@ public class UserController : ControllerBase
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "User deleted",
-        });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("register")]
-    public IActionResult Regiter(UserDtoRegister userDtoRegister)
-    {
-        var userCreated = _userService.Register(userDtoRegister);
-        if(!userCreated)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoRegister>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "User not registered",
-                Data = null
-            });
-        return Ok(new ResponseHandler<UserDtoRegister>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "User registered",
-            Data = userDtoRegister
-        });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("login")]
-    public IActionResult Login(UserDtoLogin userDtoLogin)
-    {
-        var login = _userService.Login(userDtoLogin);
-        if (login == "0")
-            return NotFound(new ResponseHandler<UserDtoLogin>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "User not found"
-            });
-        if (login == "-1")
-            return BadRequest(new ResponseHandler<UserDtoLogin>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Password is incorrect"
-            });
-        if (login == "-2")
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoLogin>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving when creating token"
-            });
-        return Ok(new ResponseHandler<string>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Login Success",
-            Data = login
-        });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("ForgotPassword")]
-    public IActionResult ForgotPassword(UserDtoForgotPassword userDtoForgotPassword)
-    {
-        var isUpdated = _userService.ForgotPassword(userDtoForgotPassword);
-
-        if (isUpdated == 0)
-            return NotFound(new ResponseHandler<UserDtoGet>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Email not found",
-                Data = null
-            });
-
-        if (isUpdated is -1)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoGet>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database",
-                Data = null
-            });
-
-        return Ok(new ResponseHandler<UserDtoGet>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Otp has been sent to your email",
-            Data = null
-        });
-    }
-
-    [AllowAnonymous]
-    [HttpPost("ChangePassword")]
-    public IActionResult ChangePassword(UserDtoChangePassword userDtoChangePassword)
-    { 
-        var isUpdated = _userService.ChangePassword(userDtoChangePassword);
-
-        if (isUpdated == 0)
-            return NotFound(new ResponseHandler<UserDtoUpdateChangePassword>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Email not found"
-            });
-
-        if (isUpdated == -1)
-        {
-            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Otp is already used"
-            });
-        }
-
-        if (isUpdated == -2)
-        {
-            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Otp is incorrect"
-            });
-        }
-
-        if (isUpdated == -3)
-        {
-            return BadRequest(new ResponseHandler<UserDtoUpdateChangePassword>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Otp is expired"
-            });
-        }
-
-        if (isUpdated is -4)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<UserDtoUpdateChangePassword>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database"
-            });
-
-        return Ok(new ResponseHandler<UserDtoUpdateChangePassword>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Password has been changed successfully"
         });
     }
 
