@@ -25,13 +25,14 @@ builder.Services.AddDbContext<InventoryDbContext>(options => options.UseSqlServe
 
 
 // Register repositories
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 
 // Add SmtpClient
 builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler(builder.Configuration["EmailService:SmtpServer"],
@@ -43,13 +44,14 @@ builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 
 // Register services
-builder.Services.AddScoped<CategoryServices>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<SupplierService>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<AccountRoleService>();
 
 // Register Fluent validation
 builder.Services.AddFluentValidationAutoValidation()
