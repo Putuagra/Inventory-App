@@ -174,17 +174,15 @@ public class AccountService
         if (account.IsUsed) return -1;
         if (account.Otp != accountDtoChangePassword.Otp) return -2;
         if (account.ExpiredTime < DateTime.Now) return -3;
-        /*var isUpdated = _userRepository.Update(new User
-        {
-            Password = HashingHandler.Hash(userDtoChangePassword.NewPassword),
-            IsUsed = true,
-        });
-        return isUpdated ? 1 : -4;*/
+
         try
         {
             var isUpdated = _accountRepository.Update(new Account
             {
+                Guid = account.Guid,
                 Password = HashingHandler.Hash(accountDtoChangePassword.NewPassword),
+                Otp = account.Otp,
+                ExpiredTime = account.ExpiredTime,
                 IsUsed = true,
             });
             transaction.Commit();
