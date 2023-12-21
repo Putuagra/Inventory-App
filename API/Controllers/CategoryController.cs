@@ -13,9 +13,9 @@ namespace API.Controllers;
 
 public class CategoryController : ControllerBase
 {
-    private readonly CategoryServices _services;
+    private readonly CategoryService _services;
 
-    public CategoryController(CategoryServices services)
+    public CategoryController(CategoryService services)
     {
         _services = services;
     }
