@@ -1,8 +1,6 @@
 ﻿using API.DataTransferObjects.Roles;
-using API.DataTransferObjects.Suppliers;
 using API.Services;
 using API.Utilities.Handlers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -46,7 +44,7 @@ public class RoleController : ControllerBase
     public IActionResult Get(Guid guid)
     {
         var role = _roleService.Get(guid);
-        if(role is null)
+        if (role is null)
         {
             return NotFound(new ResponseHandler<RoleDtoGet>
             {
@@ -93,7 +91,7 @@ public class RoleController : ControllerBase
     public IActionResult Create(RoleDtoCreate roleDtoCreate)
     {
         var roleCrated = _roleService.Create(roleDtoCreate);
-        if( roleCrated is null )
+        if (roleCrated is null)
         {
             return BadRequest(new ResponseHandler<RoleDtoCreate>
             {
@@ -116,7 +114,7 @@ public class RoleController : ControllerBase
     public IActionResult Update(RoleDtoUpdate roleDtoUpdate)
     {
         var roleUpdated = _roleService.Update(roleDtoUpdate);
-        if(roleUpdated is -1)
+        if (roleUpdated is -1)
         {
             return NotFound(new ResponseHandler<RoleDtoUpdate>
             {
@@ -126,7 +124,7 @@ public class RoleController : ControllerBase
             });
         }
 
-        if(roleUpdated is 0)
+        if (roleUpdated is 0)
         {
             return BadRequest(new ResponseHandler<RoleDtoUpdate>
             {
@@ -149,7 +147,7 @@ public class RoleController : ControllerBase
     public IActionResult Delete(Guid guid)
     {
         var roleDeleted = _roleService.Delete(guid);
-        if(roleDeleted is -1)
+        if (roleDeleted is -1)
         {
             return NotFound(new ResponseHandler<RoleDtoGet>
             {
@@ -159,7 +157,7 @@ public class RoleController : ControllerBase
             });
         }
 
-        if(roleDeleted is 0)
+        if (roleDeleted is 0)
         {
             return BadRequest(new ResponseHandler<RoleDtoGet>
             {
@@ -173,7 +171,7 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Category successfully deleted"
+            Message = "Role successfully deleted"
         });
     }
 }
