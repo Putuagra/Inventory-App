@@ -1,4 +1,3 @@
-import { checkEmailAvailability } from "../apis/UserAPI"
 import { RemoveAuth } from "../components/Auth"
 import Button from "../components/Button"
 import { useNavigate } from 'react-router-dom'
@@ -7,12 +6,14 @@ import UserList from "../components/users/UserList"
 import UserRepository from "../repositories/UserRepository"
 
 const UserPage = () => {
-    const { users, editingUser, handleEdit, handleInputChange, handleUpdate, handleDelete, nameDecode } = UserRepository()
+    const { users, handleDelete, nameDecode } = UserRepository()
     const navigateLogout = useNavigate()
+
     const handleLogout = () => {
         RemoveAuth()
         navigateLogout('/login')
     }
+
     return (
         <div className="container">
             <Navigate />
@@ -20,12 +21,7 @@ const UserPage = () => {
             <h1>Welcome, {nameDecode}</h1>
             <UserList
                 users={users}
-                editingUser={editingUser}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
-                handleCheckEmail={checkEmailAvailability}
             />
             <Button
                 name="Logout"
