@@ -6,9 +6,7 @@ import { jwtDecode } from "jwt-decode"
 
 export default function SupplierRepository() {
     const [suppliers, setSuppliers] = useState([])
-    const [editingSupplier, setEditingSupplier] = useState(null)
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -20,10 +18,10 @@ export default function SupplierRepository() {
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
@@ -47,19 +45,9 @@ export default function SupplierRepository() {
         }
     }
 
-    const handleEdit = (supplierGuid) => {
-        setEditingSupplier(supplierGuid)
-    }
-
-    const handleInputChange = (supplierGuid, field, value) => {
-        const updatedSuplliers = suppliers.map((supplier) => (supplier.guid === supplierGuid ? { ...supplier, [field]: value } : supplier))
-        setSuppliers(updatedSuplliers)
-    }
-
     const handleUpdate = async (updatedSupplier) => {
         try {
             await update(updatedSupplier)
-            setEditingSupplier(null)
             fetchData()
         }
         catch (error) {
@@ -90,6 +78,6 @@ export default function SupplierRepository() {
     }
 
     return {
-        suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetSupplierById
+        suppliers, handleUpdate, handleDelete, handleCreate, handleGetSupplierById
     }
 }
