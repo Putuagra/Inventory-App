@@ -6,11 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode"
 
 export default function CategoryRepository() {
-    const [suppliers, setSuppliers] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [editingCategory, setEditingCategory] = useState(null)
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const [suppliers, setSuppliers] = useState([])
+    const [categories, setCategories] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -23,10 +21,10 @@ export default function CategoryRepository() {
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
@@ -60,19 +58,9 @@ export default function CategoryRepository() {
         }
     }
 
-    const handleEdit = (categoryGuid) => {
-        setEditingCategory(categoryGuid)
-    }
-
-    const handleInputChange = (categoryGuid, field, value) => {
-        const updatedCategories = categories.map((category) => (category.guid === categoryGuid ? { ...category, [field]: value } : category))
-        setCategories(updatedCategories)
-    }
-
     const handleUpdate = async (updatedCategory) => {
         try {
             await update(updatedCategory)
-            setEditingCategory(null)
             fetchData()
         }
         catch (error) {
@@ -103,6 +91,6 @@ export default function CategoryRepository() {
     }
 
     return {
-        categories, suppliers, editingCategory, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetCategoryById
+        categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetCategoryById
     }
 }
