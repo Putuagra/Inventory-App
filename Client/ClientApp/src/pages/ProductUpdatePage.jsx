@@ -14,7 +14,6 @@ const ProductUpdatePage = () => {
     const prevProductCategory = location.state?.prevProductCategory
     const { categories, suppliers, handleUpdate, handleGetProductById } = ProductRepository()
     
-
     return (
         <div className="container">
             <Navigate />
@@ -34,4 +33,5 @@ const ProductUpdatePage = () => {
         </div>
     )
 }
+
 export default ProductUpdatePage
