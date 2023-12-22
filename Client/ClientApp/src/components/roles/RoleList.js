@@ -9,7 +9,7 @@ export default function RoleList(props) {
     const navigate = useNavigate()
 
     const handleDetailsClick = (guid) => {
-        navigate("/user-role", { state: { guid } })
+        navigate("/account-role", { state: { guid } })
     }
 
     const handleUpdateClick = (guid) => {

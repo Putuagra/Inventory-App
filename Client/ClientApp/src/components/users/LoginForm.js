@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
-import { login } from '../../apis/UserAPI'
 import { useNavigate } from 'react-router-dom'
 import Input from '../Input'
 import Button from '../Button'
 import ErrorAlert from '../ErrorAlert'
 import { SetAuth } from '../Auth'
+import { login } from '../../apis/AccountApi'
 
 const LoginForm = () => {
     const navigate = useNavigate()
-    const navigateDashboard = useNavigate()
-    const navigateForgotPassword = useNavigate()
     const handleRegisterClick = () => {
         navigate("/register")
     }
 
     const handleLoginClick = () => {
-        navigateDashboard('/user')
+        navigate('/user')
     }
 
     const handleForgotPasswordClick = () => {
-        navigateForgotPassword('/forgot-password')
+        navigate('/forgot-password')
     }
 
     const [user, setUser] = useState({
@@ -44,8 +42,6 @@ const LoginForm = () => {
                     password: '',
                 })
                 SetAuth(token)
-                console.log("response: ",response.data)
-                console.log("token: ", token)
                 handleLoginClick()
             } else {
                 console.error('Login gagal:', response.message)
