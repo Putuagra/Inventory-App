@@ -6,9 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function RoleRepository() {
     const [roles, setRoles] = useState([])
-    const [editingRole, setEditingRole] = useState(null)
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -20,10 +18,10 @@ export default function RoleRepository() {
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
@@ -45,19 +43,9 @@ export default function RoleRepository() {
         }
     }
 
-    const handleEdit = (roleGuid) => {
-        setEditingRole(roleGuid)
-    }
-
-    const handleInputChange = (roleGuid, field, value) => {
-        const updatedRoles = roles.map((role) => (role.guid === roleGuid ? { ...role, [field]: value } : role))
-        setRoles(updatedRoles)
-    }
-
     const handleUpdate = async (updatedRole) => {
         try {
             await update(updatedRole)
-            setEditingRole(null)
             fetchData()
         } catch (error) {
             console.error('Error editing role:', error)
@@ -86,6 +74,6 @@ export default function RoleRepository() {
     }
 
     return {
-        roles, editingRole, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetRoleById
+        roles, handleUpdate, handleDelete, handleCreate, handleGetRoleById
     }
 }
