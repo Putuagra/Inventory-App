@@ -1,4 +1,4 @@
-const namePattern = /^[a-zA-Z]+$/
+const namePattern = /^[a-zA-Z\s]+$/
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
 const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+~-]).{8,}$/
 const otpPattern = /^\d+$/
@@ -50,6 +50,20 @@ export function ValidateData(data) {
         return 'Password is required'
     } else if (!passwordPattern.test(data.password)) {
         return 'Password must be at least 8 characters long, contain at least one uppercase letter, lowercase letter, one digit number, and one special character.'
+    }
+}
+
+export function ValidateUpdateUser(data) {
+    if (data.name === '') {
+        return 'Nama is required.'
+    } else if (!namePattern.test(data.name)) {
+        return 'Invalid format name.'
+    }
+
+    if (data.email === '') {
+        return 'Email is required'
+    } else if (!emailPattern.test(data.email)) {
+        return 'Invalid format email.'
     }
 }
 
