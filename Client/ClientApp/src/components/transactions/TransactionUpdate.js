@@ -15,8 +15,9 @@ const TransactionUpdate = (props) => {
 
     const navigate = useNavigate()
 
-    const handleInputChange = (field, value) => {
-        setUpdateTransaction({ ...updateTransaction, [field]: value });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setUpdateTransaction({ ...updateTransaction, [name]: value })
     }
 
     const getUpdateTransaction = async (guid) => {
@@ -44,22 +45,19 @@ const TransactionUpdate = (props) => {
             return
         }
 
-        if ((prevTransactionQuantity === data.quantity && prevTransactionProduct === data.productGuid && prevTransactionUser === data.userGuid) || (prevTransactionProduct !== data.productGuid && selectedProduct.stock >= data.quantity)) {
-            if (data.quantity < 1) {
-                ErrorAlert({ message: 'Quantity must be greater than 1!' })
-            }
-            else {
-                try {
-                    await handleUpdate(data)
-                    SuccessAlert({ message: 'Your transaction has been updated' })
-                    navigate("/transaction")
-                } catch (error) {
-                    ErrorAlert({ message: 'Error updating stock!' })
-                    console.error("Error updating stock:", error)
-                }
+        const newStock = selectedProduct.stock + prevTransactionQuantity - data.quantity
+
+        if (newStock >= 0 && data.quantity > 0) {
+            try {
+                await handleUpdate(data)
+                SuccessAlert({ message: 'Your transaction has been updated' })
+                navigate("/transaction")
+            } catch (error) {
+                ErrorAlert({ message: 'Error updating stock!' })
+                console.error("Error updating stock:", error)
             }
         } else {
-            ErrorAlert({ message: 'Invalid product or insufficient stock.!' })
+            ErrorAlert({ message: 'Invalid product or insufficient stock!' })
             console.log("Invalid product or insufficient stock.")
         }
     }
@@ -80,20 +78,21 @@ const TransactionUpdate = (props) => {
                         name="productGuid"
                         label="Product"
                         value={updateTransaction.productGuid}
-                        onChange={(e) => handleInputChange('productGuid', e.target.value)}
+                        onChange={handleInputChange}
                         options={products}
                     />
                     <Select
                         name="userGuid"
                         label="User"
                         value={updateTransaction.userGuid}
-                        onChange={(e) => handleInputChange('userGuid', e.target.value)}
+                        onChange={handleInputChange}
                         options={users}
                     />
                     <Input
+                        name="quantity"
                         type="number"
                         value={updateTransaction.quantity}
-                        onChange={(e) => handleInputChange('quantity', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Button
                         name="Save"
