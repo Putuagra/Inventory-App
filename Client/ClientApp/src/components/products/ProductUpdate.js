@@ -30,8 +30,9 @@ const ProductUpdate = (props) => {
         getUpdateProduct(guid)
     }, [])
 
-    const handleInputChange = (field, value) => {
-        setUpdateProduct({ ...updateProduct, [field]: value });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdateProduct({ ...updateProduct, [name]: value })
     }
 
     const handleUpdateProduct = async (data) => {
@@ -80,36 +81,40 @@ const ProductUpdate = (props) => {
                     className="row g-3 needs-validation"
                 >
                     <Input
+                        name="name"
                         type="text"
                         value={updateProduct.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Select
                         name="supplierGuid"
                         value={updateProduct.supplierGuid}
-                        onChange={(e) => handleInputChange('supplierGuid', e.target.value)}
+                        onChange={handleInputChange}
                         options={suppliers}
                     />
                     <Select
                         name="categoryGuid"
                         value={updateProduct.categoryGuid}
-                        onChange={(e) => handleInputChange('categoryGuid', e.target.value)}
+                        onChange={handleInputChange}
                         options={categories.filter((category) => category.supplierGuid === updateProduct.supplierGuid)}
                     />
                     <Input
+                        name="stock"
                         type="number"
                         value={updateProduct.stock}
-                        onChange={(e) => handleInputChange('stock', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
+                        name="price"
                         type="number"
                         value={updateProduct.price}
-                        onChange={(e) => handleInputChange('price', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
+                        name="description"
                         type="text"
                         value={updateProduct.description}
-                        onChange={(e) => handleInputChange('price', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Button
                         name="Save"
