@@ -46,6 +46,7 @@ export default function UserForm(props) {
                             confirmPassword: '',
                         })
                         SuccessAlert({ message: 'Registration successful.' })
+                        navigate("/login")
                     } catch (error) {
                         console.error('Error during registration:', error);
                         ErrorAlert({ message: 'Failed to register user. Please try again later.' })
