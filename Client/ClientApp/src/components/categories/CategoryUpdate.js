@@ -15,8 +15,9 @@ const CategoryUpdate = (props) => {
 
     const navigate = useNavigate()
 
-    const handleInputChange = (field, value) => {
-        setUpdateCategory({ ...updateCategory, [field]: value });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdateCategory({ ...updateCategory, [name]: value })
     }
 
     const getUpdateCategory = async (guid) => {
@@ -75,14 +76,15 @@ const CategoryUpdate = (props) => {
                     className="row g-3 needs-validation"
                 >
                     <Input
+                        name="name"
                         type="text"
                         value={updateCategory.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Select
                         name="supplierGuid"
                         value={updateCategory.supplierGuid}
-                        onChange={(e) => handleInputChange('supplierGuid', e.target.value)}
+                        onChange={handleInputChange}
                         options={suppliers}
                     />
                     <Button
