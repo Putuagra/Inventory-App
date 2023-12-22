@@ -54,7 +54,7 @@ public class AccountRoleService
         return accountRoleDeleted ? 1 : 0;
     }
 
-    public AccountRoleDtoGet? CheckUserRole(Guid accountGuid, Guid roleGuid)
+    public AccountRoleDtoGet? CheckAccountRole(Guid accountGuid, Guid roleGuid)
     {
         var accountRole = _accountRoleRepository.CheckAccountRole(accountGuid, roleGuid);
         if (accountRole is null) return null;

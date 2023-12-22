@@ -65,10 +65,10 @@ public class AccountRoleController : ControllerBase
         });
     }
 
-    [HttpGet("CheckUserRole/{userGuid}/{roleGuid}")]
+    [HttpGet("CheckAccountRole/{accountGuid}/{roleGuid}")]
     public IActionResult Get(Guid accountGuid, Guid roleGuid)
     {
-        var accountRole = _accountRoleService.CheckUserRole(accountGuid, roleGuid);
+        var accountRole = _accountRoleService.CheckAccountRole(accountGuid, roleGuid);
         if (accountRole is null)
         {
             return NotFound(new ResponseHandler<AccountRoleDtoGet>
