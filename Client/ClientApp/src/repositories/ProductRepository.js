@@ -10,9 +10,7 @@ export default function ProductRepository() {
     const [products, setProducts] = useState([])
     const [suppliers, setSuppliers] = useState([])
     const [categories, setCategories] = useState([])
-    const [editingProduct, setEditingProduct] = useState(null)
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -26,10 +24,10 @@ export default function ProductRepository() {
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
@@ -72,19 +70,9 @@ export default function ProductRepository() {
         }
     }
 
-    const handleEdit = (productGuid) => {
-        setEditingProduct(productGuid)
-    }
-
-    const handleInputChange = (productGuid, field, value) => {
-        const updatedProducts = products.map((product) => (product.guid === productGuid ? { ...product, [field]: value } : product))
-        setProducts(updatedProducts)
-    }
-
     const handleUpdate = async (updatedProduct) => {
         try {
             await update(updatedProduct)
-            setEditingProduct(null)
             fetchData()
         }
         catch (error) {
@@ -115,6 +103,6 @@ export default function ProductRepository() {
     }
 
     return {
-        products, categories, suppliers, editingProduct, handleEdit, handleInputChange, handleUpdate, handleDelete, handleCreate, handleGetProductById
+        products, categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetProductById
     }
 }
