@@ -17,13 +17,11 @@ export default function TransactionList(props) {
         const transactionToEdit = transactions.find((transaction) => transaction.guid === guid)
         const prevTransactionQuantity = transactionToEdit.quantity
         const prevTransactionProduct = transactionToEdit.productGuid
-        const prevTransactionUser = transactionToEdit.userGuid
         navigate("/update-transaction", {
             state: {
                 guid,
                 prevTransactionQuantity: prevTransactionQuantity,
-                prevTransactionProduct: prevTransactionProduct,
-                prevTransactionUser: prevTransactionUser
+                prevTransactionProduct: prevTransactionProduct
             }
         })
     }
