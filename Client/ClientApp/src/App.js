@@ -18,13 +18,16 @@ import ForgotPassword from './pages/ForgotPassword'
 import ChangePassword from './pages/ChangePassword'
 import RolePage from './pages/RolePage'
 import AddRole from './pages/AddRole'
-import UserRolePage from './pages/UserRolePage'
-import AddUserRole from './pages/AddUserRole'
+import UserRolePage from './pages/AccountRolePage'
+import AddUserRole from './pages/AddAccountRole'
 import ProductUpdatePage from './pages/ProductUpdatePage'
 import CategoryUpdatePage from './pages/CategoryUpdatePage'
 import SupplierUpdatePage from './pages/SupplierUpdatePage'
 import RoleUpdatePage from './pages/RoleUpdatePage'
 import TransactionUpdatePage from './pages/TransactionUpdatePage'
+import UserUpdatePage from './pages/UserUpdatePage'
+import AddAccountRole from './pages/AddAccountRole'
+import AccountRolePage from './pages/AccountRolePage'
 
 const App = () => {
 
@@ -39,14 +42,14 @@ const App = () => {
                     <Route path="/user" element={<UserPage />} />
                     <Route path="/transaction" element={<TransactionPage />} />
                     <Route path="/role" element={<RolePage />} />
-                    <Route path="/user-role" element={<UserRolePage />} />
+                    <Route path="/account-role" element={<AccountRolePage />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/add-supplier" element={<AddSupplier />} />
                     <Route path="/add-category" element={<AddCategory />} />
                     <Route path="/add-product" element={<AddProduct />} />
                     <Route path="/add-transaction" element={<AddTransaction />} />
                     <Route path="/add-role" element={<AddRole />} />
-                    <Route path="/add-user-role" element={<AddUserRole />} />
+                    <Route path="/add-account-role" element={<AddAccountRole />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/change-password" element={<ChangePassword />} />
@@ -55,6 +58,7 @@ const App = () => {
                     <Route path="/update-supplier" element={<SupplierUpdatePage />} />
                     <Route path="/update-role" element={<RoleUpdatePage />} />
                     <Route path="/update-transaction" element={<TransactionUpdatePage />} />
+                    <Route path="/update-user" element={<UserUpdatePage />} />
                     <Route path="/error401" element={<Page401 />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
