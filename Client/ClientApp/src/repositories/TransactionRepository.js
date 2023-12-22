@@ -10,9 +10,7 @@ export default function TransactionRepository(){
     const [products, setProducts] = useState([])
     const [users, setUser] = useState([])
     const [transactions, setTransactions] = useState([])
-    const [editingTransaction, setEditingTransaction] = useState(null)
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -26,10 +24,10 @@ export default function TransactionRepository(){
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
@@ -74,15 +72,6 @@ export default function TransactionRepository(){
         }
     }
 
-    const handleEdit = (transactionGuid) => {
-        setEditingTransaction(transactionGuid)
-    }
-
-    const handleInputChange = (transactionGuid, field, value) => {
-        const updatedTransactions = transactions.map((transaction) => (transaction.guid === transactionGuid ? { ...transaction, [field]: value } : transaction))
-        setTransactions(updatedTransactions);
-    }
-
     const handleUpdate = async (updatedTransaction) => {
         try {
             const transactionUpdate = await getTransactionByGuid(updatedTransaction.guid)
@@ -108,7 +97,6 @@ export default function TransactionRepository(){
                 await updateStock(product)
             }
             await update(updatedTransaction)
-            setEditingTransaction(null)
             fetchData()
         }
         catch (error) {
@@ -156,6 +144,6 @@ export default function TransactionRepository(){
     }
 
     return {
-        products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete, handleUpdateStock, handleCreate, handleGetTransactionById
+        products, users, transactions, handleUpdate, handleDelete, handleUpdateStock, handleCreate, handleGetTransactionById
     }
 }
