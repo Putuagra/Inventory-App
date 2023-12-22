@@ -94,12 +94,12 @@ public class AccountService
             };
             _accountRepository.Create(account);
 
-            /*var roleEmployee = _roleRepository.GetByName("Employee");
+            var roleUser = _roleRepository.GetByName("Customer");
             _accountRoleRepository.Create(new AccountRole
             {
                 AccountGuid = account.Guid,
-                RoleGuid = roleEmployee.Guid
-            });*/
+                RoleGuid = roleUser.Guid
+            });
 
             transaction.Commit();
             return true;
