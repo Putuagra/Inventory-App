@@ -7,8 +7,7 @@ import { jwtDecode } from "jwt-decode"
 export default function UserRepository() {
     const [users, setUsers] = useState([])
     const [nameDecode, setNameDecode] = useState([])
-    const navigateAuthenticated = useNavigate()
-    const navigateLogin = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
@@ -21,10 +20,10 @@ export default function UserRepository() {
             const currentTime = Date.now()
             if (currentTime > expirationTime) {
                 RemoveAuth()
-                navigateLogin('/login')
+                navigate('/login')
             }
         } else if (!isAuthenticated) {
-            navigateAuthenticated('/error401')
+            navigate('/error401')
         }
     }, [])
 
