@@ -6,7 +6,7 @@ import SupplierList from "../components/suppliers/SupplierList"
 
 const SupplierPage = () => {
     const navigate = useNavigate()
-    const { suppliers, editingSupplier, handleEdit, handleInputChange, handleUpdate, handleDelete } = SupplierRepository()
+    const { suppliers, handleDelete } = SupplierRepository()
 
     const handleAddSupplierClick = () => {
         navigate("/add-supplier")
