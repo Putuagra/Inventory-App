@@ -9,7 +9,7 @@ import SuccessAlert from "../SuccessAlert"
 
 const TransactionUpdate = (props) => {
 
-    const { handleUpdate, users, products, guid, prevTransactionQuantity, prevTransactionProduct, prevTransactionUser, handleGetTransactionById } = props
+    const { handleUpdate, users, products, guid, prevTransactionQuantity, prevTransactionProduct, handleGetTransactionById } = props
 
     const [updateTransaction, setUpdateTransaction] = useState({ productGuid: '', userGuid: '', quantity: '' })
 
@@ -23,7 +23,7 @@ const TransactionUpdate = (props) => {
     const getUpdateTransaction = async (guid) => {
         try {
             const response = await handleGetTransactionById(guid)
-            if (prevTransactionQuantity && prevTransactionProduct && prevTransactionUser) {
+            if (prevTransactionQuantity && prevTransactionProduct) {
                 setUpdateTransaction(response?.data?.data)
             }
         } catch (error) {
@@ -36,8 +36,8 @@ const TransactionUpdate = (props) => {
     }, [])
 
     const handleUpdateTransaction = async (data) => {
-        const selectedProduct = products.find(product => product.guid === data.productGuid)
 
+        const selectedProduct = products.find(product => product.guid === data.productGuid)
         const validationError = ValidateData(data)
 
         if (validationError) {
@@ -45,9 +45,10 @@ const TransactionUpdate = (props) => {
             return
         }
 
-        const newStock = selectedProduct.stock + prevTransactionQuantity - data.quantity
+        const stockSameProduct = selectedProduct.stock + prevTransactionQuantity - data.quantity
+        const stockDifProduct = selectedProduct.stock - data.quantity
 
-        if (newStock >= 0 && data.quantity > 0) {
+        if ((stockSameProduct >= 0 && data.quantity > 0 && prevTransactionProduct === data.productGuid) || (stockDifProduct >= 0 && data.quantity > 0 && prevTransactionProduct !== data.productGuid)) {
             try {
                 await handleUpdate(data)
                 SuccessAlert({ message: 'Your transaction has been updated' })
