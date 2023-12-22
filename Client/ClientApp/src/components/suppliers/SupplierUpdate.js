@@ -14,8 +14,9 @@ const SupplierUpdate = (props) => {
 
     const [updateSupplier, setUpdateSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })
 
-    const handleInputChange = (field, value) => {
-        setUpdateSupplier({ ...updateSupplier, [field]: value });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdateSupplier({ ...updateSupplier, [name]: value })
     }
 
     const getUpdateSupplier = async (guid) => {
@@ -78,24 +79,28 @@ const SupplierUpdate = (props) => {
                     className="row g-3 needs-validation"
                 >
                     <Input
+                        name="name"
                         type="text"
                         value={updateSupplier.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
+                        name="address"
                         type="text"
                         value={updateSupplier.address}
-                        onChange={(e) => handleInputChange('address', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
+                        name="email"
                         type="text"
                         value={updateSupplier.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
+                        name="phoneNumber"
                         type="text"
                         value={updateSupplier.phoneNumber}
-                        onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Button
                         name="Save"
