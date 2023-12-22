@@ -64,26 +64,6 @@ export const remove = async (userId) => {
     }
 }
 
-export const register = async (userData) => {
-    try {
-        const response = await axios.post(`${apiUrl}/User/register`, userData)
-        return response.data
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
-
-export const login = async (userData) => {
-    try {
-        const response = await axios.post(`${apiUrl}/User/login`, userData)
-        return response.data
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
-
 export const checkEmailAvailability = async (email) => {
     try {
         const response = await axios.get(`${apiUrl}/User/ByEmail/${email}`)
@@ -91,45 +71,6 @@ export const checkEmailAvailability = async (email) => {
     } catch (error) {
         if (error.response && error.response.status === 404) {
             return 404
-        }
-        console.error('Error during API request:', error)
-    }
-}
-
-export const forgotPassword = async (email) => {
-    try {
-        const response = await axios.post(`${apiUrl}/User/ForgotPassword`, JSON.stringify({ email }), {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        return response.status
-    } catch (error) {
-        /*throw error*/
-        if (error.response && error.response.status === 404) {
-            return 404
-        }
-        if (error.response && error.response.status === 500) {
-            return 500
-        }
-        console.error('Error during API request:', error)
-    }
-}
-
-export const changePassword = async (data) => {
-    try {
-        const response = await axios.post(`${apiUrl}/User/ChangePassword`, data)
-        return response.status
-    } catch (error) {
-        /* throw error*/
-        if (error.response && error.response.status === 404) {
-            return 404
-        }
-        if (error.response && error.response.status === 400) {
-            return 400
-        }
-        if (error.response && error.response.status === 500) {
-            return 500
         }
         console.error('Error during API request:', error)
     }
@@ -170,5 +111,22 @@ export const getExcludeRole = async (roleGuid) => {
         } else {
             throw error
         }
+    }
+}
+
+export const GetUserById = async (guid) => {
+    const token = await GetAuth()
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    }
+    try {
+        const response = await axios.get(`${apiUrl}/User/${guid}`, { headers })
+        return response
+    }
+    catch (error) {
+        if (error.response && error.response.status === 404) {
+            return 404
+        }
+        console.error('Error during API request:', error)
     }
 }
