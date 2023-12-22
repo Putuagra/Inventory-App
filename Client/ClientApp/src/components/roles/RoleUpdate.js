@@ -15,8 +15,9 @@ const RoleUpdate = (props) => {
 
     const [updateRole, setUpdateRole] = useState({ name: '' })
 
-    const handleInputChange = (field, value) => {
-        setUpdateRole({ ...updateRole, [field]: value });
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setUpdateRole({ ...updateRole, [name]: value })
     }
 
     const getUpdateRole = async (guid) => {
@@ -69,9 +70,10 @@ const RoleUpdate = (props) => {
                     className="row g-3 needs-validation"
                 >
                     <Input
+                        name="name"
                         type="text"
                         value={updateRole.name}
-                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Button
                         name="Save"
