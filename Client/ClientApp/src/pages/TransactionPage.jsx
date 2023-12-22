@@ -6,10 +6,12 @@ import TransactionRepository from "../repositories/TransactionRepository"
 
 const TransactionPage = () => {
     const navigate = useNavigate()
-    const { products, users, transactions, editingTransaction, handleEdit, handleInputChange, handleUpdate, handleDelete, handleUpdateStock } = TransactionRepository()
+    const { products, users, transactions, handleDelete } = TransactionRepository()
+
     const handleAddTransactionClick = () => {
         navigate("/add-transaction")
     }
+
     return (
         <div className="container">
             <Navigate />
@@ -17,12 +19,7 @@ const TransactionPage = () => {
                 products={products}
                 users={users}
                 transactions={transactions}
-                editingTransaction={editingTransaction}
-                handleEdit={handleEdit}
-                handleInputChange={handleInputChange}
-                handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
-                handleUpdateStock={handleUpdateStock}
             />
             <Button
                 name="Add Transaction"
