@@ -9,7 +9,6 @@ const TransactionUpdatePage = () => {
     const guid = location.state?.guid
     const prevTransactionQuantity = location.state?.prevTransactionQuantity
     const prevTransactionProduct = location.state?.prevTransactionProduct
-    const prevTransactionUser = location.state?.prevTransactionUser
     const { handleUpdate, handleGetTransactionById, users, products } = TransactionRepository()
 
     return (
@@ -24,7 +23,6 @@ const TransactionUpdatePage = () => {
                 handleUpdate={handleUpdate}
                 handleGetTransactionById={handleGetTransactionById}
                 prevTransactionProduct={prevTransactionProduct}
-                prevTransactionUser={prevTransactionUser }
             />
         </div>
     )
