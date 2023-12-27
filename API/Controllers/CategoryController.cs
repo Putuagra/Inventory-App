@@ -10,7 +10,6 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-
 public class CategoryController : ControllerBase
 {
     private readonly CategoryService _services;
@@ -25,7 +24,7 @@ public class CategoryController : ControllerBase
     {
         var categories = _services.Get();
 
-        if(!categories.Any())
+        if (!categories.Any())
         {
             return NotFound(new ResponseHandler<CategoryDtoGet>
             {
@@ -48,7 +47,7 @@ public class CategoryController : ControllerBase
     public IActionResult Get(Guid guid)
     {
         var category = _services.Get(guid);
-        if(category is null)
+        if (category is null)
         {
             return NotFound(new ResponseHandler<CategoryDtoGet>
             {
@@ -114,7 +113,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(CategoryDtoCreate categoryDtoCreate) 
+    public IActionResult Create(CategoryDtoCreate categoryDtoCreate)
     {
         var categoryCreated = _services.Create(categoryDtoCreate);
         if (categoryCreated is null)

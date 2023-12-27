@@ -11,7 +11,6 @@ namespace API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-
 public class SupplierController : ControllerBase
 {
     private readonly SupplierService _service;
@@ -26,7 +25,7 @@ public class SupplierController : ControllerBase
     {
         var suppliers = _service.Get();
 
-        if(!suppliers.Any())
+        if (!suppliers.Any())
         {
             return NotFound(new ResponseHandler<SupplierDtoGet>
             {
@@ -50,7 +49,7 @@ public class SupplierController : ControllerBase
     {
         var supplier = _service.Get(guid);
 
-        if(supplier is null)
+        if (supplier is null)
         {
             return NotFound(new ResponseHandler<SupplierDtoGet>
             {
