@@ -1,6 +1,7 @@
 ﻿using API.DataTransferObjects.Roles;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-/*[Authorize]*/
+[Authorize]
 public class RoleController : ControllerBase
 {
     private readonly RoleService _roleService;
