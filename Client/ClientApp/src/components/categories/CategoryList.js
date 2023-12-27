@@ -11,10 +11,12 @@ export default function CategoryList(props) {
     const handleUpdateClick = (guid) => {
         const categoryToEdit = categories.find((category) => category.guid === guid)
         const prevCategoryName = categoryToEdit.name
+        const prevCategorySupplier = categoryToEdit.supplierGuid
         navigate("/update-category", {
             state: {
                 guid,
-                prevCategoryName: prevCategoryName
+                prevCategoryName: prevCategoryName,
+                prevCategorySupplier: prevCategorySupplier
             }
         })
     }
