@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const ProductUpdate = (props) => {
 
-    const { handleUpdate, handleGetProductById, handleCheckProduct, handleCategoryAvailability, suppliers, categories, prevProductName, prevProductSupplier, prevProductCategory, guid } = props
+    const { handleUpdate, handleGetProductById, handleCheckProductAvailability, handleCheckCategoryAvailability, suppliers, categories, prevProductName, prevProductSupplier, prevProductCategory, guid } = props
 
     const [updateProduct, setUpdateProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
 
@@ -43,8 +43,8 @@ const ProductUpdate = (props) => {
             return
         }
 
-        const status = await handleCheckProduct(data.name, data.supplierGuid, data.categoryGuid)
-        const statusCategory = await handleCategoryAvailability(data.categoryGuid, data.supplierGuid)
+        const status = await handleCheckProductAvailability(data.name, data.supplierGuid, data.categoryGuid)
+        const statusCategory = await handleCheckCategoryAvailability(data.categoryGuid, data.supplierGuid)
 
         const validationDuplicate = ValidationDuplicate(data, prevProductName, prevProductSupplier, status, statusCategory)
 

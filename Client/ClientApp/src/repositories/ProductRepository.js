@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAllSuppliers } from '../apis/SupplierApi'
 import { getAll} from '../apis/CategoryApi'
-import { getAllProducts, create, update, remove, GetProductById } from '../apis/ProductApi'
+import { getAllProducts, create, update, remove, GetProductById, checkProductAvailability } from '../apis/ProductApi'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode"
@@ -102,7 +102,15 @@ export default function ProductRepository() {
         }
     }
 
+    const handleCheckProductAvailability = async (name, supplierGuid, categoryGuid) => {
+        try {
+            return await checkProductAvailability(name, supplierGuid, categoryGuid)
+        } catch (error) {
+            console.error('Error sending check product request:', error)
+        }
+    }
+
     return {
-        products, categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetProductById
+        products, categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetProductById, handleCheckProductAvailability
     }
 }

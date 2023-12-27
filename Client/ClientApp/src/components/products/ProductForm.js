@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ProductForm(props) {
 
-    const { handleCreate, suppliers, categories, handleCheckProduct } = props
+    const { handleCreate, suppliers, categories, handleCheckProductAvailability } = props
     const [newProduct, setNewProduct] = useState({ name: '', stock: '', price: '', description: '', categoryGuid: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
@@ -36,7 +36,7 @@ export default function ProductForm(props) {
             return
         }
 
-        const status = await handleCheckProduct(newProduct.name, newProduct.supplierGuid, newProduct.categoryGuid)
+        const status = await handleCheckProductAvailability(newProduct.name, newProduct.supplierGuid, newProduct.categoryGuid)
         const validationStatus = StatusValidate(status)
 
         if (validationStatus) {

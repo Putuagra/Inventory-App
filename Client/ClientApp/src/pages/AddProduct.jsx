@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import ProductRepository from "../repositories/ProductRepository"
 import Button from "../components/Button"
 import ProductForm from '../components/products/ProductForm'
-import { checkProductAvailability } from '../apis/ProductApi'
 import Navigate from '../components/Navigate'
 
 
@@ -11,7 +10,7 @@ const AddProduct = () => {
     const handleProductClick = () => {
         navigate("/product")
     }
-    const { handleCreate, suppliers, categories } = ProductRepository()
+    const { handleCreate, handleCheckProductAvailability, suppliers, categories } = ProductRepository()
     return (
         <div>
             <Navigate />
@@ -20,7 +19,7 @@ const AddProduct = () => {
                 handleCreate={handleCreate}
                 suppliers={suppliers}
                 categories={categories}
-                handleCheckProduct={checkProductAvailability}
+                handleCheckProductAvailability={handleCheckProductAvailability}
             />
             <Button
                 name="Back"
