@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-/*[Authorize]*/
+[Authorize]
 public class AccountController : ControllerBase
 {
     private readonly AccountService _accountService;
