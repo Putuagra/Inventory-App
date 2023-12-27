@@ -1,6 +1,4 @@
-﻿using API.DataTransferObjects.Categories;
-using API.DataTransferObjects.Products;
-using API.DataTransferObjects.Transactions;
+﻿using API.DataTransferObjects.Products;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;

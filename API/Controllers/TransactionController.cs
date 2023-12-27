@@ -1,5 +1,4 @@
 ﻿using API.DataTransferObjects.Transactions;
-using API.DataTransferObjects.Users;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;
