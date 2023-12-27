@@ -51,7 +51,7 @@ export const create = async (createdTransaction) => {
     }
 }
 
-export const update = async (updatedData) => {
+export const updateTransaction = async (updatedData) => {
     const token = await GetAuth()
     const headers = {
         Authorization: `Bearer ${token}`,
@@ -79,6 +79,7 @@ export const remove = async (transactionGuid) => {
     }
 }
 
+// Same with getTransactionByGuid method above, but different return
 export const GetTransactionById = async (guid) => {
     const token = await GetAuth()
     const headers = {
