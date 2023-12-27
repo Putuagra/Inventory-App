@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 const SupplierUpdate = (props) => {
 
-    const { handleEmail, handlePhoneNumber, handleName, handleUpdate, handleGetSupplierById, guid, prevSupplierName, prevSupplierEmail, prevSupplierPhoneNumber } = props
+    const { handleCheckSupplierEmail, handleCheckSupplierPhone, handleCheckSupplierName, handleUpdate, handleGetSupplierById, guid, prevSupplierName, prevSupplierEmail, prevSupplierPhoneNumber } = props
 
     const navigate = useNavigate()
 
@@ -43,9 +43,9 @@ const SupplierUpdate = (props) => {
             return
         }
 
-        const emailStatus = await handleEmail(data.email)
-        const phoneStatus = await handlePhoneNumber(data.phoneNumber)
-        const nameStatus = await handleName(data.name)
+        const emailStatus = await handleCheckSupplierEmail(data.email)
+        const phoneStatus = await handleCheckSupplierPhone(data.phoneNumber)
+        const nameStatus = await handleCheckSupplierName(data.name)
 
         const validationDuplicateResult = ValidationDuplicate(data, prevSupplierName, prevSupplierEmail, prevSupplierPhoneNumber, emailStatus, phoneStatus, nameStatus)
 

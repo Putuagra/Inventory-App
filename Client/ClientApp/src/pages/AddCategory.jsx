@@ -1,4 +1,3 @@
-import { checkDuplicate } from "../apis/CategoryApi"
 import { useNavigate } from 'react-router-dom'
 import Button from "../components/Button"
 import CategoryRepository from "../repositories/CategoryRepository"
@@ -10,7 +9,7 @@ const AddCategory = () => {
     const handleCategoryClick = () => {
         navigate("/category")
     }
-    const { handleCreate, suppliers } = CategoryRepository()
+    const { handleCreate, suppliers, handleCheckCategoryDuplicate } = CategoryRepository()
     return (
         <div>
             <Navigate />
@@ -18,7 +17,7 @@ const AddCategory = () => {
             <CategoryForm
                 handleCreate={handleCreate}
                 suppliers={suppliers}
-                handleDuplicate={checkDuplicate}
+                handleCheckCategoryDuplicate={handleCheckCategoryDuplicate}
             />
             <Button
                 name="Back"

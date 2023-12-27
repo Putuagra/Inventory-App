@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function SupplierForm(props) {
 
-    const { handleCreate, handleEmail, handlePhoneNumber, handleName } = props
+    const { handleCreate, handleCheckSupplierEmail, handleCheckSupplierPhone, handleCheckSupplierName } = props
     const [newSupplier, setNewSupplier] = useState({ name: '', address: '', email: '', phoneNumber: '' })
 
     const navigate = useNavigate()
@@ -28,9 +28,9 @@ export default function SupplierForm(props) {
             return
         }
 
-        const nameStatus = await handleName(newSupplier.name)
-        const emailStatus = await handleEmail(newSupplier.email)
-        const phoneStatus = await handlePhoneNumber(newSupplier.phoneNumber)
+        const nameStatus = await handleCheckSupplierName(newSupplier.name)
+        const emailStatus = await handleCheckSupplierEmail(newSupplier.email)
+        const phoneStatus = await handleCheckSupplierPhone(newSupplier.phoneNumber)
 
         const validationStatus = StatusValidate(nameStatus, emailStatus, phoneStatus)
 

@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom'
 import Navigate from "../components/Navigate"
 import SupplierUpdate from "../components/suppliers/SupplierUpdate"
 import SupplierRepository from '../repositories/SupplierRepository'
-import { checkEmailAvailability, checkName, checkPhoneAvailability } from '../apis/SupplierApi'
 
 const SupplierUpdatePage = () => {
 
@@ -11,7 +10,7 @@ const SupplierUpdatePage = () => {
     const prevSupplierName = location.state?.prevSupplierName
     const prevSupplierEmail = location.state?.prevSupplierEmail
     const prevSupplierPhoneNumber = location.state?.prevSupplierPhoneNumber
-    const { handleUpdate, handleGetSupplierById } = SupplierRepository()
+    const { handleUpdate, handleGetSupplierById, handleCheckSupplierEmail, handleCheckSupplierName, handleCheckSupplierPhone } = SupplierRepository()
 
     return (
         <div className="container">
@@ -22,9 +21,9 @@ const SupplierUpdatePage = () => {
                 prevSupplierName={prevSupplierName}
                 prevSupplierEmail={prevSupplierEmail}
                 prevSupplierPhoneNumber={prevSupplierPhoneNumber}
-                handleEmail={checkEmailAvailability}
-                handlePhoneNumber={checkPhoneAvailability}
-                handleName={checkName}
+                handleCheckSupplierEmail={handleCheckSupplierEmail}
+                handleCheckSupplierPhone={handleCheckSupplierPhone}
+                handleCheckSupplierName={handleCheckSupplierName}
                 handleUpdate={handleUpdate}
                 handleGetSupplierById={handleGetSupplierById }
             />

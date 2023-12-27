@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getAllSuppliers, create, update, remove, GetSupplierById } from '../apis/SupplierApi'
+import { getAllSuppliers, create, update, remove, GetSupplierById, checkEmailAvailability, checkPhoneAvailability, checkName } from '../apis/SupplierApi'
 import { useNavigate } from 'react-router-dom'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { jwtDecode } from "jwt-decode"
@@ -77,7 +77,31 @@ export default function SupplierRepository() {
         }
     }
 
+    const handleCheckSupplierEmail = async (email) => {
+        try {
+            return await checkEmailAvailability(email)
+        } catch (error) {
+            console.error('Error sending check supplier email request:', error)
+        }
+    }
+
+    const handleCheckSupplierPhone = async (phoneNumber) => {
+        try {
+            return await checkPhoneAvailability(phoneNumber)
+        } catch (error) {
+            console.error('Error sending check supplier phone number request:', error)
+        }
+    }
+
+    const handleCheckSupplierName = async (name) => {
+        try {
+            return await checkName(name)
+        } catch (error) {
+            console.error('Error sending check supplier name request:', error)
+        }
+    }
+
     return {
-        suppliers, handleUpdate, handleDelete, handleCreate, handleGetSupplierById
+        suppliers, handleUpdate, handleDelete, handleCreate, handleGetSupplierById, handleCheckSupplierEmail, handleCheckSupplierPhone, handleCheckSupplierName
     }
 }

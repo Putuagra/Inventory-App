@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAll } from '../apis/UserAPI'
-import { getAllProducts, updateStock } from '../apis/ProductApi'
-import { getAllTransactions, getTransactionByGuid, create, update, remove, GetTransactionById } from '../apis/TransactionApi'
+import { getAllProducts, update } from '../apis/ProductApi'
+import { getAllTransactions, getTransactionByGuid, create, updateTransaction, remove, GetTransactionById } from '../apis/TransactionApi'
 import { useNavigate } from 'react-router-dom'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { jwtDecode } from "jwt-decode"
@@ -82,8 +82,8 @@ export default function TransactionRepository(){
                 const newQuantity = updatedTransaction.quantity    
                 product.stock += oldQuantity
                 newProduct.stock -= newQuantity
-                await updateStock(newProduct)
-                await updateStock(product)
+                await update(newProduct)
+                await update(product)
             }
             else if (transactionUpdate) {
                 const oldQuantity = transactionUpdate.quantity
@@ -94,9 +94,9 @@ export default function TransactionRepository(){
                 } else if (stockDifference < 0) {
                     product.stock += Math.abs(stockDifference);
                 }
-                await updateStock(product)
+                await update(product)
             }
-            await update(updatedTransaction)
+            await updateTransaction(updatedTransaction)
             fetchData()
         }
         catch (error) {
@@ -111,7 +111,7 @@ export default function TransactionRepository(){
                 const productUpdate = products.find((product) => product.guid === transactionDelete.productGuid)
                 if (productUpdate) {
                     productUpdate.stock += transactionDelete.quantity
-                    await updateStock(productUpdate)
+                    await update(productUpdate)
                 }
             }
             const response = await remove(transactionGuid)
@@ -128,7 +128,7 @@ export default function TransactionRepository(){
 
     const handleUpdateStock = async (stock) => {
         try {
-            await updateStock(stock)
+            await update(stock)
             fetchDataProducts()
         } catch (error) {
             console.error('Error editing transaction:', error)
