@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { GetRoleById, create, getAllRoles, remove, update } from "../apis/RoleApi"
+import { GetRoleById, checkRole, create, getAllRoles, remove, update } from "../apis/RoleApi"
 import { GetAuth, RemoveAuth } from "../components/Auth"
 import { jwtDecode } from "jwt-decode"
 import { useNavigate } from 'react-router-dom'
@@ -65,6 +65,14 @@ export default function RoleRepository() {
         }
     }
 
+    const handleCheckRole = async (name) => {
+        try {
+            return await checkRole(name)
+        } catch (error) {
+            console.error('Error sending check role request:', error)
+        }
+    }
+
     const handleGetRoleById = async (guid) => {
         try {
             return await GetRoleById(guid)
@@ -74,6 +82,6 @@ export default function RoleRepository() {
     }
 
     return {
-        roles, handleUpdate, handleDelete, handleCreate, handleGetRoleById
+        roles, handleUpdate, handleDelete, handleCreate, handleGetRoleById, handleCheckRole
     }
 }

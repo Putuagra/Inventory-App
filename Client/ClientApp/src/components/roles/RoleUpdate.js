@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Input from '../Input'
 import Button from '../Button'
-import { checkRole } from '../../apis/RoleApi'
 import { ValidationDuplicate } from '../../Validation/Roles/RoleValidation'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
@@ -9,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 const RoleUpdate = (props) => {
 
-    const { handleUpdate, handleGetRoleById, guid, prevRoleName } = props
+    const { handleUpdate, handleGetRoleById, guid, prevRoleName, handleCheckRole } = props
 
     const navigate = useNavigate()
 
@@ -36,7 +35,7 @@ const RoleUpdate = (props) => {
     }, [])
 
     const handleUpdateRole = async (data) => {
-        const response = await checkRole(data.name)
+        const response = await handleCheckRole(data.name)
         const validationDuplicateResult = ValidationDuplicate(data, prevRoleName, response)
 
         if (validationDuplicateResult) {

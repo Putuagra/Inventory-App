@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import RoleRepository from '../repositories/RoleRepository'
 import RoleForm from '../components/roles/RoleForm'
-import { checkRole } from '../apis/RoleApi'
 import Button from '../components/Button'
 
 const AddRole = () => {
@@ -10,13 +9,13 @@ const AddRole = () => {
         navigate('/role')
     }
 
-    const { handleCreate } = RoleRepository()
+    const { handleCreate, handleCheckRole } = RoleRepository()
 
     return (
         <div>
             <RoleForm
                 handleCreate={handleCreate}
-                handleCheckRole={checkRole}
+                handleCheckRole={handleCheckRole}
             />
             <Button
                 name="Back"

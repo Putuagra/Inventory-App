@@ -9,7 +9,7 @@ const RoleUpdatePage = () => {
     const guid = location.state?.guid
     const prevRoleName = location.state?.prevRoleName
 
-    const { handleUpdate, handleGetRoleById } = RoleRepository()
+    const { handleUpdate, handleGetRoleById, handleCheckRole } = RoleRepository()
 
     return (
         <div className="container">
@@ -20,6 +20,7 @@ const RoleUpdatePage = () => {
                 prevRoleName={prevRoleName}
                 handleUpdate={handleUpdate}
                 handleGetRoleById={handleGetRoleById}
+                handleCheckRole={handleCheckRole}
             />
         </div>
     )
