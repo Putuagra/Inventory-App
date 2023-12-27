@@ -64,20 +64,6 @@ export const remove = async (productGuid) => {
     }
 }
 
-export const updateStock = async (updatedStock) => {
-    const token = await GetAuth()
-    const headers = {
-        Authorization: `Bearer ${token}`,
-    }
-    try {
-        const response = await axios.put(`${apiUrl}/Product`, updatedStock, { headers })
-        return response.data
-    } catch (error) {
-        console.error('Error updating stock:', error)
-        throw error
-    }
-}
-
 export const checkProductAvailability = async (name, supplierGuid, categoryGuid) => {
     const token = await GetAuth()
     const headers = {
