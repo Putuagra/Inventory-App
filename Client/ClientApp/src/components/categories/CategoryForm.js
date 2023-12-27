@@ -9,7 +9,7 @@ import ErrorAlert from '../ErrorAlert'
 
 export default function CategoryForm(props) {
 
-    const { handleCreate, suppliers, handleDuplicate } = props
+    const { handleCreate, suppliers, handleCheckCategoryDuplicate } = props
     const [newCategory, setNewCategory] = useState({ name: '', supplierGuid: '' })
     const [errors, setErrors] = useState({})
 
@@ -28,7 +28,7 @@ export default function CategoryForm(props) {
             return
         }
 
-        const status = await handleDuplicate(newCategory.name, newCategory.supplierGuid)
+        const status = await handleCheckCategoryDuplicate(newCategory.name, newCategory.supplierGuid)
         if (status === 200) {
             ErrorAlert({ message: 'Supplier categories already exists.' })
             return

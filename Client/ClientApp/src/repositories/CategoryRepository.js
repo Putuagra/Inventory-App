@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getAll, create, update, remove, GetCategoryById} from '../apis/CategoryApi'
+import { getAll, create, update, remove, GetCategoryById, checkAvailability, checkDuplicate} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
 import { GetAuth, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
@@ -82,6 +82,22 @@ export default function CategoryRepository() {
         }
     }
 
+    const handleCheckCategoryAvailability = async (categoryGuid, supplierGuid) => {
+        try {
+            return await checkAvailability(categoryGuid, supplierGuid)
+        } catch (error) {
+            console.error('Error sending check category availability request:', error)
+        }
+    }
+
+    const handleCheckCategoryDuplicate = async (name, supplierGuid) => {
+        try {
+            return await checkDuplicate(name, supplierGuid)
+        } catch (error) {
+            console.error('Error sending check category duplicate request:', error)
+        }
+    }
+
     const handleGetCategoryById = async (guid) => {
         try {
             return await GetCategoryById(guid)
@@ -91,6 +107,6 @@ export default function CategoryRepository() {
     }
 
     return {
-        categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetCategoryById
+        categories, suppliers, handleUpdate, handleDelete, handleCreate, handleGetCategoryById, handleCheckCategoryAvailability, handleCheckCategoryDuplicate
     }
 }

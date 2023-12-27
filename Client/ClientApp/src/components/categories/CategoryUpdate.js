@@ -9,7 +9,7 @@ import Button from "../Button"
 
 const CategoryUpdate = (props) => {
 
-    const { guid, suppliers, prevCategoryName, handleUpdate, handleGetCategoryById, handleDuplicate } = props
+    const { guid, suppliers, prevCategoryName, prevCategorySupplier, handleUpdate, handleGetCategoryById, handleCheckCategoryDuplicate } = props
 
     const [updateCategory, setUpdateCategory] = useState({ name: '', supplierGuid: '' })
 
@@ -39,23 +39,26 @@ const CategoryUpdate = (props) => {
             return
         }
 
-        const status = await handleDuplicate(data.name, data.supplierGuid)
-        const validationDuplicateResult = ValidationDuplicate(data, status, prevCategoryName)
+        const status = await handleCheckCategoryDuplicate(data.name, data.supplierGuid)
+        const validationDuplicateResult = ValidationDuplicate(data, status, prevCategoryName) // If category name change but supplier not
 
         if (validationDuplicateResult) {
             ErrorAlert({ message: validationDuplicateResult })
             return
-        } else {
-            if (status === 404 || prevCategoryName === data.name) {
-                try {
-                    await handleUpdate(data)
-                    SuccessAlert({ message: 'Update category successful.' })
-                    navigate("/category")
-                } catch (error) {
-                    console.error('Error during update:', error)
-                    ErrorAlert({ message: 'Failed to update category. Please try again later.' })
-                }
+        } 
+
+        if ((status === 404 && prevCategoryName === data.name) || (status === 404 && prevCategoryName !== data.name) || (prevCategoryName === data.name && prevCategorySupplier === data.supplierGuid)) {
+            try {
+                await handleUpdate(data)
+                SuccessAlert({ message: 'Update category successful.' })
+                navigate("/category")
+            } catch (error) {
+                console.error('Error during update:', error)
+                ErrorAlert({ message: 'Failed to update category. Please try again later.' })
             }
+        } else if (status === 200) {
+            ErrorAlert({ message: 'Category already exists in this supplier.' }) // If supplier change but category name not
+            return
         }
     }
 
