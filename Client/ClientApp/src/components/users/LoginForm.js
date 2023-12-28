@@ -13,7 +13,7 @@ const LoginForm = () => {
     }
 
     const handleLoginClick = () => {
-        navigate('/user')
+        navigate('/product')
     }
 
     const handleForgotPasswordClick = () => {
