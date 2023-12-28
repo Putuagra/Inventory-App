@@ -18,8 +18,6 @@ import ForgotPassword from './pages/ForgotPassword'
 import ChangePassword from './pages/ChangePassword'
 import RolePage from './pages/RolePage'
 import AddRole from './pages/AddRole'
-import UserRolePage from './pages/AccountRolePage'
-import AddUserRole from './pages/AddAccountRole'
 import ProductUpdatePage from './pages/ProductUpdatePage'
 import CategoryUpdatePage from './pages/CategoryUpdatePage'
 import SupplierUpdatePage from './pages/SupplierUpdatePage'
@@ -28,6 +26,7 @@ import TransactionUpdatePage from './pages/TransactionUpdatePage'
 import UserUpdatePage from './pages/UserUpdatePage'
 import AddAccountRole from './pages/AddAccountRole'
 import AccountRolePage from './pages/AccountRolePage'
+import Page403 from './pages/Forbidden403'
 
 const App = () => {
 
@@ -60,6 +59,7 @@ const App = () => {
                     <Route path="/update-transaction" element={<TransactionUpdatePage />} />
                     <Route path="/update-user" element={<UserUpdatePage />} />
                     <Route path="/error401" element={<Page401 />} />
+                    <Route path="/error403" element={<Page403 />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </BrowserRouter>
