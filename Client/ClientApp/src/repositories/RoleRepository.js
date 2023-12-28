@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { GetRoleById, checkRole, create, getAllRoles, remove, update } from "../apis/RoleApi"
-import { GetAuth, RemoveAuth } from "../components/Auth"
-import { jwtDecode } from "jwt-decode"
+import { GetAuth, GetTokenClaim, RemoveAuth } from "../components/Auth"
 import { useNavigate } from 'react-router-dom'
 
 export default function RoleRepository() {
@@ -12,14 +11,19 @@ export default function RoleRepository() {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
-            const decode = jwtDecode(storedToken)
-            fetchData()
-            const expirationTime = decode.exp * 1000
-            const currentTime = Date.now()
-            if (currentTime > expirationTime) {
-                RemoveAuth()
-                navigate('/login')
-            }
+            const decode = GetTokenClaim(storedToken)
+            const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            if (rolesClaim === "Admin") {
+                fetchData()
+                const expirationTime = decode.exp * 1000
+                const currentTime = Date.now()
+                if (currentTime > expirationTime) {
+                    RemoveAuth()
+                    navigate('/login')
+                }
+            } else {
+                navigate('/error403')
+            }      
         } else if (!isAuthenticated) {
             navigate('/error401')
         }

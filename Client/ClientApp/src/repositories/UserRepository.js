@@ -1,26 +1,28 @@
 import { useState, useEffect } from 'react'
 import { getAll, create, update, remove, GetUserById } from '../apis/UserAPI'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth, RemoveAuth } from '../components/Auth'
-import { jwtDecode } from "jwt-decode"
+import { GetAuth, GetTokenClaim, RemoveAuth } from '../components/Auth'
 
 export default function UserRepository() {
     const [users, setUsers] = useState([])
-    const [nameDecode, setNameDecode] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
-            const decode = jwtDecode(storedToken)
-            setNameDecode(decode.Name)
-            fetchData()
-            const expirationTime = decode.exp * 1000
-            const currentTime = Date.now()
-            if (currentTime > expirationTime) {
-                RemoveAuth()
-                navigate('/login')
+            const decode = GetTokenClaim(storedToken)
+            const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            if (rolesClaim === "Admin") {
+                fetchData()
+                const expirationTime = decode.exp * 1000
+                const currentTime = Date.now()
+                if (currentTime > expirationTime) {
+                    RemoveAuth()
+                    navigate('/login')
+                }
+            } else {
+                navigate('/error403')
             }
         } else if (!isAuthenticated) {
             navigate('/error401')
@@ -75,5 +77,5 @@ export default function UserRepository() {
         }
     }
 
-    return { users, handleUpdate, handleDelete, nameDecode, handleGetUserById }
+    return { users, handleUpdate, handleDelete, handleGetUserById }
 }
