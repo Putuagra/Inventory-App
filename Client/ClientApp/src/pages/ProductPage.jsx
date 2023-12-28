@@ -32,7 +32,7 @@ const ProductPage = () => {
                 suppliers={suppliers}
                 handleDelete={handleDelete}
             />
-            {rolesClaim === "Admin" ? (
+            {rolesClaim.includes("Admin") ? (
                 <Button
                     name="Add Product"
                     className="btn btn-primary"

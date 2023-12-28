@@ -74,7 +74,7 @@ export const ProductList = (props) => {
                                             data.description
                                         }
                                     </h6>
-                                    {rolesClaim === "Admin" ? (
+                                    {rolesClaim.includes("Admin") ? (
                                         <Button
                                             name="Edit"
                                             className="btn btn-primary"
@@ -83,7 +83,7 @@ export const ProductList = (props) => {
                                             }}
                                         />
                                     ) : null}
-                                    {rolesClaim === "Admin" ? (
+                                    {rolesClaim.includes("Admin") ? (
                                         <Button
                                             name="Delete"
                                             className="btn btn-danger"

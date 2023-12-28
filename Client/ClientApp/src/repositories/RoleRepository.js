@@ -13,7 +13,7 @@ export default function RoleRepository() {
         if (isAuthenticated) {
             const decode = GetTokenClaim(storedToken)
             const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-            if (rolesClaim === "Admin") {
+            if (rolesClaim.includes("Admin")) {
                 fetchData()
                 const expirationTime = decode.exp * 1000
                 const currentTime = Date.now()
