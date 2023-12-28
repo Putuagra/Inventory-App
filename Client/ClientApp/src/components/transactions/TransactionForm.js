@@ -6,6 +6,7 @@ import Select from '../Select'
 import SuccessAlert from '../SuccessAlert'
 import ErrorAlert from '../ErrorAlert'
 import { TransactionValidation } from '../../Validation/Transactions/TransactionValidation'
+import { GetAuth, GetTokenClaim } from '../Auth'
 
 export default function TransactionForm(props) {
 
@@ -15,6 +16,11 @@ export default function TransactionForm(props) {
     const [errors, setErrors] = useState({})
 
     const navigate = useNavigate()
+    const token = GetAuth()
+    const decode = GetTokenClaim(token)
+    const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+
+    const filteredUsers = users.filter(user => user.guid === decode.Guid)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -68,6 +74,7 @@ export default function TransactionForm(props) {
                         onChange={handleChange}
                         options={products}
                     />
+                    {rolesClaim.includes("Admin") ? (
                     <Select
                         name="userGuid"
                         label="User"
@@ -75,6 +82,13 @@ export default function TransactionForm(props) {
                         onChange={handleChange}
                         options={users}
                     />
+                    ) : <Select
+                        name="userGuid"
+                        label="User"
+                        value={newTransaction.userGuid}
+                        onChange={handleChange}
+                        options={filteredUsers}
+                    />}
                     <Input
                         name="quantity"
                         type="number"
