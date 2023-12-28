@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { getAll, create, update, remove, GetCategoryById, checkAvailability, checkDuplicate} from '../apis/CategoryApi'
 import { getAllSuppliers } from '../apis/SupplierApi'
-import { GetAuth, RemoveAuth } from '../components/Auth'
+import { GetAuth, GetTokenClaim, RemoveAuth } from '../components/Auth'
 import { useNavigate } from 'react-router-dom'
-import { jwtDecode } from "jwt-decode"
 
 export default function CategoryRepository() {
     const [suppliers, setSuppliers] = useState([])
@@ -14,7 +13,7 @@ export default function CategoryRepository() {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {       
-            const decode = jwtDecode(storedToken)
+            const decode = GetTokenClaim(storedToken)
             fetchData()
             fetchDataSuppliers()
             const expirationTime = decode.exp * 1000

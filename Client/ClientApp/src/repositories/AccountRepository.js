@@ -11,7 +11,7 @@ export default function AccountRepository() {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
-            const decode = jwtDecode(storedToken)
+            const decode = GetTokenClaim(storedToken)
             fetchData()
             const expirationTime = decode.exp * 1000
             const currentTime = Date.now()

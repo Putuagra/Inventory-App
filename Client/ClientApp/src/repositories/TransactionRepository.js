@@ -3,8 +3,7 @@ import { getAll } from '../apis/UserAPI'
 import { getAllProducts, update } from '../apis/ProductApi'
 import { getAllTransactions, getTransactionByGuid, create, updateTransaction, remove, GetTransactionById } from '../apis/TransactionApi'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth, RemoveAuth } from '../components/Auth'
-import { jwtDecode } from "jwt-decode"
+import { GetAuth, GetTokenClaim, RemoveAuth } from '../components/Auth'
 
 export default function TransactionRepository(){
     const [products, setProducts] = useState([])
@@ -16,7 +15,7 @@ export default function TransactionRepository(){
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) { 
-            const decode = jwtDecode(storedToken)
+            const decode = GetTokenClaim(storedToken)
             fetchData()
             fetchDataProducts()
             fetchDataUser()

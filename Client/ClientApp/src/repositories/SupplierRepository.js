@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAllSuppliers, create, update, remove, GetSupplierById, checkEmailAvailability, checkPhoneAvailability, checkName } from '../apis/SupplierApi'
 import { useNavigate } from 'react-router-dom'
-import { GetAuth, RemoveAuth } from '../components/Auth'
-import { jwtDecode } from "jwt-decode"
+import { GetAuth, GetTokenClaim, RemoveAuth } from '../components/Auth'
 
 export default function SupplierRepository() {
     const [suppliers, setSuppliers] = useState([])
@@ -12,7 +11,7 @@ export default function SupplierRepository() {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
-            const decode = jwtDecode(storedToken)
+            const decode = GetTokenClaim(storedToken)
             fetchData()
             const expirationTime = decode.exp * 1000
             const currentTime = Date.now()
