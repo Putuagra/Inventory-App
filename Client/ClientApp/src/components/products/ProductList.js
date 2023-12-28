@@ -1,3 +1,4 @@
+import { GetAuth, GetTokenClaim } from '../Auth'
 import Button from '../Button'
 import DeleteAlert from '../DeleteAlert'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +12,9 @@ export const ProductList = (props) => {
     const { products, categories, suppliers, handleDelete} = props
     
     const navigate = useNavigate()
+    const token = GetAuth()
+    const decode = GetTokenClaim(token)
+    const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 
     const handleUpdateClick = (guid) => {
         const productToEdit = products.find((product) => product.guid === guid)
@@ -70,18 +74,22 @@ export const ProductList = (props) => {
                                             data.description
                                         }
                                     </h6>
-                                    <Button
-                                        name="Edit"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            handleUpdateClick(data.guid)
-                                        }}
-                                    />
-                                    <Button
-                                        name="Delete"
-                                        className="btn btn-danger"
-                                        onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
-                                    />
+                                    {rolesClaim === "Admin" ? (
+                                        <Button
+                                            name="Edit"
+                                            className="btn btn-primary"
+                                            onClick={() => {
+                                                handleUpdateClick(data.guid)
+                                            }}
+                                        />
+                                    ) : null}
+                                    {rolesClaim === "Admin" ? (
+                                        <Button
+                                            name="Delete"
+                                            className="btn btn-danger"
+                                            onClick={() => DeleteAlert({ handleDelete, guid: data.guid })}
+                                        />
+                                    ) : null}
                             </div>
                         </div>
                     )
