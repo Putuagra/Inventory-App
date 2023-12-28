@@ -1,6 +1,5 @@
 import { changePassword, forgotPassword, register } from "../apis/AccountApi"
 
-
 export default function AuthRepository() {
     const handleRegister = async (newUser) => {
         try {
