@@ -12,12 +12,17 @@ export default function SupplierRepository() {
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {
             const decode = GetTokenClaim(storedToken)
-            fetchData()
-            const expirationTime = decode.exp * 1000
-            const currentTime = Date.now()
-            if (currentTime > expirationTime) {
-                RemoveAuth()
-                navigate('/login')
+            const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            if (rolesClaim.includes("Admin")) {
+                fetchData()
+                const expirationTime = decode.exp * 1000
+                const currentTime = Date.now()
+                if (currentTime > expirationTime) {
+                    RemoveAuth()
+                    navigate('/login')
+                }
+            } else {
+                navigate('/error403')
             }
         } else if (!isAuthenticated) {
             navigate('/error401')

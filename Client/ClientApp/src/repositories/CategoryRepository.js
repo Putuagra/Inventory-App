@@ -13,14 +13,19 @@ export default function CategoryRepository() {
         const storedToken = GetAuth()
         const isAuthenticated = storedToken !== null
         if (isAuthenticated) {       
-            const decode = GetTokenClaim(storedToken)
-            fetchData()
-            fetchDataSuppliers()
-            const expirationTime = decode.exp * 1000
-            const currentTime = Date.now()
-            if (currentTime > expirationTime) {
-                RemoveAuth()
-                navigate('/login')
+            const decode = GetTokenClaim(storedToken) 
+            const rolesClaim = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+            if (rolesClaim.includes("Admin")) {
+                fetchData()
+                fetchDataSuppliers()
+                const expirationTime = decode.exp * 1000
+                const currentTime = Date.now()
+                if (currentTime > expirationTime) {
+                    RemoveAuth()
+                    navigate('/login')
+                }
+            } else {
+                navigate('/error403')
             }
         } else if (!isAuthenticated) {
             navigate('/error401')
